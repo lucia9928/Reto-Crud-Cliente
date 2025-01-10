@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
  *
  * @author 2dam
  */
-public class RegistroFXMLControllador implements Initializable {
+public class RegistroFXMLControlador implements Initializable {
 
     /**
      * Initializes the controller class.
