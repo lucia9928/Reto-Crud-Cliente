@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package eus.tartangalh.crud.entidades;
 
+
+import eus.tartangalh.crud.entidades.GestionaId;
+import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
+import eus.tartangalh.crud.entidades.Trabajador;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.xml.bind.annotation.XmlRootElement;
