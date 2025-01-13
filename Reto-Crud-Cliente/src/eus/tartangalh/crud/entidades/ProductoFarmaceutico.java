@@ -145,6 +145,6 @@ public class ProductoFarmaceutico implements Serializable {
 
     @Override
     public String toString() {
-        return "eus.tartangalh.crud.create.ProductoFarmaceutico[ id=" + idProducto + " ]";
+        return  idProducto + nombreProducto  + categoria ;
     }
 }
