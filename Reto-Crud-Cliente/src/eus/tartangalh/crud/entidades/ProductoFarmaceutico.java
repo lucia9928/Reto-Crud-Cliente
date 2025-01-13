@@ -4,18 +4,19 @@
  * and open the template in the editor.
  */
 package eus.tartangalh.crud.entidades;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Entidad JPA que representa un producto farmacéutico.
- * Define las propiedades, relaciones y consultas asociadas a los productos farmacéuticos.
- * 
+ * Entidad JPA que representa un producto farmacéutico. Define las propiedades,
+ * relaciones y consultas asociadas a los productos farmacéuticos.
+ *
  * @author Oscar
  */
-
-@XmlRootElement(name="producto_farmaceutico")
+@XmlRootElement(name = "producto_farmaceutico")
 public class ProductoFarmaceutico implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,8 +51,14 @@ public class ProductoFarmaceutico implements Serializable {
     /*
      * Constructor vacío.
      */
+    private Almacen almacen;
+    private List<Gestiona> gestiona;
+    private List<RecetaMedica> receta;
+    private Proveedor proveedor;
+
     public ProductoFarmaceutico() {
     }
+
     /*
      * Constructor con parámetros para inicializar las propiedades del producto.
      */
@@ -145,6 +152,6 @@ public class ProductoFarmaceutico implements Serializable {
 
     @Override
     public String toString() {
-        return  idProducto + nombreProducto  + categoria ;
+        return idProducto + nombreProducto + categoria;
     }
 }
