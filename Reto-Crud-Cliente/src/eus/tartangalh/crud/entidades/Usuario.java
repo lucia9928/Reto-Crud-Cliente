@@ -119,7 +119,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "eus.tartangalh.crud.create.Usuario[ dni=" + dni + " ]";
+        return "cliente-eus.tartangalh.crud.create.Usuario[ dni=" + dni + " ]";
     }
     
 }

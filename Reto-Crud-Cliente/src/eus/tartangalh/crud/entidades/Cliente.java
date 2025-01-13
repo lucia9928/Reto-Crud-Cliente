@@ -8,9 +8,7 @@ package eus.tartangalh.crud.entidades;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
