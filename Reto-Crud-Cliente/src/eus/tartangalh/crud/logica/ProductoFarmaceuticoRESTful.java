@@ -6,7 +6,6 @@
 package eus.tartangalh.crud.logica;
 
 import eus.tartangalh.crud.interfaces.ProductoInterfaz;
-import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;

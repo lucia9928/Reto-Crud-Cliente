@@ -5,31 +5,31 @@
  */
 package eus.tartangalh.crud.logica;
 
-import eus.tartangalh.crud.interfaces.RecetaMedicaInterface;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import eus.tartangalh.crud.interfaces.RecetaMedicaInterfaz;
 
 /**
  * Jersey REST client generated for REST resource:RecetaMedicaFacadeREST
  * [eus.tartangalh.crud.create.recetamedica]<br>
  * USAGE:
  * <pre>
- *        RecetaMedicaRestCliente client = new RecetaMedicaRestCliente();
- *        Object response = client.XXX(...);
- *        // do whatever with response
- *        client.close();
- * </pre>
+        RecetaMedicaREST client = new RecetaMedicaREST();
+        Object response = client.XXX(...);
+        // do whatever with response
+        client.close();
+ </pre>
  *
  * @author melany
  */
-public class RecetaMedicaRestCliente implements RecetaMedicaInterface{
+public class RecetaMedicaREST implements RecetaMedicaInterfaz{
 
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/CRUDWebApplication/webresources";
 
-    public RecetaMedicaRestCliente() {
+    public RecetaMedicaREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("eus.tartangalh.crud.create.recetamedica");
     }
