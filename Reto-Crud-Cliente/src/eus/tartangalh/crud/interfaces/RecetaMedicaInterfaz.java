@@ -12,7 +12,7 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author 2dam
  */
-public interface RecetaMedicaInterface {
+public interface RecetaMedicaInterfaz {
     
 
     public void eliminarRecetamedica(String id) throws WebApplicationException ;
