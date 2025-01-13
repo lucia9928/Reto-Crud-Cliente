@@ -5,6 +5,7 @@
  */
 package eus.tartangalh.crud.logica;
 
+import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
@@ -23,7 +24,7 @@ import javax.ws.rs.client.WebTarget;
  *
  * @author melany
  */
-public class TrabajadorREST {
+public class TrabajadorREST implements TrabajadorInterfaz{
 
     private WebTarget webTarget;
     private Client client;

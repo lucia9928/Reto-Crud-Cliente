@@ -6,7 +6,6 @@
 package eus.tartangalh.crud.interfaces;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.WebTarget;
 
 /**
  *
@@ -15,13 +14,10 @@ import javax.ws.rs.client.WebTarget;
 public interface ClienteInterfaz {
      public void modificarCliente_XML(Object requestEntity, String id) throws WebApplicationException;
     public void modificarCliente_JSON(Object requestEntity, String id) throws WebApplicationException ;
-    public <T> T encontrarTodosLosClientes_XML(Class<T> responseType) throws WebApplicationException; 
-
+    public <T> T encontrarTodosLosClientes_XML(Class<T> responseType) throws WebApplicationException;
     public <T> T encontrarTodosLosClientes_JSON(Class<T> responseType) throws WebApplicationException;
     public <T> T encontrarPorId_XML(Class<T> responseType, String id) throws WebApplicationException;
-
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException ;
-
     public void eliminarCliente(String id) throws WebApplicationException;
     public void crearCliente_XML(Object requestEntity) throws WebApplicationException ;
     public void crearCliente_JSON(Object requestEntity) throws WebApplicationException;
