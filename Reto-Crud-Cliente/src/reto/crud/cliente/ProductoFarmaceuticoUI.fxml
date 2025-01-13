@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto.crud.cliente.ProductoFarmaceuticoUIController" spacing="10">
+    <!-- Título principal -->
+    <Label text="Producto Farmacéutico">
+        <font>
+            <Font size="24"/>
+        </font>
+    </Label>
+    
+    <!-- Formulario de búsqueda -->
+    <GridPane hgap="10" vgap="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <DatePicker fx:id="desdeDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <Label text="Hasta:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+        <DatePicker fx:id="hastaDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+        
+        <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="idField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Label text="Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+        <TextField fx:id="nombreField" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+        
+        <Label text="Lote:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="loteField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+        <Label text="Categoría:" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+        <TextField fx:id="catField" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+        
+        <Button text="🔍" fx:id="searchButton" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+    </GridPane>
+    
+    <!-- Tabla de productos -->
+    <TableView fx:id="tableView">
+        <columns>
+            <TableColumn fx:id="idColumn" text="ID"/>
+            <TableColumn fx:id="nombreColumn" text="Nombre"/>
+            <TableColumn fx:id="loteColumn" text="Lote"/>
+            <TableColumn fx:id="caducidadColumn" text="Caducidad"/>
+            <TableColumn fx:id="descripcionColumn" text="Descripción"/>
+            <TableColumn fx:id="categoriaColumn" text="Categoría"/>
+        </columns>
+    </TableView>
+    
+    <!-- Botones de acción -->
+    <HBox spacing="10">
+        <Button text="Añadir línea" fx:id="addButton"/>
+        <Button text="Eliminar" fx:id="deleteButton"/>
+        <Button text="Confirmar edición" fx:id="confirmButton"/>
+    </HBox>
+</VBox>

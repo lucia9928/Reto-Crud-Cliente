@@ -21,7 +21,7 @@ import javax.ws.rs.core.GenericType;
  *
  * @author 2dam
  */
-public class RetoCrudCliente extends Application {
+public class RetoCrudCliente extends javafx.application.Application {
     
     @Override
     public void start(Stage stage) throws Exception {

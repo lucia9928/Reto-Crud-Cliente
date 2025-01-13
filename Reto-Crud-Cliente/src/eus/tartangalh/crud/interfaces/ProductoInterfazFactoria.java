@@ -18,7 +18,7 @@ import eus.tartangalh.crud.logica.ProductoFarmaceuticoRESTful;
 public class ProductoInterfazFactoria {
     private static ProductoInterfaz productoInterfaz;
     
-    public ProductoInterfaz get() {
+    public static ProductoInterfaz get() {
         if (productoInterfaz == null) {
             productoInterfaz = new ProductoFarmaceuticoRESTful();
         }
