@@ -5,7 +5,7 @@
  */
 package eus.tartangalh.crud.logica;
 
-import eus.tartangalh.crud.logica.RecetaMedicaInterface;
+import eus.tartangalh.crud.interfaces.RecetaMedicaInterface;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
