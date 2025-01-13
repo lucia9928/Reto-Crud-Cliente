@@ -5,6 +5,8 @@
  */
 package eus.tartangalh.crud.interfaces;
 
+import eus.tartangalh.crud.logica.RecetaMedicaRestCliente;
+
 /**
  *
  * @author melany
@@ -14,7 +16,11 @@ public class RecetaMedicaFactoria {
     /**
      *
      */
-    private static RecetaMedicaInterface recetaMedicaInterfacestatic {
-    
+    private static RecetaMedicaInterface recetaMedicaInterfaz ;
+      public RecetaMedicaInterface get() {
+        if (recetaMedicaInterfaz == null) {
+            recetaMedicaInterfaz = new RecetaMedicaRestCliente(); // Lazy initialization
         }
+        return recetaMedicaInterfaz;
+    }
 }
