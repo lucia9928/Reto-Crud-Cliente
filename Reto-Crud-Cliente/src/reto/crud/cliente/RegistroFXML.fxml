@@ -1,15 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="eus.tartangalh.crud.controladores.RegistroFXMLControlador">
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RegistroFXMLControlador">
    <children>
-      <Label layoutX="184.0" layoutY="90.0" prefHeight="18.0" prefWidth="31.0" text="DNI" />
-      <TextField layoutX="256.0" layoutY="87.0" />
-      <Label layoutX="186.0" layoutY="135.0" text="nombre" />
-      <TextField layoutX="256.0" layoutY="131.0" />
+      <GridPane layoutY="-7.0" prefHeight="623.0" prefWidth="600.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="122.4" minHeight="0.0" prefHeight="51.00000915527344" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="359.2000137329102" minHeight="0.0" prefHeight="34.79999237060545" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="0.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Dni" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Label text="Nombre" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Label text="Apellido" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Label text="Email" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label text="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <PasswordField GridPane.columnIndex="2" GridPane.rowIndex="5" />
+            <Label text="ConfirmarContraseña" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <PasswordField GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <Label text="Calle" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="7" />
+            <Label text="Codigo Postal" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <Label text="Ciudad" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextField GridPane.columnIndex="2" GridPane.rowIndex="9" />
+            <Label text="Fecha de nacimiento" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <DatePicker GridPane.columnIndex="2" GridPane.rowIndex="10" />
+            <RadioButton mnemonicParsing="false" text="Trabajador" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+            <RadioButton mnemonicParsing="false" text="Cliente" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+         </children>
+      </GridPane>
    </children>
 </AnchorPane>
