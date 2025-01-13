@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author 2dam
+ * @author andoni
  */
 @XmlRootElement(name = "almacen")
 public class Almacen implements Serializable {
