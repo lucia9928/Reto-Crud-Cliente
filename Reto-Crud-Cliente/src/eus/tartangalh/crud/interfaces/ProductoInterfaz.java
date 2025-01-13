@@ -6,11 +6,10 @@
 package eus.tartangalh.crud.interfaces;
 
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.WebTarget;
 
 /**
  *
- * @author 2dam
+ * @author Oscar
  */
 public interface ProductoInterfaz {
 

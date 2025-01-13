@@ -21,7 +21,7 @@ import javax.ws.rs.client.WebTarget;
  *        client.close();
  * </pre>
  *
- * @author 2dam
+ * @author Oscar
  */
 
 /*
