@@ -14,7 +14,5 @@ public class RecetaMedicaFactoria {
     /**
      *
      */
-    private static RecetaMedicaInterface recetaMedicaInterfacestatic {
-    
-        }
+
 }
