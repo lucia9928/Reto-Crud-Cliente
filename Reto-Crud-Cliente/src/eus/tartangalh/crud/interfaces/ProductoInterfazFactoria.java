@@ -16,8 +16,9 @@ import eus.tartangalh.crud.logica.ProductoFarmaceuticoRESTful;
  * @author Oscar
  */
 public class ProductoInterfazFactoria {
+
     private static ProductoInterfaz productoInterfaz;
-    
+
     public ProductoInterfaz get() {
         if (productoInterfaz == null) {
             productoInterfaz = new ProductoFarmaceuticoRESTful();
@@ -25,4 +26,3 @@ public class ProductoInterfazFactoria {
         return productoInterfaz;
     }
 }
-
