@@ -5,11 +5,15 @@
  */
 package reto.crud.cliente;
 
+import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
+import eus.tartangalh.crud.entidades.Proveedor;
+import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -31,7 +35,9 @@ public class RetoCrudCliente extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        launch(args);
+        //launch(args);
+        List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
+
     }
     
 }
