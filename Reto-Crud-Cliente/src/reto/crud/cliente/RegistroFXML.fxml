@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RegistroFXMLControlador">
-        
+
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="eus.tartangalh.crud.controladores.RegistroFXMLControlador">
+   <children>
+      <Label layoutX="184.0" layoutY="90.0" prefHeight="18.0" prefWidth="31.0" text="DNI" />
+      <TextField layoutX="256.0" layoutY="87.0" />
+      <Label layoutX="186.0" layoutY="135.0" text="nombre" />
+      <TextField layoutX="256.0" layoutY="131.0" />
+   </children>
 </AnchorPane>
