@@ -5,10 +5,6 @@
  */
 package eus.tartangalh.crud.interfaces;
 
-/**
- *
- * @author 2dam
- */
 import eus.tartangalh.crud.logica.ProductoFarmaceuticoRESTful;
 
 /**

@@ -8,15 +8,19 @@ package reto.crud.cliente;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;
 import java.util.List;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
 
 /**
@@ -78,23 +82,35 @@ public class ProductoFarmaceuticoUIController {
     @FXML
     private Button confirmButton;
 
-    // Lista de datos observables para la tabla
-     
-@FXML
-public void initialize() {
-    // Configurar las columnas de la tabla
+private Stage stage;
+
+    private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void initStage(Parent root) {
+        LOGGER.info("Inicializando controlador de proveedor");
+
+        Scene scene = new Scene(root);
+
+        stage.show();
+        stage.setScene(scene);
+        // Configurar las columnas de la tabla
     idColumn.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
     nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
     loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
     caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("fechaCaducidad"));
-    descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+    descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
     categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
 
     // Llamada al servicio para obtener los productos
     try {
         // Obtener los productos desde la API o servicio
         List<ProductoFarmaceutico> productosRecibidos = ProductoInterfazFactoria.get()
-                .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {});
+                .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
+                });
 
         // Convertir la lista de productos a un ObservableList
         ObservableList<ProductoFarmaceutico> productos = FXCollections.observableArrayList(productosRecibidos);

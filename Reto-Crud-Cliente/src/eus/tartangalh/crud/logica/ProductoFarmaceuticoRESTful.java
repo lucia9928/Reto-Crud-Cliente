@@ -35,11 +35,11 @@ public class ProductoFarmaceuticoRESTful implements ProductoInterfaz{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/Reto-Crud-Server/webresources";
+    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
 
     public ProductoFarmaceuticoRESTful() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("eus.tartangalh.crud.create.productofarmaceutico");
+        webTarget = client.target(BASE_URI).path("Producto_Farmaceutico");
     }
 
     public void crearProducto_XML(Object requestEntity) throws WebApplicationException {
@@ -88,6 +88,7 @@ public class ProductoFarmaceuticoRESTful implements ProductoInterfaz{
         return resource.request(MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    @Override
     public <T> T encontrarTodos_XML(GenericType<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(MediaType.APPLICATION_XML).get(responseType);
