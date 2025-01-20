@@ -112,6 +112,7 @@ private Stage stage;
                 .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
                 });
 
+
         // Convertir la lista de productos a un ObservableList
         ObservableList<ProductoFarmaceutico> productos = FXCollections.observableArrayList(productosRecibidos);
 
