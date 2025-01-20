@@ -4,18 +4,19 @@
  * and open the template in the editor.
  */
 package eus.tartangalh.crud.entidades;
+
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Entidad JPA que representa un producto farmacéutico.
- * Define las propiedades, relaciones y consultas asociadas a los productos farmacéuticos.
- * 
+ * Entidad JPA que representa un producto farmacéutico. Define las propiedades,
+ * relaciones y consultas asociadas a los productos farmacéuticos.
+ *
  * @author Oscar
  */
-
-@XmlRootElement(name="producto_farmaceutico")
+@XmlRootElement
 public class ProductoFarmaceutico implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,7 +35,7 @@ public class ProductoFarmaceutico implements Serializable {
     /*
      * Fecha de caducidad del producto.
      */
-    private LocalDate fechaCaducidad;
+    private Date fechaCaducidad;
     /*
      * Descripción del producto.
      */
@@ -50,12 +51,18 @@ public class ProductoFarmaceutico implements Serializable {
     /*
      * Constructor vacío.
      */
+    private Almacen almacen;
+    private List<Gestiona> gestiona;
+    private List<RecetaMedica> receta;
+    private Proveedor proveedor;
+
     public ProductoFarmaceutico() {
     }
+
     /*
      * Constructor con parámetros para inicializar las propiedades del producto.
      */
-    public ProductoFarmaceutico(Integer idProducto, String nombreProducto, String loteProducto, LocalDate fechaCaducidad, String Description, CategoriaProducto categoria, Float precio) {
+    public ProductoFarmaceutico(Integer idProducto, String nombreProducto, String loteProducto, Date fechaCaducidad, String Description, CategoriaProducto categoria, Float precio) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.loteProducto = loteProducto;
@@ -92,11 +99,11 @@ public class ProductoFarmaceutico implements Serializable {
         this.loteProducto = loteProducto;
     }
 
-    public LocalDate getFechaCaducidad() {
+    public Date getFechaCaducidad() {
         return fechaCaducidad;
     }
 
-    public void setFechaCaducidad(LocalDate fechaCaducidad) {
+    public void setFechaCaducidad(Date fechaCaducidad) {
         this.fechaCaducidad = fechaCaducidad;
     }
 
@@ -145,6 +152,6 @@ public class ProductoFarmaceutico implements Serializable {
 
     @Override
     public String toString() {
-        return  idProducto + nombreProducto  + categoria ;
+        return idProducto + nombreProducto + categoria;
     }
 }

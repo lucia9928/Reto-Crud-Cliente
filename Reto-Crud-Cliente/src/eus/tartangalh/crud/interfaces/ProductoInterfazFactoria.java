@@ -5,10 +5,6 @@
  */
 package eus.tartangalh.crud.interfaces;
 
-/**
- *
- * @author 2dam
- */
 import eus.tartangalh.crud.logica.ProductoFarmaceuticoRESTful;
 
 /**
@@ -18,8 +14,9 @@ import eus.tartangalh.crud.logica.ProductoFarmaceuticoRESTful;
 public class ProductoInterfazFactoria {
 
     private static ProductoInterfaz productoInterfaz;
+    
+    public static ProductoInterfaz get() {
 
-    public ProductoInterfaz get() {
         if (productoInterfaz == null) {
             productoInterfaz = new ProductoFarmaceuticoRESTful();
         }

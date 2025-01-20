@@ -5,9 +5,7 @@
  */
 package eus.tartangalh.crud.interfaces;
 
-import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.WebTarget;
 
 public interface AlmacenInterfaz {
 

@@ -5,33 +5,46 @@
  */
 package reto.crud.cliente;
 
+import eus.tartangalh.crud.controladores.ProveedorFXMLController;
+import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
+import eus.tartangalh.crud.entidades.Proveedor;
+import java.time.LocalDate;
+import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
  * @author 2dam
  */
-public class RetoCrudCliente extends Application {
-    
+public class RetoCrudCliente extends javafx.application.Application {
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
-        Scene scene = new Scene(root);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProductoFarmaceuticoUI.fxml"));
         
-        stage.setScene(scene);
-        stage.show();
+        Parent root = loader.load();
+                
+        ProductoFarmaceuticoUIController proveedor = (ProductoFarmaceuticoUIController) loader.getController();
+
+        proveedor.setStage(stage);
+        
+        proveedor.initStage(root);
+
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         launch(args);
+        //List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
+
     }
     
 }

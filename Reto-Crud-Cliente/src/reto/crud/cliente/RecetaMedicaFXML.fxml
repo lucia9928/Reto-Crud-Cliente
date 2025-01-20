@@ -1,11 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RecetaMedicaFXMLController">
-    
+<AnchorPane id="AnchorPane" prefHeight="653.0" prefWidth="687.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RecetaMedicaFXMLController">
+   <children>
+      <TextField layoutX="38.0" layoutY="76.0" prefHeight="31.0" prefWidth="65.0" text="Desde:" />
+      <DatePicker fx:id="desde" layoutX="109.0" layoutY="77.0" prefHeight="26.0" prefWidth="151.0" />
+      <TextField layoutX="289.0" layoutY="76.0" prefHeight="31.0" prefWidth="65.0" text="Hasta:" />
+      <DatePicker fx:id="hasta" layoutX="366.0" layoutY="77.0" prefHeight="26.0" prefWidth="143.0" />
+       <Button fx:id="btnBuscar" layoutX="570.0" layoutY="78.0" onAction="#handleBuscar" text="🔍" />
+      <TableView fx:id="tableRecetas" layoutX="82.0" layoutY="163.0" prefHeight="402.0" prefWidth="480.0">
+        <columns>
+            <TableColumn  fx:id="colCliente" prefWidth="145.0" text="Nombre del cliente ">
+                <cellValueFactory>  
+                 <PropertyValueFactory property="Nombre del cliente" />
+                </cellValueFactory>
+            </TableColumn>
+          
+            <TableColumn  fx:id="listaProductos" minWidth="5.0" prefWidth="153.0" text="Lista de productos">
+                <cellValueFactory>           
+                    <PropertyValueFactory property="Lista de productos" />         
+                </cellValueFactory>
+            </TableColumn>
+          
+            <TableColumn fx:id= "colFecha" minWidth="0.0" prefWidth="89.0" text="Fecha">
+                <cellValueFactory>           
+                     <PropertyValueFactory property="Fecha" />
+                </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id= "colDescripcion" minWidth="0.0" prefWidth="91.0" text="Descripcion">
+                <cellValueFactory>           
+                    <PropertyValueFactory property="Descripcion" />
+                </cellValueFactory>
+            </TableColumn>
+        </columns>
+      </TableView>
+   </children>
 </AnchorPane>
