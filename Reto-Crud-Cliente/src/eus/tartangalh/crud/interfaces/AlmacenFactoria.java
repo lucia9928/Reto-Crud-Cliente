@@ -9,12 +9,14 @@ import eus.tartangalh.crud.logica.AlmacenRESTful;
 
 /**
  *
- * @author 2dam
+ * @author Oscar
  */
 public class AlmacenFactoria {
+
     private static AlmacenInterfaz almacenInterfaz;
     
-    public AlmacenInterfaz get() {
+    public static AlmacenInterfaz get() {
+
         if (almacenInterfaz == null) {
             almacenInterfaz = new AlmacenRESTful();
         }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox spacing="10" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="eus.tartangalh.crud.controladores.AlmacenFXMLControlador">
+    <!-- Título principal -->
+    <Label text="Almacen">
+        <font>
+            <Font size="24" />
+        </font>
+    </Label>
+    
+    <!-- Formulario de búsqueda -->
+    <GridPane hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10" />
+        </padding>
+        <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <DatePicker fx:id="desdeDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label text="Hasta:" GridPane.columnIndex="2" GridPane.rowIndex="0" />
+        <DatePicker fx:id="hastaDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="0" />
+        
+        <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextField fx:id="idField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <Label text="Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <TextField fx:id="nombreField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        
+        <Label text="Ciudad" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="ciudadField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <Label text="Pais" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <TextField fx:id="paisField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+        
+        <Button fx:id="searchButton" text="🔍" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+        <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+            <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+    </GridPane>
+    
+    <!-- Tabla de productos -->
+    <TableView fx:id="almacenTableView">
+        <columns>
+            <TableColumn fx:id="idAlmacenColumn" text="ID Almacén" />
+            <TableColumn fx:id="paisColumn" text="País" />
+            <TableColumn fx:id="ciudadColumn" text="Ciudad" />
+            <TableColumn fx:id="metrosCuadradosColumn" text="Metros Cuadrados" />
+            <TableColumn fx:id="fechaAdquisicionColumn" text="Fecha Adquisición" />
+        </columns>
+    </TableView>
+    
+    <!-- Botones de acción -->
+    <HBox spacing="10">
+        <Button fx:id="addButton" text="Añadir línea" />
+        <Button fx:id="deleteButton" text="Eliminar" />
+        <Button fx:id="confirmButton" text="Confirmar edición" />
+    </HBox>
+</VBox>
