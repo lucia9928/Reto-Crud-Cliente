@@ -7,6 +7,7 @@ package eus.tartangalh.crud.interfaces;
 
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -22,7 +23,7 @@ public interface ProveedorManager {
 
     public void actualizarProveedor_XML(Object requestEntity, String proveedor) throws WebApplicationException;
 
-    public <T> T mostrarTodosProveedores_XML(Class<T> responseType) throws WebApplicationException;
+    public <T> T mostrarTodosProveedores_XML(GenericType<T> responseType) throws WebApplicationException;
 
     public <T> T mostrarsProveedoresFecha_XML(Class<T> responseType, String fecha) throws WebApplicationException;
 

@@ -11,6 +11,7 @@ import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 
 
 
@@ -31,13 +32,14 @@ public class ProveedorRESTClient implements ProveedorManager{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/Reto-Crud-Server/webresources";
+    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
 
     public ProveedorRESTClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("eus.tartangalh.crud.create.proveedor");
     }
 
+    @Override
     public void crearProveedor_XML(Object requestEntity, String proveedor) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{proveedor})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
@@ -46,10 +48,12 @@ public class ProveedorRESTClient implements ProveedorManager{
    *     webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{proveedor})).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     *}
 */
+    @Override
     public void borrarProveedor(String id) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
 
+    @Override
     public <T> T mostrarProveedor_XML(Class<T> responseType, String id) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
@@ -57,18 +61,21 @@ public class ProveedorRESTClient implements ProveedorManager{
     }
 
   
+    @Override
     public void actualizarProveedor_XML(Object requestEntity, String proveedor) throws WebApplicationException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{proveedor})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Proveedor.class);
     }
 
     
 
-    public <T> T mostrarTodosProveedores_XML(Class<T> responseType) throws WebApplicationException {
+    @Override
+    public <T> T mostrarTodosProveedores_XML(GenericType<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
 
+    @Override
     public <T> T mostrarsProveedoresFecha_XML(Class<T> responseType, String fecha) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("mostrarsProveedoresFecha/{0}", new Object[]{fecha}));

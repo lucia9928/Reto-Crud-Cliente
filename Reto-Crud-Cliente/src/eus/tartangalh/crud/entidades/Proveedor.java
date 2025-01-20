@@ -10,6 +10,7 @@ package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 
@@ -32,12 +33,12 @@ public class Proveedor implements Serializable {
     private String calle;
     private Integer codPostal;
     private String ciudad;
-    private LocalDate fechaContratacion;
+    private Date fechaContratacion;
 
  
     private List<ProductoFarmaceutico> productoFarmaceutico;
 
-    public Proveedor(Integer idProveedor, String cif, String nombreProveedor, String calle, Integer codPostal, String ciudad, LocalDate fechaContratacion, List<ProductoFarmaceutico> productoFarmaceutico) {
+    public Proveedor(Integer idProveedor, String cif, String nombreProveedor, String calle, Integer codPostal, String ciudad, Date fechaContratacion, List<ProductoFarmaceutico> productoFarmaceutico) {
         this.idProveedor = idProveedor;
         this.cif = cif;
         this.nombreProveedor = nombreProveedor;
@@ -99,11 +100,11 @@ public class Proveedor implements Serializable {
         this.ciudad = ciudad;
     }
 
-    public LocalDate getFechaContratacion() {
+    public Date getFechaContratacion() {
         return fechaContratacion;
     }
 
-    public void setFechaContratacion(LocalDate fechaContratacion) {
+    public void setFechaContratacion(Date fechaContratacion) {
         this.fechaContratacion = fechaContratacion;
     }
 

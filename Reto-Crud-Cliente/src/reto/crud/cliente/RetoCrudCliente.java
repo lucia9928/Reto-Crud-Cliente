@@ -5,6 +5,7 @@
  */
 package reto.crud.cliente;
 
+import eus.tartangalh.crud.controladores.ProveedorFXMLController;
 import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
 import eus.tartangalh.crud.entidades.Proveedor;
 import java.time.LocalDate;
@@ -24,23 +25,27 @@ public class RetoCrudCliente extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
-        Scene scene = new Scene(root);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
         
-        stage.setScene(scene);
-        stage.show();
+        Parent root = loader.load();
+                
+        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
+
+        proveedor.setStage(stage);
+        
+        proveedor.initStage(root);
+        
+        
     }
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
-        List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
-        
-        
-       
+        launch(args);
+        //List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
+
     }
     
 }
