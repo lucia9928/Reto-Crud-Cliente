@@ -25,11 +25,12 @@ public class Gestiona implements Serializable {
 
     private Integer cantidad;
 
-    public Gestiona(GestionaId gestionaId, Trabajador trabajador, ProductoFarmaceutico productoFarmaceutico, Integer cantidad) {
+    public Gestiona(GestionaId gestionaId, Trabajador trabajador, ProductoFarmaceutico productoFarmaceutico, Integer cantidad, LocalDate fechaCompra) {
         this.gestionaId = gestionaId;
         this.trabajador = trabajador;
         this.productoFarmaceutico = productoFarmaceutico;
         this.cantidad = cantidad;
+        this.fechaCompra=fechaCompra;
     }
 
     public Gestiona() {

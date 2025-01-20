@@ -7,6 +7,7 @@ package reto.crud.cliente;
 
 import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
 import eus.tartangalh.crud.entidades.Proveedor;
+import java.time.LocalDate;
 import java.util.List;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +38,9 @@ public class RetoCrudCliente extends Application {
     public static void main(String[] args) {
         //launch(args);
         List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
-
+        
+        
+       
     }
     
 }
