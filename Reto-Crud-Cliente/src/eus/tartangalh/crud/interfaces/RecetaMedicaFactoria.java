@@ -15,13 +15,13 @@ public class RecetaMedicaFactoria {
 
     /**
      *
+     * @return 
      */
-    private static RecetaMedicaInterfaz recetaMedicaInterfaz ;
-      public RecetaMedicaInterfaz get() {
-        if (recetaMedicaInterfaz == null) {
-            recetaMedicaInterfaz = new RecetaMedicaREST(); // Lazy initialization
-        }
-        return recetaMedicaInterfaz;
+    public static RecetaMedicaInterfaz get(){
+        
+    
+                
+        return new RecetaMedicaREST();
     }
 
 }
