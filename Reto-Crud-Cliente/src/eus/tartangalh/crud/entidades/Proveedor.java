@@ -1,3 +1,5 @@
+package eus.tartangalh.crud.entidades;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,13 +7,12 @@
  */
 
 
-import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
+
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -32,12 +33,12 @@ public class Proveedor implements Serializable {
     private String calle;
     private Integer codPostal;
     private String ciudad;
-    private LocalDate fechaContratacion;
+    private Date fechaContratacion;
 
  
     private List<ProductoFarmaceutico> productoFarmaceutico;
 
-    public Proveedor(Integer idProveedor, String cif, String nombreProveedor, String calle, Integer codPostal, String ciudad, LocalDate fechaContratacion, List<ProductoFarmaceutico> productoFarmaceutico) {
+    public Proveedor(Integer idProveedor, String cif, String nombreProveedor, String calle, Integer codPostal, String ciudad, Date fechaContratacion, List<ProductoFarmaceutico> productoFarmaceutico) {
         this.idProveedor = idProveedor;
         this.cif = cif;
         this.nombreProveedor = nombreProveedor;
@@ -99,11 +100,11 @@ public class Proveedor implements Serializable {
         this.ciudad = ciudad;
     }
 
-    public LocalDate getFechaContratacion() {
+    public Date getFechaContratacion() {
         return fechaContratacion;
     }
 
-    public void setFechaContratacion(LocalDate fechaContratacion) {
+    public void setFechaContratacion(Date fechaContratacion) {
         this.fechaContratacion = fechaContratacion;
     }
 
