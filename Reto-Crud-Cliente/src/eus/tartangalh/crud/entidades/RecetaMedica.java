@@ -7,18 +7,19 @@ package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
  * @author melany
  */
-@XmlRootElement(name="receta_medica")
+@XmlRootElement
 public class RecetaMedica implements Serializable {
    
     private Integer idReceta;
     private Cliente cliente;
-    private LocalDate fechaReceta;
+    private Date fechaReceta;
     private String descripcion;
     private Integer cantidad;
     private List<ProductoFarmaceutico>productos;
@@ -28,7 +29,7 @@ public class RecetaMedica implements Serializable {
         
     }
 
-    public RecetaMedica(Integer idReceta, LocalDate fechaReceta, String descripcion, Integer cantidad) {
+    public RecetaMedica(Integer idReceta,Date fechaReceta, String descripcion, Integer cantidad) {
         this.idReceta = idReceta;
         this.fechaReceta = fechaReceta;
         this.descripcion = descripcion;
@@ -37,6 +38,7 @@ public class RecetaMedica implements Serializable {
 
 
    private static final long serialVersionUID = 1L;
+   
   public Cliente getCliente() {
         return cliente;
     }
@@ -51,11 +53,11 @@ public class RecetaMedica implements Serializable {
     public void setListaProductos(List<ProductoFarmaceutico> productos) {
         this.productos = productos;
     }
-    public LocalDate getFechaReceta() {
+    public Date getFechaReceta() {
         return fechaReceta;
     }
 
-    public void setFechaReceta(LocalDate fechaReceta) {
+    public void setFechaReceta(Date fechaReceta) {
         this.fechaReceta = fechaReceta;
     }
     
@@ -82,7 +84,26 @@ public class RecetaMedica implements Serializable {
     public void setId(Integer idReceta) {
         this.idReceta = idReceta;
     }
+    public String getNombreCliente() {
+    return cliente != null? cliente.getNombre() : "Sin cliente";
+}
+public String getListaProductos() {
+    if (productos == null || productos.isEmpty()) {
+        return "Sin productos";
+    }
     
+    StringBuilder nombresProductos = new StringBuilder();
+    for (ProductoFarmaceutico producto : productos) {
+        if (nombresProductos.length() > 0) {
+            nombresProductos.append(", "); // Añadir coma entre nombres
+        }
+        nombresProductos.append(producto.getNombreProducto()
+        );
+    }
+    return nombresProductos.toString();
+}
+
+
     @Override
     public int hashCode() {
         int hash = 0;

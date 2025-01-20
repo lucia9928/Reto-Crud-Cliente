@@ -22,7 +22,7 @@ import javax.ws.rs.core.GenericType;
  * @author 2dam
  */
 public class RetoCrudCliente extends javafx.application.Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
         
@@ -35,14 +35,13 @@ public class RetoCrudCliente extends javafx.application.Application {
         proveedor.setStage(stage);
         
         proveedor.initStage(root);
-        
-        
+
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         launch(args);
         //List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
 

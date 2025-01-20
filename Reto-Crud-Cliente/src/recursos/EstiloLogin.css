@@ -1,0 +1,67 @@
+/* Estilo general para AnchorPane */
+#AnchorPane {
+    -fx-background-color: #f7f9fc; /* Fondo suave */
+    -fx-padding: 20;
+    -fx-font-family: "Arial";
+}
+
+/* Estilo para la imagen del logotipo */
+#imgLogo {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0, 0, 3); /* Sombra suave */
+    -fx-padding: 10;
+}
+
+/* Estilo para los labels */
+Label {
+    -fx-text-fill: #555555; /* Color de texto */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* Estilo para los TextFields */
+TextField {
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-border-color: #cccccc; /* Bordes grises */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+TextField:focused {
+    -fx-border-color: #0078d7; /* Color de foco */
+}
+
+/* Estilo para botones */
+Button {
+    -fx-background-color: #0078d7; /* Fondo azul */
+    -fx-text-fill: #ffffff; /* Texto blanco */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 5 15;
+    -fx-border-color: transparent;
+}
+
+Button:hover {
+    -fx-background-color: #005fa3; /* Azul más oscuro al pasar el ratón */
+}
+
+Button:focused {
+    -fx-border-color: #005fa3;
+}
+
+/* Estilo especial para texto de enlaces */
+#lblNoTienesCuenta, #lblOlvidasteLaContrasena {
+    -fx-text-fill: #0078d7; /* Azul para enlaces */
+    -fx-underline: true;
+    -fx-font-size: 12px;
+    -fx-cursor: hand;
+}
+
+#lblNoTienesCuenta:hover, #lblOlvidasteLaContrasena:hover {
+    -fx-text-fill: #005fa3; /* Azul más oscuro al pasar el ratón */
+}
