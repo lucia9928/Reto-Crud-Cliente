@@ -29,7 +29,7 @@ public class AlmacenRESTful implements AlmacenInterfaz{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/Reto-Crud-Server/webresources";
+    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
 
     public AlmacenRESTful() {
         client = javax.ws.rs.client.ClientBuilder.newClient();

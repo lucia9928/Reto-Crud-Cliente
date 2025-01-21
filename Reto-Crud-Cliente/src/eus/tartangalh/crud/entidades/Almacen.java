@@ -7,6 +7,7 @@ package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,10 +24,10 @@ public class Almacen implements Serializable {
     private String pais;
     private String ciudad;
     private Integer metrosCuadrados;
-    private LocalDate fechaAdquisicion;
+    private Date fechaAdquisicion;
     private List<ProductoFarmaceutico> producto;
 
-    public Almacen(Integer idAlmacen, String pais, String ciudad, Integer metrosCuadrados, LocalDate fechaAdquisicion) {
+    public Almacen(Integer idAlmacen, String pais, String ciudad, Integer metrosCuadrados, Date fechaAdquisicion) {
         this.idAlmacen = idAlmacen;
         this.pais = pais;
         this.ciudad = ciudad;
@@ -77,11 +78,11 @@ public class Almacen implements Serializable {
         this.metrosCuadrados = metrosCuadrados;
     }
 
-    public LocalDate getFechaAdquisicion() {
+    public Date getFechaAdquisicion() {
         return fechaAdquisicion;
     }
 
-    public void setFechaAdquisicion(LocalDate fechaAdquisicion) {
+    public void setFechaAdquisicion(Date fechaAdquisicion) {
         this.fechaAdquisicion = fechaAdquisicion;
     }
 

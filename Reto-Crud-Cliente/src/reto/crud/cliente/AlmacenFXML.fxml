@@ -34,8 +34,8 @@
         
         <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <TextField fx:id="idField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-        <Label text="Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-        <TextField fx:id="nombreField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <Label text="Metros:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <TextField fx:id="metrosField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
         
         <Label text="Ciudad" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <TextField fx:id="ciudadField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
@@ -70,8 +70,8 @@
     
     <!-- Botones de acción -->
     <HBox spacing="10">
-        <Button fx:id="addButton" text="Añadir línea" />
+        <Button fx:id="addButton" text="Añadir línea" onAction="#handleAddRow"/>
         <Button fx:id="deleteButton" text="Eliminar" />
-        <Button fx:id="confirmButton" text="Confirmar edición" />
+        <Button fx:id="confirmButton" text="Confirmar edición" onAction="#handleConfirmEdit" />
     </HBox>
 </VBox>

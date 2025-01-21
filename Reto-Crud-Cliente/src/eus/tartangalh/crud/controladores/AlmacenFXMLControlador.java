@@ -7,6 +7,7 @@ package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Almacen;
 import eus.tartangalh.crud.interfaces.AlmacenFactoria;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -20,7 +21,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.util.converter.LocalDateStringConverter;
 import javax.ws.rs.core.GenericType;
 
 /**
@@ -29,7 +33,6 @@ import javax.ws.rs.core.GenericType;
  * @author Oscar
  */
 public class AlmacenFXMLControlador {
-
 
     @FXML
     private DatePicker desdeDatePicker;
@@ -53,7 +56,7 @@ public class AlmacenFXMLControlador {
     private Button searchButton;
 
     @FXML
-    private TableView<Almacen> tableView;
+    private TableView<Almacen> almacenTableView;
 
     @FXML
     private TableColumn<Almacen, String> idAlmacenColumn;
@@ -79,7 +82,7 @@ public class AlmacenFXMLControlador {
     @FXML
     private Button confirmButton;
 
-private Stage stage;
+    private Stage stage;
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
 
@@ -94,92 +97,105 @@ private Stage stage;
 
         stage.show();
         stage.setScene(scene);
-        // Configurar las columnas de la tabla
-    idAlmacenColumn.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
-    paisColumn.setCellValueFactory(new PropertyValueFactory<>("paisAlmacen"));
-    ciudadColumn.setCellValueFactory(new PropertyValueFactory<>("ciudadAlmacen"));
-    metrosCuadradosColumn.setCellValueFactory(new PropertyValueFactory<>("metrosCuadradosAlmacen"));
-    fechaAdquisicionColumn.setCellValueFactory(new PropertyValueFactory<>("fechaAdquisicionAlmacen"));
 
-    // Llamada al servicio para obtener los productos
-    try {
-        // Obtener los productos desde la API o servicio
-        List<Almacen> almacenesEncontrados = AlmacenFactoria.get()
-                .findAll_XML(new GenericType<List<Almacen>>() {
-                });
+        // Configurar las columnas de la tabla con el tipo correcto
+        idAlmacenColumn.setCellValueFactory(new PropertyValueFactory<>("idAlmacen"));
+        paisColumn.setCellValueFactory(new PropertyValueFactory<>("pais"));
+        ciudadColumn.setCellValueFactory(new PropertyValueFactory<>("ciudad"));
 
+        // Cambiar el tipo de la columna metrosCuadrados a Integer
+        metrosCuadradosColumn.setCellValueFactory(new PropertyValueFactory<>("metrosCuadrados"));
 
-        // Convertir la lista de productos a un ObservableList
-        ObservableList<Almacen> almacenes = FXCollections.observableArrayList(almacenesEncontrados);
+        // Cambiar el tipo de la columna fechaAdquisicion a LocalDate
+        fechaAdquisicionColumn.setCellValueFactory(new PropertyValueFactory<>("fechaAdquisicion"));
 
-        // Establecer los productos obtenidos en la TableView
-        tableView.setItems(almacenes);
-
-    } catch (Exception e) {
-        // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
-        System.out.println("Error al cargar los productos: " + e.getMessage());
-        e.printStackTrace();
-    }
-}
-/*
-    private void listarProductos() {
+        // Llamada al servicio para obtener los productos
         try {
-            // Llamar a la interfaz para obtener la lista de productos
-            List<ProductoFarmaceutico> productosRecibidos = ProductoInterfazFactoria.get()
-                    .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {});
+            // Obtener los productos desde la API o servicio
+            List<Almacen> almacenesEncontrados = AlmacenFactoria.get()
+                    .findAll_XML(new GenericType<List<Almacen>>() {
+                    });
 
-            // Limpiar la lista actual y agregar los productos obtenidos
-            productos.clear();
-            productos.addAll(productosRecibidos);
+            // Convertir la lista de productos a un ObservableList
+            ObservableList<Almacen> almacenes = FXCollections.observableArrayList(almacenesEncontrados);
 
-            System.out.println("Productos cargados desde el servicio: " + productosRecibidos);
+            // Establecer los productos obtenidos en la TableView
+            almacenTableView.setItems(almacenes);
+            configureTableEditable();
 
         } catch (Exception e) {
+            // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
             System.out.println("Error al cargar los productos: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
+    private void configureTableEditable() {
+        almacenTableView.setEditable(true);
 
-    private void onSearch() {
-        // Lógica básica de búsqueda
-        String desde = desdeDatePicker.getValue() != null ? desdeDatePicker.getValue().toString() : "N/A";
-        String hasta = hastaDatePicker.getValue() != null ? hastaDatePicker.getValue().toString() : "N/A";
-        String id = idField.getText().trim();
-        String nombre = nombreField.getText().trim();
-        String lote = loteField.getText().trim();
-        String categoria = catField.getText().trim();
+        paisColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        paisColumn.setOnEditCommit(event -> {
+            Almacen almacen = event.getRowValue();
+            almacen.setPais(event.getNewValue());
+        });
 
-        System.out.println("Buscar productos:");
-        System.out.printf("Desde: %s, Hasta: %s, ID: %s, Nombre: %s, Lote: %s, Categoría: %s%n",
-                desde, hasta, id, nombre, lote, categoria);
+        ciudadColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        ciudadColumn.setOnEditCommit(event -> {
+            Almacen almacen = event.getRowValue();
+            almacen.setCiudad(event.getNewValue());
+        });
 
-    }
+        // Configurar la columna metrosCuadrados para manejar Integer
+        /*metrosCuadradosColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        metrosCuadradosColumn.setOnEditCommit(event -> {
+            Almacen almacen = event.getRowValue();
+            String newValue = event.getNewValue();
 
-    private void onAdd() {
-        // Lógica para añadir un nuevo producto
-        ProductoFarmaceutico nuevoProducto = new ProductoFarmaceutico();
-        productos.add(nuevoProducto);
-        System.out.println("Producto añadido: " + nuevoProducto);
-    }
+            try {
+                int value = Integer.parseInt(newValue);
+                almacen.setMetrosCuadrados(value);
+            } catch (NumberFormatException e) {
+                LOGGER.warning("El valor ingresado no es un número válido: " + newValue);
+            }
+        });
 
-    private void onDelete() {
-        // Lógica para eliminar el producto seleccionado
-        ProductoFarmaceutico seleccionado = tableView.getSelectionModel().getSelectedItem();
-        if (seleccionado != null) {
-            productos.remove(seleccionado);
-            System.out.println("Producto eliminado: " + seleccionado);
-        } else {
-            System.out.println("No hay producto seleccionado para eliminar.");
-        }
-    }
-
-    private void onConfirm() {
-        // Lógica para confirmar edición (muestra los datos actuales)
-        for (ProductoFarmaceutico producto : productos) {
-            System.out.println(producto);
-        }
-        System.out.println("Cambios confirmados.");
-    }
+        // Configurar la columna fechaAdquisicion para manejar LocalDate
+        fechaAdquisicionColumn.setOnEditCommit(event -> {
+            Almacen almacen = event.getRowValue();
+            try {
+                LocalDate localDate = LocalDate.parse(event.getNewValue());
+                almacen.setFechaAdquisicion(java.sql.Date.valueOf(localDate));  // Convertir LocalDate a java.sql.Date
+            } catch (Exception e) {
+                LOGGER.warning("El valor ingresado no es una fecha válida.");
+            }
+        });
 */
+    }
+
+    @FXML
+    private void handleAddRow() {
+
+        // Crear una fila vacía con valores por defecto o nulos
+        Almacen nuevoAlmacen = new Almacen(0, "", "", 0, null);
+
+        // Obtener la lista observable de la tabla y añadir la nueva fila vacía
+        ObservableList<Almacen> almacenes = almacenTableView.getItems();
+        almacenes.add(nuevoAlmacen);
+
+        LOGGER.info("Nueva fila vacía añadida.");
+    }
+
+    @FXML
+    private void handleConfirmEdit() {
+        almacenTableView.getItems().forEach(almacen -> {
+            // Validación simple para asegurar que los campos esenciales no estén vacíos
+            if (almacen.getPais().isEmpty() || almacen.getCiudad().isEmpty()) {
+                LOGGER.warning("Fila con datos incompletos.");
+            } else {
+                LOGGER.info("Fila guardada: " + almacen.toString());
+                // Aquí puedes agregar la lógica para guardar en la base de datos si es necesario
+            }
+        });
+    }
+
 }
