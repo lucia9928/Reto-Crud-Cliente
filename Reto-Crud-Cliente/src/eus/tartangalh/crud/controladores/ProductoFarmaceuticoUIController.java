@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reto.crud.cliente;
+package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;
@@ -29,7 +29,6 @@ import javax.ws.rs.core.GenericType;
  * @author Oscar
  */
 public class ProductoFarmaceuticoUIController {
-
 
     @FXML
     private DatePicker desdeDatePicker;
@@ -82,50 +81,49 @@ public class ProductoFarmaceuticoUIController {
     @FXML
     private Button confirmButton;
 
-private Stage stage;
+    private Stage stage;
 
-    private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
+    private static final Logger LOGGER = Logger.getLogger("productoFarmaceuticoControlador.view");
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
     public void initStage(Parent root) {
-        LOGGER.info("Inicializando controlador de proveedor");
+        LOGGER.info("Inicializando controlador de producto farmaceutico");
 
         Scene scene = new Scene(root);
 
         stage.show();
         stage.setScene(scene);
         // Configurar las columnas de la tabla
-    idColumn.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
-    nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-    loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
-    caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("fechaCaducidad"));
-    descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
-    categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
+        nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+        loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
+        caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("fechaCaducidad"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
 
-    // Llamada al servicio para obtener los productos
-    try {
-        // Obtener los productos desde la API o servicio
-        List<ProductoFarmaceutico> productosRecibidos = ProductoInterfazFactoria.get()
-                .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
-                });
+        // Llamada al servicio para obtener los productos
+        try {
+            // Obtener los productos desde la API o servicio
+            List<ProductoFarmaceutico> productosRecibidos = ProductoInterfazFactoria.get()
+                    .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
+                    });
 
+            // Convertir la lista de productos a un ObservableList
+            ObservableList<ProductoFarmaceutico> productos = FXCollections.observableArrayList(productosRecibidos);
 
-        // Convertir la lista de productos a un ObservableList
-        ObservableList<ProductoFarmaceutico> productos = FXCollections.observableArrayList(productosRecibidos);
+            // Establecer los productos obtenidos en la TableView
+            tableView.setItems(productos);
 
-        // Establecer los productos obtenidos en la TableView
-        tableView.setItems(productos);
-
-    } catch (Exception e) {
-        // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
-        System.out.println("Error al cargar los productos: " + e.getMessage());
-        e.printStackTrace();
+        } catch (Exception e) {
+            // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
+            System.out.println("Error al cargar los productos: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
-}
-/*
+    /*
     private void listarProductos() {
         try {
             // Llamar a la interfaz para obtener la lista de productos
@@ -185,5 +183,6 @@ private Stage stage;
         }
         System.out.println("Cambios confirmados.");
     }
-*/
+     */
 }
+

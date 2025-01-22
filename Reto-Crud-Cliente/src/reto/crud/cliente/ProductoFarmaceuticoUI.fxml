@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="reto.crud.cliente.ProductoFarmaceuticoUIController" spacing="10">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.ProductoFarmaceuticoUIController" spacing="10">
     <!-- Título principal -->
     <Label text="Producto Farmacéutico">
         <font>
