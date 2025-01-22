@@ -6,7 +6,7 @@
 package reto.crud.cliente;
 
 import eus.tartangalh.crud.controladores.ProveedorFXMLController;
-import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
+import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.entidades.Proveedor;
 import java.time.LocalDate;
 import java.util.List;

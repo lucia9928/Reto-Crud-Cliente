@@ -13,7 +13,7 @@ import javax.ws.rs.core.GenericType;
  *
  * @author 2dam
  */
-public interface ProveedorManager {
+public interface ProveedorInterfaz {
 
     public void crearProveedor_XML(Object requestEntity, String proveedor) throws ClientErrorException;
 

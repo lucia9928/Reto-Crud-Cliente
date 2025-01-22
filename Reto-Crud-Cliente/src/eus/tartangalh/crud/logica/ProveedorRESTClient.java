@@ -5,13 +5,13 @@
  */
 package eus.tartangalh.crud.logica;
 
-import eus.tartangalh.crud.interfaces.ProveedorManager;
 import eus.tartangalh.crud.entidades.Proveedor;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
 
 
 
@@ -28,7 +28,7 @@ import javax.ws.rs.core.GenericType;
  *
  * @author 2dam
  */
-public class ProveedorRESTClient implements ProveedorManager{
+public class ProveedorRESTClient implements ProveedorInterfaz{
 
     private WebTarget webTarget;
     private Client client;
