@@ -7,6 +7,7 @@ package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.interfaces.ProveedorFactoria;
+import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,6 +30,8 @@ import javax.ws.rs.core.GenericType;
  * @author Markel
  */
 public class ProveedorFXMLController {
+
+    private final ProveedorInterfaz proInterfaz = ProveedorFactoria.get();
 
     @FXML
     private Button btnBuscar;
@@ -72,6 +75,8 @@ public class ProveedorFXMLController {
         stage.show();
         stage.setScene(scene);
 
+        tableView.setEditable(true);
+
         List<Proveedor> proveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
         });
 
@@ -80,13 +85,25 @@ public class ProveedorFXMLController {
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
         calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));
-        calleColumna.setCellFactory(TextFieldTableCell.forTableColumn());    
+        calleColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        calleColumna.setOnEditCommit(event -> {
+            Proveedor proveedor = event.getRowValue();
+            proveedor.setCalle(event.getNewValue());
+            proInterfaz.actualizarProveedor_XML(proveedor);
+        });
         cifColumna.setCellValueFactory(new PropertyValueFactory<>("cif"));
         cifColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        cifColumna.setOnEditCommit(event -> {
+            Proveedor proveedor = event.getRowValue();
+            proveedor.setCif(event.getNewValue());
+            proInterfaz.actualizarProveedor_XML(proveedor);
+        });
+
         ciudadColumna.setCellValueFactory(new PropertyValueFactory<>("ciudad"));
         ciudadColumna.setCellFactory(TextFieldTableCell.forTableColumn());
         codPostalColumna.setCellValueFactory(new PropertyValueFactory<>("codPostal"));
         fechaContratacionColumna.setCellValueFactory(new PropertyValueFactory<>("fechaContratacion"));
+
         nombreProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
         nombreProveedorColumna.setCellFactory(TextFieldTableCell.forTableColumn());
 

@@ -13,8 +13,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
 
-
-
 /**
  * Jersey REST client generated for REST resource:ProveedorFacadeREST
  * [eus.tartangalh.crud.create.proveedor]<br>
@@ -28,7 +26,7 @@ import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
  *
  * @author 2dam
  */
-public class ProveedorRESTClient implements ProveedorInterfaz{
+public class ProveedorRESTClient implements ProveedorInterfaz {
 
     private WebTarget webTarget;
     private Client client;
@@ -40,52 +38,42 @@ public class ProveedorRESTClient implements ProveedorInterfaz{
     }
 
     @Override
-    public void crearProveedor_XML(Object requestEntity, String proveedor) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{proveedor})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
-    }
-/*
-  *  public void crearProveedor_JSON(Object requestEntity, String proveedor) throws ClientErrorException {
-   *     webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{proveedor})).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
-    *}
-*/
-    @Override
-    public void borrarProveedor(String id) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
+    public void crearProveedor_XML(Object requestEntity) throws ClientErrorException {
+        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
     @Override
-    public <T> T mostrarProveedor_XML(Class<T> responseType, String id) throws WebApplicationException {
+    public void borrarProducto(String id) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("proveedorPorId/{0}", new Object[]{id})).request().delete();
+    }
+
+    @Override
+    public <T> T mostrarProveedor_XML(Class<T> responseType, String id) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
+        resource = resource.path(java.text.MessageFormat.format("proveedorPorId/{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
-  
     @Override
-    public void actualizarProveedor_XML(Object requestEntity, String proveedor) throws WebApplicationException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{proveedor})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML), Proveedor.class);
+    public void actualizarProveedor_XML(Object requestEntity) throws ClientErrorException {
+        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
-    
-
     @Override
-    public <T> T mostrarTodosProveedores_XML(GenericType<T> responseType) throws WebApplicationException {
+    public <T> T mostrarTodosProveedores_XML(GenericType<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
-
     @Override
-    public <T> T mostrarsProveedoresFecha_XML(Class<T> responseType, String fecha) throws WebApplicationException {
+    public <T> T mostrarsProveedoresFecha_XML(Class<T> responseType, String fecha) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("mostrarsProveedoresFecha/{0}", new Object[]{fecha}));
+        resource = resource.path(java.text.MessageFormat.format("mostrarProveedoresPorFecha/{0}", new Object[]{fecha}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
-
- 
 
     public void close() {
         client.close();
     }
-    
+
 }
