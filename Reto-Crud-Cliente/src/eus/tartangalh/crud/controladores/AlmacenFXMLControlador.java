@@ -32,6 +32,9 @@ import javafx.util.Callback;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javax.ws.rs.WebApplicationException;
 
 /**
  * FXML Controller class
@@ -65,7 +68,7 @@ public class AlmacenFXMLControlador {
     private TableView<Almacen> almacenTableView;
 
     @FXML
-    private TableColumn<Almacen, String> idAlmacenColumn;
+    private TableColumn<Almacen, Integer> idAlmacenColumn;
 
     @FXML
     private TableColumn<Almacen, String> paisColumn;
@@ -86,7 +89,7 @@ public class AlmacenFXMLControlador {
     private Button deleteButton;
 
     @FXML
-    private Button confirmButton;
+    private Button confirmButton; // Hay que quitar esto 
 
     private Stage stage;
 
@@ -237,6 +240,47 @@ public class AlmacenFXMLControlador {
                 AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
             }
         });
+    }
+
+    @FXML
+    private void handleDeleteRow() {
+        Almacen almacenSeleccionado = almacenTableView.getSelectionModel().getSelectedItem();
+
+        if (almacenSeleccionado != null) {
+            // Mostrar una alerta de confirmación antes de proceder con el borrado
+            Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmacion.setTitle("Confirmar eliminación");
+            confirmacion.setHeaderText("Eliminar almacén");
+            confirmacion.setContentText("¿Estás seguro de que deseas eliminar el almacén con ID: " + almacenSeleccionado.getIdAlmacen() + "?");
+
+            confirmacion.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    try {
+                        // Llamada al método para borrar el almacén en el servicio REST
+                        AlmacenFactoria.get().borrarAlmacen(almacenSeleccionado.getIdAlmacen());
+
+                        // Remover la fila de la tabla después de la eliminación exitosa
+                        almacenTableView.getItems().remove(almacenSeleccionado);
+
+                        LOGGER.info("Almacén eliminado correctamente.");
+                    } catch (WebApplicationException e) {
+                        LOGGER.severe("Error al eliminar el almacén: " + e.getMessage());
+                        Alert error = new Alert(Alert.AlertType.ERROR);
+                        error.setTitle("Error");
+                        error.setHeaderText("Error al eliminar almacén");
+                        error.setContentText("No se pudo eliminar el almacén. Por favor, inténtelo de nuevo.");
+                        error.show();
+                    }
+                }
+            });
+        } else {
+            // Si no se ha seleccionado ninguna fila, mostrar un mensaje de advertencia
+            Alert warning = new Alert(Alert.AlertType.WARNING);
+            warning.setTitle("Advertencia");
+            warning.setHeaderText("Ninguna fila seleccionada");
+            warning.setContentText("Por favor, seleccione un almacén para eliminar.");
+            warning.show();
+        }
     }
 
 }
