@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package reto.crud.cliente;
+package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;

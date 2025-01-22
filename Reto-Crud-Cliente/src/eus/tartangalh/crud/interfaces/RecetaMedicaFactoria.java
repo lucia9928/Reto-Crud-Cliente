@@ -18,8 +18,6 @@ public class RecetaMedicaFactoria {
      * @return 
      */
     public static RecetaMedicaInterfaz get(){
-        
-    
                 
         return new RecetaMedicaREST();
     }

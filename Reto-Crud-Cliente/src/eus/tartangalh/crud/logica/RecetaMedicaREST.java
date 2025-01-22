@@ -5,12 +5,10 @@
  */
 package eus.tartangalh.crud.logica;
 
-import eus.tartangalh.crud.entidades.RecetaMedica;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import eus.tartangalh.crud.interfaces.RecetaMedicaInterfaz;
-import java.util.List;
 import javax.ws.rs.core.GenericType;
 
 /**

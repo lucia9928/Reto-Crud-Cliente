@@ -7,14 +7,12 @@ package eus.tartangalh.crud.controladores;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import reto.crud.cliente.RetoCrudCliente;
 
 /**
  * FXML Controller class
  *
- * @author 2dam
+ * @author melany
  */
 public class RegistroFXMLControlador implements Initializable {
 

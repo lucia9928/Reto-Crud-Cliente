@@ -5,8 +5,6 @@
  */
 package eus.tartangalh.crud.interfaces;
 
-import eus.tartangalh.crud.entidades.RecetaMedica;
-import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -26,6 +24,7 @@ public interface RecetaMedicaInterfaz {
     /**
      *
      * @param <T>
+     * @param responseType
      * @param genericType
      * @return
      * @throws WebApplicationException

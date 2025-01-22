@@ -6,7 +6,8 @@
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Proveedor;
-import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
+import eus.tartangalh.crud.interfaces.ProveedorFactoria;
+import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
 
@@ -28,6 +30,8 @@ import javax.ws.rs.core.GenericType;
  * @author Markel
  */
 public class ProveedorFXMLController {
+
+    private final ProveedorInterfaz proInterfaz = ProveedorFactoria.get();
 
     @FXML
     private Button btnBuscar;
@@ -71,19 +75,37 @@ public class ProveedorFXMLController {
         stage.show();
         stage.setScene(scene);
 
-        idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
-        calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));
-        cifColumna.setCellValueFactory(new PropertyValueFactory<>("cif"));
-        ciudadColumna.setCellValueFactory(new PropertyValueFactory<>("ciudad"));
-        codPostalColumna.setCellValueFactory(new PropertyValueFactory<>("codPostal"));
-        fechaContratacionColumna.setCellValueFactory(new PropertyValueFactory<>("fechaContratacion"));
-        nombreProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
+        tableView.setEditable(true);
 
-        List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
+        List<Proveedor> proveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
         });
 
         // Convertir la lista de proveedores en ObservableList para la TableView
         ObservableList<Proveedor> proveedoresData = FXCollections.observableArrayList(proveedores);
+
+        idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
+        calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));
+        calleColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        calleColumna.setOnEditCommit(event -> {
+            Proveedor proveedor = event.getRowValue();
+            proveedor.setCalle(event.getNewValue());
+            proInterfaz.actualizarProveedor_XML(proveedor);
+        });
+        cifColumna.setCellValueFactory(new PropertyValueFactory<>("cif"));
+        cifColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        cifColumna.setOnEditCommit(event -> {
+            Proveedor proveedor = event.getRowValue();
+            proveedor.setCif(event.getNewValue());
+            proInterfaz.actualizarProveedor_XML(proveedor);
+        });
+
+        ciudadColumna.setCellValueFactory(new PropertyValueFactory<>("ciudad"));
+        ciudadColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        codPostalColumna.setCellValueFactory(new PropertyValueFactory<>("codPostal"));
+        fechaContratacionColumna.setCellValueFactory(new PropertyValueFactory<>("fechaContratacion"));
+
+        nombreProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
+        nombreProveedorColumna.setCellFactory(TextFieldTableCell.forTableColumn());
 
         // Establecer los datos en la tabla
         tableView.setItems(proveedoresData);

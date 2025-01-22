@@ -5,6 +5,7 @@ import eus.tartangalh.crud.entidades.RecetaMedica;
 import eus.tartangalh.crud.interfaces.RecetaMedicaFactoria;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +18,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
-
+/**
+ *
+ * @author melany
+ */
 public class RecetaMedicaFXMLController {
 
     @FXML
@@ -40,12 +44,14 @@ public class RecetaMedicaFXMLController {
     @FXML
     private TableColumn<RecetaMedica, ProductoFarmaceutico> listaProductos;
     private Stage stage;
+        private static final Logger LOGGER = Logger.getLogger("RecetaMedicaFXMLController.view");
+
     public void setStage(Stage stage) {
              this.stage=stage;
 
     }
     public void initStage(Parent root) {
-               
+               LOGGER.info("Inicializando controlador de receta medica");
 
     
         Scene scene= new Scene(root);
@@ -53,13 +59,13 @@ public class RecetaMedicaFXMLController {
         stage.show();
         stage.setScene(scene);
         // Configurar columnas
-        colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-        listaProductos.setCellValueFactory(new PropertyValueFactory<>("listaProductos"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-            List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>(){});
-            ObservableList<RecetaMedica> recetaList = FXCollections.observableArrayList(recetas);
-            tableRecetas.setItems(recetaList);
+         colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+         listaProductos.setCellValueFactory(new PropertyValueFactory<>("listaProductos"));
+         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
+         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+         List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>(){});
+         ObservableList<RecetaMedica> recetaList = FXCollections.observableArrayList(recetas);
+         tableRecetas.setItems(recetaList);
 
     }
 
