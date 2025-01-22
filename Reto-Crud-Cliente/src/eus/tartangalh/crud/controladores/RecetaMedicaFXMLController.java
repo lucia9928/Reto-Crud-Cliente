@@ -42,7 +42,7 @@ public class RecetaMedicaFXMLController {
     private TableColumn<RecetaMedica, Date> colFecha;
     
     @FXML
-    private TableColumn<RecetaMedica, ProductoFarmaceutico> listaProductos;
+    private TableColumn<RecetaMedica, String> listaProductos;
     private Stage stage;
         private static final Logger LOGGER = Logger.getLogger("RecetaMedicaFXMLController.view");
 
@@ -51,16 +51,15 @@ public class RecetaMedicaFXMLController {
 
     }
     public void initStage(Parent root) {
-               LOGGER.info("Inicializando controlador de receta medica");
-
-    
+        LOGGER.info("Inicializando controlador de receta medica");
         Scene scene= new Scene(root);
         stage.setTitle("Recetas medicas");
         stage.show();
         stage.setScene(scene);
         // Configurar columnas
+        RecetaMedica receta= new RecetaMedica();
          colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-         listaProductos.setCellValueFactory(new PropertyValueFactory<>("listaProductos"));
+         //listaProductos.setCellValueFactory(receta.getListaProductos());
          colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
          colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
          List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>(){});

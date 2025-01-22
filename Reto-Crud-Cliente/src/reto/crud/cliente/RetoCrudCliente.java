@@ -15,16 +15,15 @@ import javafx.stage.Stage;
  * @author Todos
  */
 public class RetoCrudCliente extends javafx.application.Application {
-
     @Override
     public void start(Stage stage) throws Exception {
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RecetaMedicaFXMLController.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RecetaMedicaFXML.fxml"));
         
         Parent root = loader.load();
                 
 
-        RecetaMedicaFXMLController proveedor = (RecetaMedicaFXMLController) loader.getControllerFactory();
+        RecetaMedicaFXMLController proveedor = (RecetaMedicaFXMLController) loader.getController();
 
         proveedor.setStage(stage);
 
