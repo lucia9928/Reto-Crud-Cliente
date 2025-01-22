@@ -8,11 +8,13 @@ package eus.tartangalh.crud.controladores;
 import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
+import java.awt.Desktop;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -62,6 +64,9 @@ public class ProveedorFXMLController {
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
 
+    List<Proveedor> proveedores;
+    ObservableList<Proveedor> proveedoresData;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -77,11 +82,11 @@ public class ProveedorFXMLController {
 
         tableView.setEditable(true);
 
-        List<Proveedor> proveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
-        });
+        mostrarProveedor();
 
-        // Convertir la lista de proveedores en ObservableList para la TableView
-        ObservableList<Proveedor> proveedoresData = FXCollections.observableArrayList(proveedores);
+        btnCrearFila.setVisible(true);
+        btnCrearFila.setDisable(false);
+        btnCrearFila.setOnAction(this::crearProveedor);
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
         calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));
@@ -103,13 +108,38 @@ public class ProveedorFXMLController {
         ciudadColumna.setCellFactory(TextFieldTableCell.forTableColumn());
         codPostalColumna.setCellValueFactory(new PropertyValueFactory<>("codPostal"));
         fechaContratacionColumna.setCellValueFactory(new PropertyValueFactory<>("fechaContratacion"));
-
         nombreProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
         nombreProveedorColumna.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        // Establecer los datos en la tabla
-        tableView.setItems(proveedoresData);
-
     }
 
+    public void crearProveedor(ActionEvent event) {
+
+        try {
+            Proveedor proveedor = new Proveedor();
+            proInterfaz.crearProveedor_XML(proveedor);
+            mostrarProveedor();
+
+         
+        } catch (Exception e) {
+            LOGGER.info("Da error en crear");
+        }
+    }
+
+    public void mostrarProveedor() {
+        proveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
+        });
+
+        // Convertir la lista de proveedores en ObservableList para la TableView
+        proveedoresData = FXCollections.observableArrayList(proveedores);
+
+        // Establecer los datos en la tabla
+        tableView.setItems(proveedoresData);
+    }
+    
+    public void borrarProveedor(ActionEvent event){
+        
+        
+        
+    }
 }
