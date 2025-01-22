@@ -29,6 +29,9 @@ import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
 import javafx.scene.control.TableCell;
 import javafx.util.Callback;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 /**
  * FXML Controller class
@@ -156,9 +159,11 @@ public class AlmacenFXMLControlador {
         metrosCuadradosColumn.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setMetrosCuadrados(event.getNewValue());
+            System.out.println(almacen.toString());
             AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
 
+        // Fecha
         fechaAdquisicionColumn.setCellFactory(col -> new TableCell<Almacen, Date>() {
             private final DatePicker datePicker = new DatePicker();
 
@@ -169,10 +174,9 @@ public class AlmacenFXMLControlador {
                 if (empty) {
                     setGraphic(null);  // No mostrar nada si la celda está vacía
                 } else {
-                    // Convertir java.sql.Date a LocalDate manualmente usando getTime()
+                    // Convertir java.sql.Date a LocalDate
                     if (item != null) {
-                        long time = item.getTime(); // Obtener el tiempo en milisegundos
-                        LocalDate localDate = new java.sql.Date(time).toLocalDate(); // Convertir a LocalDate
+                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
                         datePicker.setValue(localDate);  // Establecer la fecha en el DatePicker
                     }
                     setGraphic(datePicker);  // Mostrar el DatePicker en la celda
@@ -184,17 +188,28 @@ public class AlmacenFXMLControlador {
                 super.commitEdit(newValue);
                 Almacen almacen = getTableView().getItems().get(getIndex());  // Obtener el objeto correspondiente
 
-                // Convertir LocalDate a java.util.Date
                 if (newValue != null) {
-                    long time = newValue.getTime(); // Obtener el tiempo en milisegundos
-                    Date utilDate = new Date(time); // Convertirlo a java.util.Date
-                    almacen.setFechaAdquisicion(utilDate); // Establecer la nueva fecha en el objeto almacen
+                    almacen.setFechaAdquisicion(newValue); // Actualizar la fecha en el objeto almacen
                 }
+
+                System.out.println(almacen.toString());  // Mostrar los cambios en consola
 
                 // Llamar al servicio para actualizar el almacen
                 AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
             }
+
+            // Forzar el commit cuando se pierde el foco
+            {
+                datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
+                    if (!newFocus) {
+                        // Convertir LocalDate a java.util.Date
+                        Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        commitEdit(newDate);  // Ejecutar commit cuando el foco se pierde
+                    }
+                });
+            }
         });
+
     }
 
     @FXML
