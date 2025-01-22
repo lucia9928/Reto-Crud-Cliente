@@ -25,22 +25,21 @@ import reto.crud.cliente.RetoCrudCliente;
  * @author 2dam
  */
 public class InicioSesionFXMLControlador implements Initializable {
-    
+
     @FXML
     private TextField textEmail;
-        
+
     @FXML
     private PasswordField pswContrasena;
 
     private static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
     private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
-    
-    
-    
+
     @FXML
     private void irARegistrar() throws Exception {
         //RetoCrudCliente.navegarVentanas("RegistroFXML.fxml");
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
@@ -50,13 +49,15 @@ public class InicioSesionFXMLControlador implements Initializable {
                 public void handle(WindowEvent event) {
                     event.consume();
                     handleClose();
-                }    
-    
-                       });
-    
-                });
-          }
-    private void handleClose() {Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                }
+
+            });
+
+        });
+    }
+
+    private void handleClose() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
         alert.setHeaderText("¿Está seguro de que desea cerrar la aplicación?");
         alert.setContentText("Todos los cambios no guardados se perderán.");
@@ -65,10 +66,6 @@ public class InicioSesionFXMLControlador implements Initializable {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Stage stage = (Stage) textEmail.getScene().getWindow();
             stage.close();
-        }               
+        }
     }
-         
 }
-      
-    
-
