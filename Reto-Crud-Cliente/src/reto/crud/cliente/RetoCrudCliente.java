@@ -21,28 +21,27 @@ import javax.ws.rs.core.GenericType;
  *
  * @author 2dam
  */
-public class RetoCrudCliente extends Application {
-    
+public class RetoCrudCliente extends javafx.application.Application {
+
     @Override
     public void start(Stage stage) throws Exception {
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProductoFarmaceuticoUI.fxml"));
         
         Parent root = loader.load();
                 
-        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
+        ProductoFarmaceuticoUIController proveedor = (ProductoFarmaceuticoUIController) loader.getController();
 
         proveedor.setStage(stage);
         
         proveedor.initStage(root);
-        
-        
+
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         launch(args);
         //List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
 
