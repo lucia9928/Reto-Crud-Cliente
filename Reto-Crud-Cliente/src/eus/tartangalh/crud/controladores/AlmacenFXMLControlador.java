@@ -7,7 +7,7 @@ package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Almacen;
 import eus.tartangalh.crud.interfaces.AlmacenFactoria;
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -24,8 +24,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
-import javafx.util.converter.LocalDateStringConverter;
 import javax.ws.rs.core.GenericType;
+import javafx.scene.control.DatePicker;
+import java.time.LocalDate;
+import javafx.scene.control.TableCell;
+import javafx.util.Callback;
 
 /**
  * FXML Controller class
@@ -68,10 +71,10 @@ public class AlmacenFXMLControlador {
     private TableColumn<Almacen, String> ciudadColumn;
 
     @FXML
-    private TableColumn<Almacen, String> fechaAdquisicionColumn;
+    private TableColumn<Almacen, Date> fechaAdquisicionColumn;
 
     @FXML
-    private TableColumn<Almacen, String> metrosCuadradosColumn;
+    private TableColumn<Almacen, Integer> metrosCuadradosColumn;
 
     @FXML
     private Button addButton;
@@ -137,39 +140,61 @@ public class AlmacenFXMLControlador {
         paisColumn.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setPais(event.getNewValue());
+            AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
 
         ciudadColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         ciudadColumn.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setCiudad(event.getNewValue());
+            AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
 
         // Configurar la columna metrosCuadrados para manejar Integer
-        /*metrosCuadradosColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        // Configurar la columna metrosCuadrados para manejar Integer
+        metrosCuadradosColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         metrosCuadradosColumn.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
-            String newValue = event.getNewValue();
-
-            try {
-                int value = Integer.parseInt(newValue);
-                almacen.setMetrosCuadrados(value);
-            } catch (NumberFormatException e) {
-                LOGGER.warning("El valor ingresado no es un número válido: " + newValue);
-            }
+            almacen.setMetrosCuadrados(event.getNewValue());
+            AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
 
-        // Configurar la columna fechaAdquisicion para manejar LocalDate
-        fechaAdquisicionColumn.setOnEditCommit(event -> {
-            Almacen almacen = event.getRowValue();
-            try {
-                LocalDate localDate = LocalDate.parse(event.getNewValue());
-                almacen.setFechaAdquisicion(java.sql.Date.valueOf(localDate));  // Convertir LocalDate a java.sql.Date
-            } catch (Exception e) {
-                LOGGER.warning("El valor ingresado no es una fecha válida.");
+        fechaAdquisicionColumn.setCellFactory(col -> new TableCell<Almacen, Date>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);  // No mostrar nada si la celda está vacía
+                } else {
+                    // Convertir java.sql.Date a LocalDate manualmente usando getTime()
+                    if (item != null) {
+                        long time = item.getTime(); // Obtener el tiempo en milisegundos
+                        LocalDate localDate = new java.sql.Date(time).toLocalDate(); // Convertir a LocalDate
+                        datePicker.setValue(localDate);  // Establecer la fecha en el DatePicker
+                    }
+                    setGraphic(datePicker);  // Mostrar el DatePicker en la celda
+                }
+            }
+
+            @Override
+            public void commitEdit(Date newValue) {
+                super.commitEdit(newValue);
+                Almacen almacen = getTableView().getItems().get(getIndex());  // Obtener el objeto correspondiente
+
+                // Convertir LocalDate a java.util.Date
+                if (newValue != null) {
+                    long time = newValue.getTime(); // Obtener el tiempo en milisegundos
+                    Date utilDate = new Date(time); // Convertirlo a java.util.Date
+                    almacen.setFechaAdquisicion(utilDate); // Establecer la nueva fecha en el objeto almacen
+                }
+
+                // Llamar al servicio para actualizar el almacen
+                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
             }
         });
-*/
     }
 
     @FXML
@@ -194,6 +219,7 @@ public class AlmacenFXMLControlador {
             } else {
                 LOGGER.info("Fila guardada: " + almacen.toString());
                 // Aquí puedes agregar la lógica para guardar en la base de datos si es necesario
+                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
             }
         });
     }

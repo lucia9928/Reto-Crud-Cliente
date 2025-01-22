@@ -108,7 +108,7 @@ public class Almacen implements Serializable {
 
     @Override
     public String toString() {
-        return "eus.tartangalh.crud.create.Almacen[ id=" + idAlmacen + " ]";
+        return "Almacen{" + "idAlmacen=" + idAlmacen + ", pais=" + pais + ", ciudad=" + ciudad + ", metrosCuadrados=" + metrosCuadrados + ", fechaAdquisicion=" + fechaAdquisicion + ", producto=" + producto + '}';
     }
 
 }
