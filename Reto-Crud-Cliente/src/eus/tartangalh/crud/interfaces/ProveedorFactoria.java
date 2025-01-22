@@ -6,15 +6,15 @@
 package eus.tartangalh.crud.interfaces;
 
 import eus.tartangalh.crud.logica.ProveedorRESTClient;
-import eus.tartangalh.crud.interfaces.ProveedorManager;
 
 /**
  *
  * @author 2dam
  */
-public class ProveedorManagerFactoria {
+
+public class ProveedorFactoria {
     
-    public static ProveedorManager get(){
+    public static ProveedorInterfaz get(){
         return new ProveedorRESTClient();
     }
     
