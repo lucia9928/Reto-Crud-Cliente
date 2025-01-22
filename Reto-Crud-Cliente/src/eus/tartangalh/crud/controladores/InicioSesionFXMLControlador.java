@@ -18,11 +18,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import reto.crud.cliente.RetoCrudCliente;
 
 /**
  *
- * @author 2dam
+ * @author melany
  */
 public class InicioSesionFXMLControlador implements Initializable {
     
@@ -34,7 +33,6 @@ public class InicioSesionFXMLControlador implements Initializable {
 
     private static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
     private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
-    
     
     
     @FXML

@@ -7,15 +7,12 @@ package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.interfaces.ProveedorManagerFactoria;
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
-import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
