@@ -33,16 +33,16 @@
         <DatePicker fx:id="hastaDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="0" />
         
         <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-        <TextField fx:id="idField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <TextField fx:id="idCampo" GridPane.columnIndex="1" GridPane.rowIndex="1" />
         <Label text="Metros:" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-        <TextField fx:id="metrosField" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <TextField fx:id="metrosCampo" GridPane.columnIndex="3" GridPane.rowIndex="1" />
         
         <Label text="Ciudad" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-        <TextField fx:id="ciudadField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <TextField fx:id="ciudadCampo" GridPane.columnIndex="1" GridPane.rowIndex="2" />
         <Label text="Pais" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-        <TextField fx:id="paisField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+        <TextField fx:id="paisCampo" GridPane.columnIndex="3" GridPane.rowIndex="2" />
         
-        <Button fx:id="searchButton" text="🔍" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+        <Button fx:id="busquedaBtn" text="🔍" GridPane.columnIndex="4" GridPane.rowIndex="1" />
         <columnConstraints>
             <ColumnConstraints />
             <ColumnConstraints />
@@ -60,18 +60,17 @@
     <!-- Tabla de productos -->
     <TableView fx:id="almacenTableView">
         <columns>
-            <TableColumn fx:id="idAlmacenColumn" text="ID Almacén" />
-            <TableColumn fx:id="paisColumn" text="País" />
-            <TableColumn fx:id="ciudadColumn" text="Ciudad" />
-            <TableColumn fx:id="metrosCuadradosColumn" text="Metros Cuadrados" />
-            <TableColumn fx:id="fechaAdquisicionColumn" text="Fecha Adquisición" />
+            <TableColumn fx:id="idAlmacenColumna" text="ID Almacén" />
+            <TableColumn fx:id="paisColumna" text="País" />
+            <TableColumn fx:id="ciudadColumna" text="Ciudad" />
+            <TableColumn fx:id="metrosCuadradosColumna" text="Metros Cuadrados" />
+            <TableColumn fx:id="fechaAdquisicionColumna" text="Fecha Adquisición" />
         </columns>
     </TableView>
     
     <!-- Botones de acción -->
     <HBox spacing="10">
-        <Button fx:id="addButton" text="Añadir línea" onAction="#handleAddRow"/>
-        <Button fx:id="deleteButton" text="Eliminar" onAction="#handleDeleteRow"/>
-        <Button fx:id="confirmButton" text="Confirmar edición" onAction="#handleConfirmEdit" />
+        <Button fx:id="añadirBtn" text="Añadir línea" onAction="#añadirFila"/>
+        <Button fx:id="borrarBtn" text="Eliminar" onAction="#borrarFila"/>
     </HBox>
 </VBox>
