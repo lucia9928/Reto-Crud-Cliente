@@ -31,7 +31,7 @@ public class RetoCrudCliente extends javafx.application.Application {
         
         Parent root = loader.load();
                 
-        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController()
+        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
 
         proveedor.setStage(stage);
 

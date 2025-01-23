@@ -41,6 +41,10 @@ public class ProveedorFXMLController {
     private Button btnCrearFila;
     @FXML
     private Button btnGuardar;
+    @FXML
+    private Button btnBorrar;
+    @FXML
+    private Button btnAtras;
 
     @FXML
     private TableView<Proveedor> tableView;
@@ -87,6 +91,7 @@ public class ProveedorFXMLController {
         btnCrearFila.setVisible(true);
         btnCrearFila.setDisable(false);
         btnCrearFila.setOnAction(this::crearProveedor);
+        btnBorrar.setDisable(true);
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
         calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));
