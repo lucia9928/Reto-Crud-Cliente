@@ -6,6 +6,7 @@
 package eus.tartangalh.crud.interfaces;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericType;
 
 public interface AlmacenInterfaz {
 
@@ -23,7 +24,7 @@ public interface AlmacenInterfaz {
 
     public void actualizarAlmacen_JSON(Object requestEntity) throws WebApplicationException;
 
-    public <T> T findAll_XML(Class<T> responseType) throws WebApplicationException;
+    public <T> T findAll_XML(GenericType<T> responseTypee) throws WebApplicationException;
 
-    public <T> T findAll_JSON(Class<T> responseType) throws WebApplicationException;
+    public <T> T findAll_JSON(GenericType<T> responseType) throws WebApplicationException;
 }

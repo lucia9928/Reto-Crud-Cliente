@@ -5,6 +5,7 @@
  */
 package reto.crud.cliente;
 
+import eus.tartangalh.crud.controladores.AlmacenFXMLControlador;
 import eus.tartangalh.crud.controladores.ProveedorFXMLController;
 import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.entidades.Proveedor;
@@ -30,10 +31,10 @@ public class RetoCrudCliente extends javafx.application.Application {
         
         Parent root = loader.load();
                 
-        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
+        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController()
 
         proveedor.setStage(stage);
-        
+
         proveedor.initStage(root);
 
     }
@@ -41,10 +42,10 @@ public class RetoCrudCliente extends javafx.application.Application {
     /**
      * @param args the command line arguments
      */
-     public static void main(String[] args) {
+    public static void main(String[] args) {
         launch(args);
         //List<Proveedor> proveedores = ProveedorManagerFactoria.get().mostrarTodosProveedores_XML(List.class);
 
     }
-    
+
 }
