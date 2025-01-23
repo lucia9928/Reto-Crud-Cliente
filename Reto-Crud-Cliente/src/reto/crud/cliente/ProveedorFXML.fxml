@@ -37,9 +37,11 @@
       <TextField fx:id="nameField" layoutX="300.0" layoutY="38.0" />
       
       <!-- Botón para crear fila con fx:id -->
-      <Button fx:id="createRowButton" layoutX="161.0" layoutY="644.0" mnemonicParsing="false" text="Crear fila" />
+      <Button fx:id="btnCrearFila" layoutX="161.0" layoutY="644.0" mnemonicParsing="false" text="Crear fila" />
       <Label layoutX="622.0" layoutY="42.0" text="Nombre del proveedor" />
       <Label layoutX="134.0" layoutY="42.0" text="Fecha de contratacion" />
       <Label layoutX="175.0" layoutY="90.0" text="Orden" />
+      <Button fx:id="btnBorrar" layoutX="360.0" layoutY="644.0" mnemonicParsing="false" text="Borrar datos" />
+      <Button fx:id="btnAtras" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" text="Atras" />
    </children>
 </AnchorPane>
