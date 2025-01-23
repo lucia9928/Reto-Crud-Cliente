@@ -29,27 +29,6 @@ import javax.ws.rs.WebApplicationException;
 public class AlmacenFXMLControlador {
 
     @FXML
-    private DatePicker desdeDatePicker;
-
-    @FXML
-    private DatePicker hastaDatePicker;
-
-    @FXML
-    private TextField idCampo;
-
-    @FXML
-    private TextField nombreCampo;
-
-    @FXML
-    private TextField ciudadCampo;
-
-    @FXML
-    private TextField paisCampo;
-
-    @FXML
-    private Button busquedaBtn;
-
-    @FXML
     private TableView<Almacen> almacenTableView;
 
     @FXML
@@ -72,6 +51,27 @@ public class AlmacenFXMLControlador {
 
     @FXML
     private Button borrarBtn;
+
+    @FXML
+    private ComboBox<String> combo;
+
+    @FXML
+    private TextField txtCiudad;
+
+    @FXML
+    private TextField txtPais;
+
+    @FXML
+    private TextField txtMetros;
+
+    @FXML
+    private TextField txtId;
+
+    @FXML
+    private TextField txtFechaDesde;
+
+    @FXML
+    private TextField txtFechaHasta;
 
     private Stage stage;
 
@@ -101,6 +101,8 @@ public class AlmacenFXMLControlador {
         configurarColumnasTabla();
         mostrarAlmacenes();
         configureTableEditable();
+        ocultarTodosLosFiltros();
+        configurarPlaceHolders();
     }
 
     /**
@@ -194,5 +196,60 @@ public class AlmacenFXMLControlador {
         } catch (Exception e) {
             LOGGER.severe("Error al cargar los almacenes: " + e.getMessage());
         }
+    }
+
+    @FXML
+    private void listarFiltros() {
+        ObservableList<String> opcionesFiltro = FXCollections.observableArrayList(
+                "ID",
+                "Fecha",
+                "País",
+                "Ciudad",
+                "Metros"
+        );
+
+        combo.setItems(opcionesFiltro);
+
+        combo.setOnAction(event -> {
+            switch (combo.getValue().toString()) {
+                case "ID":
+                    txtId.setVisible(true);
+                    break;
+                case "Fecha":
+                    txtFechaDesde.setVisible(true);
+                    txtFechaHasta.setVisible(true);
+                    break;
+                case "País":
+                    txtPais.setVisible(true);
+                    break;
+                case "Ciudad":
+                    txtCiudad.setVisible(true);
+                    break;
+                case "Metros":
+                    txtMetros.setVisible(true);
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void ocultarTodosLosFiltros() {
+        txtId.setVisible(false);
+        txtFechaDesde.setVisible(false);
+        txtFechaHasta.setVisible(false);
+        txtPais.setVisible(false);
+        txtCiudad.setVisible(false);
+        txtMetros.setVisible(false);
+    }
+
+    private void configurarPlaceHolders() {
+        // Establecer el texto por defecto (placeholder)
+        txtId.setPromptText("Introduce ID");
+        txtFechaDesde.setPromptText("Introduce Fecha Desde");
+        txtFechaHasta.setPromptText("Introduce Fecha Hasta");
+        txtPais.setPromptText("Introduce País");
+        txtCiudad.setPromptText("Introduce Ciudad");
+        txtMetros.setPromptText("Introduce Metros");
     }
 }
