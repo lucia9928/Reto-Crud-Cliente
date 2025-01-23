@@ -118,25 +118,9 @@ public class AlmacenFXMLControlador {
         // Cambiar el tipo de la columna fechaAdquisicion a LocalDate
         fechaAdquisicionColumn.setCellValueFactory(new PropertyValueFactory<>("fechaAdquisicion"));
 
-        // Llamada al servicio para obtener los productos
-        try {
-            // Obtener los productos desde la API o servicio
-            List<Almacen> almacenesEncontrados = AlmacenFactoria.get()
-                    .findAll_XML(new GenericType<List<Almacen>>() {
-                    });
+        mostrarAlmacenes();
 
-            // Convertir la lista de productos a un ObservableList
-            ObservableList<Almacen> almacenes = FXCollections.observableArrayList(almacenesEncontrados);
-
-            // Establecer los productos obtenidos en la TableView
-            almacenTableView.setItems(almacenes);
-            configureTableEditable();
-
-        } catch (Exception e) {
-            // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
-            System.out.println("Error al cargar los productos: " + e.getMessage());
-            e.printStackTrace();
-        }
+        configureTableEditable();
     }
 
     private void configureTableEditable() {
@@ -217,15 +201,14 @@ public class AlmacenFXMLControlador {
 
     @FXML
     private void handleAddRow() {
+        try {
+            Almacen almacen = new Almacen();
+            AlmacenFactoria.get().crearAlmacen_XML(almacen);
+            mostrarAlmacenes();
 
-        // Crear una fila vacía con valores por defecto o nulos
-        Almacen nuevoAlmacen = new Almacen(0, "", "", 0, null);
-
-        // Obtener la lista observable de la tabla y añadir la nueva fila vacía
-        ObservableList<Almacen> almacenes = almacenTableView.getItems();
-        almacenes.add(nuevoAlmacen);
-
-        LOGGER.info("Nueva fila vacía añadida.");
+        } catch (Exception e) {
+            LOGGER.info("Da error en crear");
+        }
     }
 
     @FXML
@@ -280,6 +263,27 @@ public class AlmacenFXMLControlador {
             warning.setHeaderText("Ninguna fila seleccionada");
             warning.setContentText("Por favor, seleccione un almacén para eliminar.");
             warning.show();
+        }
+    }
+
+    private void mostrarAlmacenes() {
+        // Llamada al servicio para obtener los productos
+        try {
+            // Obtener los productos desde la API o servicio
+            List<Almacen> almacenesEncontrados = AlmacenFactoria.get()
+                    .findAll_XML(new GenericType<List<Almacen>>() {
+                    });
+
+            // Convertir la lista de productos a un ObservableList
+            ObservableList<Almacen> almacenes = FXCollections.observableArrayList(almacenesEncontrados);
+
+            // Establecer los productos obtenidos en la TableView
+            almacenTableView.setItems(almacenes);
+
+        } catch (Exception e) {
+            // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
+            System.out.println("Error al cargar los productos: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
