@@ -18,7 +18,7 @@ public interface AlmacenInterfaz {
 
     public <T> T encontrar_JSON(Class<T> responseType, String id) throws WebApplicationException;
 
-    public void borrarAlmacen(Integer id) throws WebApplicationException;
+    public void borrarAlmacen(String id) throws WebApplicationException;
 
     public void actualizarAlmacen_XML(Object requestEntity) throws WebApplicationException;
 

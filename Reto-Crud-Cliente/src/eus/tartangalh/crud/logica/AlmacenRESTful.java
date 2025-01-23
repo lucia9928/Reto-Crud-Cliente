@@ -56,7 +56,7 @@ public class AlmacenRESTful implements AlmacenInterfaz{
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public void borrarAlmacen(Integer id) throws WebApplicationException {
+    public void borrarAlmacen(String id) throws WebApplicationException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
 

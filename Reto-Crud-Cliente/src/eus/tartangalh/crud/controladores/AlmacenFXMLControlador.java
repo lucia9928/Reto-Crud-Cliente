@@ -257,7 +257,7 @@ public class AlmacenFXMLControlador {
                 if (response == ButtonType.OK) {
                     try {
                         // Llamada al método para borrar el almacén en el servicio REST
-                        AlmacenFactoria.get().borrarAlmacen(almacenSeleccionado.getIdAlmacen());
+                        AlmacenFactoria.get().borrarAlmacen(String.valueOf(almacenSeleccionado.getIdAlmacen()));
 
                         // Remover la fila de la tabla después de la eliminación exitosa
                         almacenTableView.getItems().remove(almacenSeleccionado);
