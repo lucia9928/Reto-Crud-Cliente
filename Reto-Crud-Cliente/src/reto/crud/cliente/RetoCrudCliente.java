@@ -26,12 +26,12 @@ public class RetoCrudCliente extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
-        
+
         Parent root = loader.load();
                 
-        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController()
+        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
 
         proveedor.setStage(stage);
 
