@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Almacen;
 import eus.tartangalh.crud.interfaces.AlmacenFactoria;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -15,142 +9,120 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.converter.IntegerStringConverter;
 import javax.ws.rs.core.GenericType;
-import javafx.scene.control.DatePicker;
-import java.time.LocalDate;
-import javafx.scene.control.TableCell;
-import javafx.util.Callback;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
+import java.util.stream.Collectors;
 import javax.ws.rs.WebApplicationException;
 
 /**
- * FXML Controller class
+ * Controlador para la interfaz FXML de la entidad Almacen. Permite la gestión
+ * de almacenes mediante operaciones de creación, actualización y eliminación.
  *
- * @author Oscar
+ * @author Andoni
  */
 public class AlmacenFXMLControlador {
-
-    @FXML
-    private DatePicker desdeDatePicker;
-
-    @FXML
-    private DatePicker hastaDatePicker;
-
-    @FXML
-    private TextField idField;
-
-    @FXML
-    private TextField nombreField;
-
-    @FXML
-    private TextField ciudadField;
-
-    @FXML
-    private TextField paisField;
-
-    @FXML
-    private Button searchButton;
 
     @FXML
     private TableView<Almacen> almacenTableView;
 
     @FXML
-    private TableColumn<Almacen, Integer> idAlmacenColumn;
+    private TableColumn<Almacen, Integer> idAlmacenColumna;
 
     @FXML
-    private TableColumn<Almacen, String> paisColumn;
+    private TableColumn<Almacen, String> paisColumna;
 
     @FXML
-    private TableColumn<Almacen, String> ciudadColumn;
+    private TableColumn<Almacen, String> ciudadColumna;
 
     @FXML
-    private TableColumn<Almacen, Date> fechaAdquisicionColumn;
+    private TableColumn<Almacen, Date> fechaAdquisicionColumna;
 
     @FXML
-    private TableColumn<Almacen, Integer> metrosCuadradosColumn;
+    private TableColumn<Almacen, Integer> metrosCuadradosColumna;
 
     @FXML
-    private Button addButton;
+    private Button añadirBtn;
 
     @FXML
-    private Button deleteButton;
+    private Button borrarBtn;
 
     @FXML
-    private Button confirmButton; // Hay que quitar esto 
+    private ComboBox<String> combo;
+
+    @FXML
+    private TextField txtFiltro;
+
+    @FXML
+    private DatePicker txtFechaDesde;
+
+    @FXML
+    private DatePicker txtFechaHasta;
 
     private Stage stage;
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
 
+    /**
+     * Establece el escenario principal de la aplicación.
+     *
+     * @param stage El escenario de la aplicación.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Inicializa la interfaz gráfica.
+     *
+     * @param root Elemento raíz de la escena.
+     */
     public void initStage(Parent root) {
         LOGGER.info("Inicializando controlador de almacen");
 
         Scene scene = new Scene(root);
-
-        stage.show();
         stage.setScene(scene);
+        stage.show();
 
-        // Configurar las columnas de la tabla con el tipo correcto
-        idAlmacenColumn.setCellValueFactory(new PropertyValueFactory<>("idAlmacen"));
-        paisColumn.setCellValueFactory(new PropertyValueFactory<>("pais"));
-        ciudadColumn.setCellValueFactory(new PropertyValueFactory<>("ciudad"));
-
-        // Cambiar el tipo de la columna metrosCuadrados a Integer
-        metrosCuadradosColumn.setCellValueFactory(new PropertyValueFactory<>("metrosCuadrados"));
-
-        // Cambiar el tipo de la columna fechaAdquisicion a LocalDate
-        fechaAdquisicionColumn.setCellValueFactory(new PropertyValueFactory<>("fechaAdquisicion"));
-
-        // Llamada al servicio para obtener los productos
-        try {
-            // Obtener los productos desde la API o servicio
-            List<Almacen> almacenesEncontrados = AlmacenFactoria.get()
-                    .findAll_XML(new GenericType<List<Almacen>>() {
-                    });
-
-            // Convertir la lista de productos a un ObservableList
-            ObservableList<Almacen> almacenes = FXCollections.observableArrayList(almacenesEncontrados);
-
-            // Establecer los productos obtenidos en la TableView
-            almacenTableView.setItems(almacenes);
-            configureTableEditable();
-
-        } catch (Exception e) {
-            // Manejo de excepciones si ocurre un error en la conexión o en la obtención de productos
-            System.out.println("Error al cargar los productos: " + e.getMessage());
-            e.printStackTrace();
-        }
+        configurarColumnasTabla();
+        mostrarAlmacenes();
+        configureTableEditable();
+        ocultarTodosLosFiltros();
+        listarFiltros();
     }
 
+    /**
+     * Configura las columnas de la tabla de almacenes.
+     */
+    private void configurarColumnasTabla() {
+        idAlmacenColumna.setCellValueFactory(new PropertyValueFactory<>("idAlmacen"));
+        paisColumna.setCellValueFactory(new PropertyValueFactory<>("pais"));
+        ciudadColumna.setCellValueFactory(new PropertyValueFactory<>("ciudad"));
+        metrosCuadradosColumna.setCellValueFactory(new PropertyValueFactory<>("metrosCuadrados"));
+        fechaAdquisicionColumna.setCellValueFactory(new PropertyValueFactory<>("fechaAdquisicion"));
+    }
+
+    /**
+     * Configura la tabla para ser editable y manejar eventos de edición.
+     */
     private void configureTableEditable() {
         almacenTableView.setEditable(true);
 
-        paisColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        paisColumn.setOnEditCommit(event -> {
+        paisColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        paisColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setPais(event.getNewValue());
             AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
 
-        ciudadColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        ciudadColumn.setOnEditCommit(event -> {
+        ciudadColumna.setCellFactory(TextFieldTableCell.forTableColumn());
+        ciudadColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setCiudad(event.getNewValue());
             AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
@@ -158,8 +130,8 @@ public class AlmacenFXMLControlador {
 
         // Configurar la columna metrosCuadrados para manejar Integer
         // Configurar la columna metrosCuadrados para manejar Integer
-        metrosCuadradosColumn.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        metrosCuadradosColumn.setOnEditCommit(event -> {
+        metrosCuadradosColumna.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        metrosCuadradosColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setMetrosCuadrados(event.getNewValue());
             System.out.println(almacen.toString());
@@ -167,7 +139,7 @@ public class AlmacenFXMLControlador {
         });
 
         // Fecha
-        fechaAdquisicionColumn.setCellFactory(col -> new TableCell<Almacen, Date>() {
+        fechaAdquisicionColumna.setCellFactory(col -> new TableCell<Almacen, Date>() {
             private final DatePicker datePicker = new DatePicker();
 
             @Override
@@ -215,39 +187,27 @@ public class AlmacenFXMLControlador {
 
     }
 
+    /**
+     * Añade un nuevo almacén a la base de datos.
+     */
     @FXML
-    private void handleAddRow() {
-
-        // Crear una fila vacía con valores por defecto o nulos
-        Almacen nuevoAlmacen = new Almacen(0, "", "", 0, null);
-
-        // Obtener la lista observable de la tabla y añadir la nueva fila vacía
-        ObservableList<Almacen> almacenes = almacenTableView.getItems();
-        almacenes.add(nuevoAlmacen);
-
-        LOGGER.info("Nueva fila vacía añadida.");
+    private void añadirFila() {
+        try {
+            Almacen almacen = new Almacen();
+            AlmacenFactoria.get().crearAlmacen_XML(almacen);
+            mostrarAlmacenes();
+        } catch (Exception e) {
+            LOGGER.severe("Error al crear almacén: " + e.getMessage());
+        }
     }
 
+    /**
+     * Borra el almacén seleccionado en la tabla.
+     */
     @FXML
-    private void handleConfirmEdit() {
-        almacenTableView.getItems().forEach(almacen -> {
-            // Validación simple para asegurar que los campos esenciales no estén vacíos
-            if (almacen.getPais().isEmpty() || almacen.getCiudad().isEmpty()) {
-                LOGGER.warning("Fila con datos incompletos.");
-            } else {
-                LOGGER.info("Fila guardada: " + almacen.toString());
-                // Aquí puedes agregar la lógica para guardar en la base de datos si es necesario
-                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
-            }
-        });
-    }
-
-    @FXML
-    private void handleDeleteRow() {
+    private void borrarFila() {
         Almacen almacenSeleccionado = almacenTableView.getSelectionModel().getSelectedItem();
-
         if (almacenSeleccionado != null) {
-            // Mostrar una alerta de confirmación antes de proceder con el borrado
             Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
             confirmacion.setTitle("Confirmar eliminación");
             confirmacion.setHeaderText("Eliminar almacén");
@@ -256,31 +216,249 @@ public class AlmacenFXMLControlador {
             confirmacion.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     try {
-                        // Llamada al método para borrar el almacén en el servicio REST
                         AlmacenFactoria.get().borrarAlmacen(String.valueOf(almacenSeleccionado.getIdAlmacen()));
-
-                        // Remover la fila de la tabla después de la eliminación exitosa
                         almacenTableView.getItems().remove(almacenSeleccionado);
-
                         LOGGER.info("Almacén eliminado correctamente.");
                     } catch (WebApplicationException e) {
                         LOGGER.severe("Error al eliminar el almacén: " + e.getMessage());
-                        Alert error = new Alert(Alert.AlertType.ERROR);
-                        error.setTitle("Error");
-                        error.setHeaderText("Error al eliminar almacén");
-                        error.setContentText("No se pudo eliminar el almacén. Por favor, inténtelo de nuevo.");
-                        error.show();
                     }
                 }
             });
-        } else {
-            // Si no se ha seleccionado ninguna fila, mostrar un mensaje de advertencia
-            Alert warning = new Alert(Alert.AlertType.WARNING);
-            warning.setTitle("Advertencia");
-            warning.setHeaderText("Ninguna fila seleccionada");
-            warning.setContentText("Por favor, seleccione un almacén para eliminar.");
-            warning.show();
         }
     }
 
+    /**
+     * Obtiene y muestra los almacenes desde la base de datos.
+     */
+    private void mostrarAlmacenes() {
+        try {
+            List<Almacen> almacenesEncontrados = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            ObservableList<Almacen> almacenes = FXCollections.observableArrayList(almacenesEncontrados);
+            almacenTableView.setItems(almacenes);
+        } catch (Exception e) {
+            LOGGER.severe("Error al cargar los almacenes: " + e.getMessage());
+        }
+    }
+
+    private void listarFiltros() {
+        ObservableList<String> opcionesFiltro = FXCollections.observableArrayList(
+                "ID",
+                "Fecha",
+                "País",
+                "Ciudad",
+                "Metros"
+        );
+
+        combo.setItems(opcionesFiltro);
+
+        combo.setOnAction(event -> {
+            ocultarTodosLosFiltros();
+
+            switch (combo.getValue().toString()) {
+                case "ID":
+                    txtFiltro.setVisible(true);
+                    txtFiltro.setPromptText("Introduce ID");
+                    break;
+                case "Fecha":
+                    txtFechaDesde.setVisible(true);
+                    txtFechaHasta.setVisible(true);
+                    filtrarPorFecha();
+                    break;
+                case "País":
+                    txtFiltro.setPromptText("Introduce Pais");
+                    txtFiltro.setVisible(true);
+                    break;
+                case "Ciudad":
+                    txtFiltro.setPromptText("Introduce Ciudad");
+                    txtFiltro.setVisible(true);
+                    break;
+                case "Metros":
+                    txtFiltro.setPromptText("Introduce Metros");
+                    txtFiltro.setVisible(true);
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void ocultarTodosLosFiltros() {
+        txtFiltro.setVisible(false);
+        txtFechaDesde.setVisible(false);
+        txtFechaHasta.setVisible(false);
+        txtFiltro.setVisible(false);
+        txtFiltro.setVisible(false);
+        txtFiltro.setVisible(false);
+    }
+
+    private void filtrarPorFecha() {
+        txtFechaDesde.setPromptText("Introduce Fecha Desde");
+        txtFechaHasta.setPromptText("Introduce Fecha Hasta");
+        LocalDate fechaDesde = txtFechaDesde.getValue();
+        LocalDate fechaHasta = txtFechaHasta.getValue();
+
+        if (fechaDesde != null && fechaHasta != null) {
+            // Lógica para filtrar la tabla de productos por fecha
+            System.out.println("Filtrar por fechas: Desde " + fechaDesde + " Hasta " + fechaHasta);
+        }
+    }
+
+    @FXML
+    private void buscarFiltro() {
+        String filtroSeleccionado = combo.getValue();
+
+        // Dependiendo del filtro seleccionado, recoger el valor adecuado
+        if (filtroSeleccionado != null) {
+            try {
+                switch (filtroSeleccionado) {
+                    case "ID":
+                        String idFiltro = txtFiltro.getText();
+                        if (!idFiltro.isEmpty()) {
+                            buscarPorId(idFiltro);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    case "Fecha":
+                        LocalDate fechaDesde = txtFechaDesde.getValue();
+                        LocalDate fechaHasta = txtFechaHasta.getValue();
+                        if (fechaDesde != null && fechaHasta != null) {
+                            buscarPorFecha(fechaDesde, fechaHasta);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay fechas, mostrar todos
+                        }
+                        break;
+
+                    case "País":
+                        String paisFiltro = txtFiltro.getText();
+                        if (!paisFiltro.isEmpty()) {
+                            buscarPorPais(paisFiltro);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    case "Ciudad":
+                        String ciudadFiltro = txtFiltro.getText();
+                        if (!ciudadFiltro.isEmpty()) {
+                            buscarPorCiudad(ciudadFiltro);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    case "Metros":
+                        String metrosFiltro = txtFiltro.getText();
+                        if (!metrosFiltro.isEmpty()) {
+                            try {
+                                int metros = Integer.parseInt(metrosFiltro);
+                                buscarPorMetros(metros);
+                            } catch (NumberFormatException e) {
+                                // Si el valor no es un número válido, mostrar un mensaje de error
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Valor incorrecto");
+                                alert.setContentText("Por favor, ingresa un valor numérico válido para los metros.");
+                                alert.showAndWait();
+                            }
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    default:
+                        mostrarAlmacenes(); // Si no hay filtro seleccionado, mostrar todos
+                        break;
+                }
+            } catch (Exception e) {
+                LOGGER.severe("Error al buscar almacén: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por ID.
+     */
+    private void buscarPorId(String id) {
+        try {
+            Almacen almacen = AlmacenFactoria.get().encontrar_XML(Almacen.class, id);
+            ObservableList<Almacen> resultado = FXCollections.observableArrayList(almacen);
+            almacenTableView.setItems(resultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacén por ID: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por fecha de adquisición.
+     */
+    private void buscarPorFecha(LocalDate fechaDesde, LocalDate fechaHasta) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> {
+                        LocalDate fecha = almacen.getFechaAdquisicion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        return !fecha.isBefore(fechaDesde) && !fecha.isAfter(fechaHasta);
+                    })
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por fecha: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por país.
+     */
+    private void buscarPorPais(String pais) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> almacen.getPais().toLowerCase().contains(pais.toLowerCase()))
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por país: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por ciudad.
+     */
+    private void buscarPorCiudad(String ciudad) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> almacen.getCiudad().toLowerCase().contains(ciudad.toLowerCase()))
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por ciudad: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por metros cuadrados.
+     */
+    private void buscarPorMetros(int metros) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> almacen.getMetrosCuadrados() == metros)
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por metros: " + e.getMessage());
+        }
+    }
 }

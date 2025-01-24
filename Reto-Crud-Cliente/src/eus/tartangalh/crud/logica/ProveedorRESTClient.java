@@ -66,7 +66,7 @@ public class ProveedorRESTClient implements ProveedorInterfaz {
     }
 
     @Override
-    public <T> T mostrarsProveedoresFecha_XML(Class<T> responseType, String fecha) throws ClientErrorException {
+    public <T> T mostrarsProveedoresFecha_XML(GenericType<T> responseType, String fecha) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("mostrarProveedoresPorFecha/{0}", new Object[]{fecha}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
