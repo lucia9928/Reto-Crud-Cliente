@@ -12,24 +12,24 @@
 <AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.ProveedorFXMLController">
    <children>
       <!-- TableView con fx:id -->
-      <TableView fx:id="tableView" layoutX="118.0" layoutY="145.0" prefHeight="447.0" prefWidth="1014.0">
+      <TableView fx:id="tableView" layoutX="91.0" layoutY="145.0" prefHeight="447.0" prefWidth="1107.0">
         <columns>
           <!-- Columnas con fx:id -->
-          <TableColumn fx:id="idProveedorColumna" prefWidth="101.0" text="idProveedor" />
-          <TableColumn fx:id="calleColumna" prefWidth="95.0" text="calle" />
-          <TableColumn fx:id="cifColumna" prefWidth="93.0" text="cif" />
-          <TableColumn fx:id="ciudadColumna" minWidth="0.0" prefWidth="142.39996337890625" text="ciudad" />
-          <TableColumn fx:id="codPostalColumna" prefWidth="132.79998779296875" text="codPostal" />
-          <TableColumn fx:id="fechaContratacionColumna" prefWidth="276.0" text="fechaContratacion" />
-          <TableColumn fx:id="nombreProveedorColumna" prefWidth="166.39996337890625" text="nombreProveedor" />
+          <TableColumn fx:id="idProveedorColumna" prefWidth="105.60001373291016" text="idProveedor" />
+          <TableColumn fx:id="calleColumna" prefWidth="147.20001220703125" text="calle" />
+          <TableColumn fx:id="cifColumna" prefWidth="115.19998168945312" text="cif" />
+          <TableColumn fx:id="ciudadColumna" minWidth="0.0" prefWidth="146.39999389648438" text="ciudad" />
+          <TableColumn fx:id="codPostalColumna" prefWidth="169.33343505859375" text="codPostal" />
+          <TableColumn fx:id="fechaContratacionColumna" prefWidth="224.26666259765625" text="fechaContratacion" />
+          <TableColumn fx:id="nombreProveedorColumna" prefWidth="186.4000244140625" text="nombreProveedor" />
         </columns>
       </TableView>
 
       <!-- TextField con fx:id -->
-      <TextField fx:id="searchField" layoutX="609.0" layoutY="86.0" />
+      <TextField fx:id="FieldNombreProveedor" layoutX="609.0" layoutY="86.0" />
       
       <!-- Botón con fx:id -->
-      <Button fx:id="searchButton" layoutX="907.0" layoutY="86.0" mnemonicParsing="false" text="Buscar" />
+      <Button fx:id="btnBuscar" layoutX="907.0" layoutY="86.0" mnemonicParsing="false" text="Buscar" />
       
       <!-- ComboBox con fx:id -->
       <ComboBox fx:id="filterComboBox" layoutX="299.0" layoutY="86.0" prefWidth="150.0" />
@@ -41,6 +41,6 @@
       <Label layoutX="175.0" layoutY="90.0" text="Orden" />
       <Button fx:id="btnBorrar" layoutX="360.0" layoutY="644.0" mnemonicParsing="false" text="Borrar datos" />
       <Button fx:id="btnAtras" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" text="Atras" />
-      <DatePicker layoutX="287.0" layoutY="38.0" />
+      <DatePicker fx:id="fechaFiltro" layoutX="287.0" layoutY="38.0" />
    </children>
 </AnchorPane>

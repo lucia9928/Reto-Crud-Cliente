@@ -8,6 +8,8 @@ package eus.tartangalh.crud.controladores;
 import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,9 +21,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
@@ -38,6 +42,10 @@ public class ProveedorFXMLController {
 
     private final ProveedorInterfaz proInterfaz = ProveedorFactoria.get();
 
+    @FXML
+    private TextField FieldNombreProveedor;
+    @FXML
+    private DatePicker fechaFiltro;
     @FXML
     private Button btnBuscar;
     @FXML
@@ -71,8 +79,10 @@ public class ProveedorFXMLController {
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
 
-    List<Proveedor> proveedores;
-    ObservableList<Proveedor> proveedoresData;
+    List<Proveedor> todosProveedores;
+    List<Proveedor> ProveedoresPorFecha;
+    ObservableList<Proveedor> todosProveedoresData;
+    ObservableList<Proveedor> ProveedoresPorFechaData;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -89,11 +99,13 @@ public class ProveedorFXMLController {
 
         tableView.setEditable(true);
 
-        mostrarProveedor();
+        // Establecer los datos en la tabla
+        tableView.setItems(mostrarProveedor());
 
         btnCrearFila.setVisible(true);
         btnCrearFila.setDisable(false);
         btnCrearFila.setOnAction(this::crearProveedor);
+        btnBuscar.setOnAction(this::buscarProveedor);
         btnBorrar.setDisable(true);
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
@@ -127,12 +139,43 @@ public class ProveedorFXMLController {
             Proveedor proveedor = event.getRowValue();
             proveedor.setCodPostal(event.getNewValue());
             proInterfaz.actualizarProveedor_XML(proveedor);
-            
 
         });
 
         fechaContratacionColumna.setCellValueFactory(new PropertyValueFactory<>("fechaContratacion"));
-        
+        fechaContratacionColumna.setCellFactory(event -> new TableCell<Proveedor, Date>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            {
+                datePicker.setOnAction(event -> {
+                    int rowIndex = getIndex();
+                    if (rowIndex >= 0 && rowIndex < tableView.getItems().size()) {
+                        Proveedor proveedor = tableView.getItems().get(rowIndex);
+                        // Convertir LocalDate a java.sql.Date
+                        LocalDate selectedDate = datePicker.getValue();
+                        if (selectedDate != null) {
+                            proveedor.setFechaContratacion(java.sql.Date.valueOf(selectedDate));
+                            proInterfaz.actualizarProveedor_XML(proveedor);
+                            tableView.refresh(); // Refrescar la tabla después de la actualización
+                        }
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null); // Si no hay valor, no mostramos nada
+                } else {
+                    // Convertir java.sql.Date a LocalDate sin usar toInstant()
+                    LocalDate localDate = new java.sql.Date(item.getTime()).toLocalDate();
+                    datePicker.setValue(localDate); // Establecer el valor en el DatePicker
+                    setGraphic(datePicker); // Mostrar el DatePicker en la celda
+                }
+            }
+        });
+
         nombreProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
         nombreProveedorColumna.setCellFactory(TextFieldTableCell.forTableColumn());
 
@@ -149,22 +192,32 @@ public class ProveedorFXMLController {
         try {
             Proveedor proveedor = new Proveedor();
             proInterfaz.crearProveedor_XML(proveedor);
-            mostrarProveedor();
+            tableView.setItems(mostrarProveedor());
 
         } catch (Exception e) {
             LOGGER.info("Da error en crear");
         }
     }
 
-    public void mostrarProveedor() {
-        proveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
+    public ObservableList<Proveedor> mostrarProveedor() {
+        todosProveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
         });
 
         // Convertir la lista de proveedores en ObservableList para la TableView
-        proveedoresData = FXCollections.observableArrayList(proveedores);
+        return todosProveedoresData = FXCollections.observableArrayList(todosProveedores);
 
-        // Establecer los datos en la tabla
-        tableView.setItems(proveedoresData);
+    }
+
+    public void buscarProveedor(ActionEvent event) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String fecha = fechaFiltro.getValue().format(formatter);
+
+        ProveedoresPorFecha = ProveedorFactoria.get().mostrarsProveedoresFecha_XML(new GenericType<List<Proveedor>>() {
+        }, fecha);
+
+        // Convertir la lista de proveedores en ObservableList para la TableView
+        ProveedoresPorFechaData = FXCollections.observableArrayList(ProveedoresPorFecha);
+        tableView.setItems(ProveedoresPorFechaData);
     }
 
     /*public void borrarProveedor(ActionEvent event) {
