@@ -26,6 +26,6 @@ public interface ProveedorInterfaz {
 
     public <T> T mostrarTodosProveedores_XML(GenericType<T> responseType);
 
-    public <T> T mostrarsProveedoresFecha_XML(Class<T> responseType, String fecha);
+    public <T> T mostrarsProveedoresFecha_XML(GenericType<T> responseType, String fecha);
 
 }
