@@ -56,22 +56,13 @@ public class AlmacenFXMLControlador {
     private ComboBox<String> combo;
 
     @FXML
-    private TextField txtCiudad;
+    private TextField txtFiltro;
 
     @FXML
-    private TextField txtPais;
+    private DatePicker txtFechaDesde;
 
     @FXML
-    private TextField txtMetros;
-
-    @FXML
-    private TextField txtId;
-
-    @FXML
-    private TextField txtFechaDesde;
-
-    @FXML
-    private TextField txtFechaHasta;
+    private DatePicker txtFechaHasta;
 
     private Stage stage;
 
@@ -102,7 +93,6 @@ public class AlmacenFXMLControlador {
         mostrarAlmacenes();
         configureTableEditable();
         ocultarTodosLosFiltros();
-        configurarPlaceHolders();
         listarFiltros();
     }
 
@@ -266,7 +256,8 @@ public class AlmacenFXMLControlador {
 
             switch (combo.getValue().toString()) {
                 case "ID":
-                    txtId.setVisible(true);
+                    txtFiltro.setVisible(true);
+                    txtFiltro.setPromptText("Introduce ID");
                     break;
                 case "Fecha":
                     txtFechaDesde.setVisible(true);
@@ -274,13 +265,16 @@ public class AlmacenFXMLControlador {
                     filtrarPorFecha();
                     break;
                 case "País":
-                    txtPais.setVisible(true);
+                    txtFiltro.setPromptText("Introduce Pais");
+                    txtFiltro.setVisible(true);
                     break;
                 case "Ciudad":
-                    txtCiudad.setVisible(true);
+                    txtFiltro.setPromptText("Introduce Ciudad");
+                    txtFiltro.setVisible(true);
                     break;
                 case "Metros":
-                    txtMetros.setVisible(true);
+                    txtFiltro.setPromptText("Introduce Metros");
+                    txtFiltro.setVisible(true);
                     break;
                 default:
                     break;
@@ -289,36 +283,23 @@ public class AlmacenFXMLControlador {
     }
 
     private void ocultarTodosLosFiltros() {
-        txtId.setVisible(false);
+        txtFiltro.setVisible(false);
         txtFechaDesde.setVisible(false);
         txtFechaHasta.setVisible(false);
-        txtPais.setVisible(false);
-        txtCiudad.setVisible(false);
-        txtMetros.setVisible(false);
-    }
-
-    private void configurarPlaceHolders() {
-        // Establecer el texto por defecto (placeholder)
-        txtId.setPromptText("Introduce ID");
-        txtFechaDesde.setPromptText("Introduce Fecha Desde");
-        txtFechaHasta.setPromptText("Introduce Fecha Hasta");
-        txtPais.setPromptText("Introduce País");
-        txtCiudad.setPromptText("Introduce Ciudad");
-        txtMetros.setPromptText("Introduce Metros");
+        txtFiltro.setVisible(false);
+        txtFiltro.setVisible(false);
+        txtFiltro.setVisible(false);
     }
 
     private void filtrarPorFecha() {
-        DatePicker datePicker = new DatePicker();
-        // Configurar el DatePicker para que actualice el TextField al seleccionar una fecha
-        datePicker.setOnAction(event -> {
-            LocalDate selectedDate = datePicker.getValue();
-            if (selectedDate != null) {
-                txtFechaDesde.setText(selectedDate.toString());  // Mostrar la fecha seleccionada en el TextField
-                Date fechaSeleccionada = Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        txtFechaDesde.setPromptText("Introduce Fecha Desde");
+        txtFechaHasta.setPromptText("Introduce Fecha Hasta");
+        LocalDate fechaDesde = txtFechaDesde.getValue();
+        LocalDate fechaHasta = txtFechaHasta.getValue();
 
-                // Aquí puedes añadir la lógica de filtro con la fecha seleccionada
-                System.out.println("Fecha seleccionada: " + fechaSeleccionada);
-            }
-        });
+        if (fechaDesde != null && fechaHasta != null) {
+            // Lógica para filtrar la tabla de productos por fecha
+            System.out.println("Filtrar por fechas: Desde " + fechaDesde + " Hasta " + fechaHasta);
+        }
     }
 }
