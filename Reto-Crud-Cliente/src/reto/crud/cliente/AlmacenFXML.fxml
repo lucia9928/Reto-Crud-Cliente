@@ -31,7 +31,7 @@
        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
      </rowConstraints>
       <children>
-         <ComboBox fx:id="combo" onShowing="#listarFiltros" prefWidth="150.0" promptText="Filtrar Por:" GridPane.rowIndex="1" />
+         <ComboBox fx:id="combo" prefWidth="150.0" promptText="Filtrar Por:" GridPane.rowIndex="1" />
          <TextField fx:id="txtId" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          <TextField fx:id="txtFechaDesde" GridPane.columnIndex="1" />
          <TextField fx:id="txtFechaHasta" GridPane.columnIndex="1" GridPane.rowIndex="2" />

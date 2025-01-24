@@ -103,6 +103,7 @@ public class AlmacenFXMLControlador {
         configureTableEditable();
         ocultarTodosLosFiltros();
         configurarPlaceHolders();
+        listarFiltros();
     }
 
     /**
@@ -136,12 +137,63 @@ public class AlmacenFXMLControlador {
             AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
 
+        // Configurar la columna metrosCuadrados para manejar Integer
+        // Configurar la columna metrosCuadrados para manejar Integer
         metrosCuadradosColumna.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         metrosCuadradosColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
             almacen.setMetrosCuadrados(event.getNewValue());
+            System.out.println(almacen.toString());
             AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
         });
+
+        // Fecha
+        fechaAdquisicionColumna.setCellFactory(col -> new TableCell<Almacen, Date>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null);  // No mostrar nada si la celda está vacía
+                } else {
+                    // Convertir java.sql.Date a LocalDate
+                    if (item != null) {
+                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
+                        datePicker.setValue(localDate);  // Establecer la fecha en el DatePicker
+                    }
+                    setGraphic(datePicker);  // Mostrar el DatePicker en la celda
+                }
+            }
+
+            @Override
+            public void commitEdit(Date newValue) {
+                super.commitEdit(newValue);
+                Almacen almacen = getTableView().getItems().get(getIndex());  // Obtener el objeto correspondiente
+
+                if (newValue != null) {
+                    almacen.setFechaAdquisicion(newValue); // Actualizar la fecha en el objeto almacen
+                }
+
+                System.out.println(almacen.toString());  // Mostrar los cambios en consola
+
+                // Llamar al servicio para actualizar el almacen
+                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            }
+
+            // Forzar el commit cuando se pierde el foco
+            {
+                datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
+                    if (!newFocus) {
+                        // Convertir LocalDate a java.util.Date
+                        Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        commitEdit(newDate);  // Ejecutar commit cuando el foco se pierde
+                    }
+                });
+            }
+        });
+
     }
 
     /**
@@ -198,7 +250,6 @@ public class AlmacenFXMLControlador {
         }
     }
 
-    @FXML
     private void listarFiltros() {
         ObservableList<String> opcionesFiltro = FXCollections.observableArrayList(
                 "ID",
@@ -211,6 +262,8 @@ public class AlmacenFXMLControlador {
         combo.setItems(opcionesFiltro);
 
         combo.setOnAction(event -> {
+            ocultarTodosLosFiltros();
+
             switch (combo.getValue().toString()) {
                 case "ID":
                     txtId.setVisible(true);
@@ -218,6 +271,7 @@ public class AlmacenFXMLControlador {
                 case "Fecha":
                     txtFechaDesde.setVisible(true);
                     txtFechaHasta.setVisible(true);
+                    filtrarPorFecha();
                     break;
                 case "País":
                     txtPais.setVisible(true);
@@ -251,5 +305,20 @@ public class AlmacenFXMLControlador {
         txtPais.setPromptText("Introduce País");
         txtCiudad.setPromptText("Introduce Ciudad");
         txtMetros.setPromptText("Introduce Metros");
+    }
+
+    private void filtrarPorFecha() {
+        DatePicker datePicker = new DatePicker();
+        // Configurar el DatePicker para que actualice el TextField al seleccionar una fecha
+        datePicker.setOnAction(event -> {
+            LocalDate selectedDate = datePicker.getValue();
+            if (selectedDate != null) {
+                txtFechaDesde.setText(selectedDate.toString());  // Mostrar la fecha seleccionada en el TextField
+                Date fechaSeleccionada = Date.from(selectedDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+                // Aquí puedes añadir la lógica de filtro con la fecha seleccionada
+                System.out.println("Fecha seleccionada: " + fechaSeleccionada);
+            }
+        });
     }
 }
