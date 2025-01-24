@@ -5,24 +5,22 @@
  */
 package eus.tartangalh.crud.controladores;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import reto.crud.cliente.RetoCrudCliente;
+import javafx.scene.Parent;
 
 /**
  * FXML Controller class
  *
- * @author 2dam
+ * @author 2dam-
  */
-public class RegistroFXMLControlador implements Initializable {
+public class RegistroFXMLControlador {
 
+    
     /**
      * Initializes the controller class.
+     * @param root
      */
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+  
+    public void initStage(Parent root) {
         // TODO
     }    
   
