@@ -18,6 +18,7 @@ import javax.ws.rs.core.GenericType;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.stream.Collectors;
 import javax.ws.rs.WebApplicationException;
 
 /**
@@ -300,6 +301,164 @@ public class AlmacenFXMLControlador {
         if (fechaDesde != null && fechaHasta != null) {
             // Lógica para filtrar la tabla de productos por fecha
             System.out.println("Filtrar por fechas: Desde " + fechaDesde + " Hasta " + fechaHasta);
+        }
+    }
+
+    @FXML
+    private void buscarFiltro() {
+        String filtroSeleccionado = combo.getValue();
+
+        // Dependiendo del filtro seleccionado, recoger el valor adecuado
+        if (filtroSeleccionado != null) {
+            try {
+                switch (filtroSeleccionado) {
+                    case "ID":
+                        String idFiltro = txtFiltro.getText();
+                        if (!idFiltro.isEmpty()) {
+                            buscarPorId(idFiltro);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    case "Fecha":
+                        LocalDate fechaDesde = txtFechaDesde.getValue();
+                        LocalDate fechaHasta = txtFechaHasta.getValue();
+                        if (fechaDesde != null && fechaHasta != null) {
+                            buscarPorFecha(fechaDesde, fechaHasta);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay fechas, mostrar todos
+                        }
+                        break;
+
+                    case "País":
+                        String paisFiltro = txtFiltro.getText();
+                        if (!paisFiltro.isEmpty()) {
+                            buscarPorPais(paisFiltro);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    case "Ciudad":
+                        String ciudadFiltro = txtFiltro.getText();
+                        if (!ciudadFiltro.isEmpty()) {
+                            buscarPorCiudad(ciudadFiltro);
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    case "Metros":
+                        String metrosFiltro = txtFiltro.getText();
+                        if (!metrosFiltro.isEmpty()) {
+                            try {
+                                int metros = Integer.parseInt(metrosFiltro);
+                                buscarPorMetros(metros);
+                            } catch (NumberFormatException e) {
+                                // Si el valor no es un número válido, mostrar un mensaje de error
+                                Alert alert = new Alert(Alert.AlertType.ERROR);
+                                alert.setTitle("Error");
+                                alert.setHeaderText("Valor incorrecto");
+                                alert.setContentText("Por favor, ingresa un valor numérico válido para los metros.");
+                                alert.showAndWait();
+                            }
+                        } else {
+                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                        }
+                        break;
+
+                    default:
+                        mostrarAlmacenes(); // Si no hay filtro seleccionado, mostrar todos
+                        break;
+                }
+            } catch (Exception e) {
+                LOGGER.severe("Error al buscar almacén: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por ID.
+     */
+    private void buscarPorId(String id) {
+        try {
+            Almacen almacen = AlmacenFactoria.get().encontrar_XML(Almacen.class, id);
+            ObservableList<Almacen> resultado = FXCollections.observableArrayList(almacen);
+            almacenTableView.setItems(resultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacén por ID: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por fecha de adquisición.
+     */
+    private void buscarPorFecha(LocalDate fechaDesde, LocalDate fechaHasta) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> {
+                        LocalDate fecha = almacen.getFechaAdquisicion().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        return !fecha.isBefore(fechaDesde) && !fecha.isAfter(fechaHasta);
+                    })
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por fecha: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por país.
+     */
+    private void buscarPorPais(String pais) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> almacen.getPais().toLowerCase().contains(pais.toLowerCase()))
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por país: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por ciudad.
+     */
+    private void buscarPorCiudad(String ciudad) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> almacen.getCiudad().toLowerCase().contains(ciudad.toLowerCase()))
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por ciudad: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Método para buscar almacenes por metros cuadrados.
+     */
+    private void buscarPorMetros(int metros) {
+        try {
+            List<Almacen> almacenes = AlmacenFactoria.get().findAll_XML(new GenericType<List<Almacen>>() {
+            });
+            List<Almacen> resultado = almacenes.stream()
+                    .filter(almacen -> almacen.getMetrosCuadrados() == metros)
+                    .collect(Collectors.toList());
+            ObservableList<Almacen> observableResultado = FXCollections.observableArrayList(resultado);
+            almacenTableView.setItems(observableResultado);
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacenes por metros: " + e.getMessage());
         }
     }
 }
