@@ -71,7 +71,7 @@
     <!-- Botones de acción -->
     <HBox spacing="10">
         <Button fx:id="addButton" text="Añadir línea" onAction="#handleAddRow"/>
-        <Button fx:id="deleteButton" text="Eliminar" />
+        <Button fx:id="deleteButton" text="Eliminar" onAction="#handleDeleteRow"/>
         <Button fx:id="confirmButton" text="Confirmar edición" onAction="#handleConfirmEdit" />
     </HBox>
 </VBox>

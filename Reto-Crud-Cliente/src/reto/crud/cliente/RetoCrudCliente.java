@@ -27,9 +27,9 @@ public class RetoCrudCliente extends javafx.application.Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ProductoFarmaceuticoUI.fxml"));
-        
+
         Parent root = loader.load();
                 
         ProductoFarmaceuticoUIController proveedor = (ProductoFarmaceuticoUIController) loader.getController();
