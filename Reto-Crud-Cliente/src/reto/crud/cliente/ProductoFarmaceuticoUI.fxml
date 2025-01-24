@@ -13,28 +13,36 @@
     </Label>
     
     <!-- Formulario de búsqueda -->
-    <GridPane hgap="10" vgap="10">
-        <padding>
-            <Insets top="10" right="10" bottom="10" left="10"/>
-        </padding>
-        <Label text="Desde:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <DatePicker fx:id="desdeDatePicker" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-        <Label text="Hasta:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-        <DatePicker fx:id="hastaDatePicker" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-        
-        <Label text="ID:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-        <TextField fx:id="idField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-        <Label text="Nombre:" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-        <TextField fx:id="nombreField" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-        
-        <Label text="Lote:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-        <TextField fx:id="loteField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-        <Label text="Categoría:" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-        <TextField fx:id="catField" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-        
-        <Button text="🔍" fx:id="searchButton" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+    <GridPane prefHeight="46.0" prefWidth="402.0" hgap="10" vgap="10">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints />
+            <RowConstraints />
+        </rowConstraints>
+        <children>
+            <!-- Filtro por tipo (ComboBox) -->
+            <ComboBox fx:id="combo" prefWidth="150.0" promptText="Filtrar Por:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+
+            <!-- Filtro por fechas -->
+            <DatePicker fx:id="txtFechaDesde" promptText="Desde" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+            <DatePicker fx:id="txtFechaHasta" promptText="Hasta" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+            <!-- Filtro por texto (ID, nombre, lote) -->
+            <TextField fx:id="txtFiltro" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+            <!-- Filtro por categoría -->
+            <ChoiceBox fx:id="catField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+        </children>
     </GridPane>
-    
+
     <!-- Tabla de productos -->
     <TableView fx:id="tableView">
         <columns>
@@ -46,11 +54,10 @@
             <TableColumn fx:id="categoriaColumn" text="Categoría"/>
         </columns>
     </TableView>
-    
+
     <!-- Botones de acción -->
     <HBox spacing="10">
-        <Button fx:id="addButton" text="Añadir línea" onAction="#handleAddRow"/>
-        <Button fx:id="deleteButton" text="Eliminar" onAction="#handleDeleteRow"/>
-        <Button fx:id="confirmButton" text="Confirmar edición" onAction="#handleConfirmEdit" />
+        <Button fx:id="addButton" text="Añadir línea" onAction="#añadirFila"/>
+        <Button fx:id="deleteButton" text="Eliminar" onAction="#borrarFila"/>
     </HBox>
 </VBox>

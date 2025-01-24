@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -45,19 +47,16 @@ public class ProductoFarmaceuticoUIController {
 
     @FXML
     private DatePicker hastaDatePicker;
+    @FXML
+    private DatePicker txtFechaDesde;
 
     @FXML
-    private TextField idField;
+    private DatePicker txtFechaHasta;
+    @FXML
+    private TextField txtFiltro;
 
     @FXML
-    private TextField nombreField;
-
-    @FXML
-    private TextField loteField;
-
-    @FXML
-    private TextField catField;
-
+    private ChoiceBox<CategoriaProducto> catField;
     @FXML
     private Button searchButton;
 
@@ -89,7 +88,7 @@ public class ProductoFarmaceuticoUIController {
     private Button deleteButton;
 
     @FXML
-    private Button confirmButton;
+    private ComboBox<String> combo;
 
     private Stage stage;
 
@@ -107,6 +106,10 @@ public class ProductoFarmaceuticoUIController {
         stage.show();
 
         configureTableColumns();
+        mostrarProductos();
+        configureTableEditable();
+        ocultarTodosLosFiltros();
+        listarFiltros();
 
         // Llamada al servicio para obtener los productos
         try {
@@ -129,7 +132,7 @@ public class ProductoFarmaceuticoUIController {
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
         caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("fechaCaducidad"));
-        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
         categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
     }
 
@@ -140,6 +143,13 @@ public class ProductoFarmaceuticoUIController {
         nombreColumn.setOnEditCommit(event -> {
             ProductoFarmaceutico producto = event.getRowValue();
             producto.setNombreProducto(event.getNewValue());
+            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+        });
+
+        descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        descripcionColumn.setOnEditCommit(event -> {
+            ProductoFarmaceutico producto = event.getRowValue();
+            producto.setDescription(event.getNewValue());
             ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
         });
 
@@ -191,9 +201,6 @@ public class ProductoFarmaceuticoUIController {
                 if (newValue != null) {
                     producto.setFechaCaducidad(newValue); // Actualizar la fecha en el objeto Producto
                 }
-
-                System.out.println(producto.toString());  // Mostrar los cambios en consola
-
                 // Llamar al servicio para actualizar el producto
                 ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
             }
@@ -213,53 +220,27 @@ public class ProductoFarmaceuticoUIController {
     }
 
     @FXML
-    private void handleAddRow() {
-        // Crear una fila vacía con valores por defecto o nulos
-        ProductoFarmaceutico nuevoProducto = new ProductoFarmaceutico();
-        nuevoProducto.setIdProducto(0); // ID por defecto
-        nuevoProducto.setNombreProducto("");
-        nuevoProducto.setLoteProducto("");
-        nuevoProducto.setFechaCaducidad(null);
-        nuevoProducto.setDescription("");
-        nuevoProducto.setCategoria(null);
-        nuevoProducto.setPrecio(0.0f);
-
-        // Obtener la lista observable de la tabla y añadir la nueva fila vacía
-        ObservableList<ProductoFarmaceutico> productos = tableView.getItems();
-        productos.add(nuevoProducto);
-
-        LOGGER.info("Nueva fila vacía añadida.");
+    private void añadirFila() {
+        try {
+            ProductoFarmaceutico producto = new ProductoFarmaceutico();
+            ProductoInterfazFactoria.get().crearProducto_XML(producto); // Crear el producto en la base de datos
+            mostrarProductos();
+        } catch (Exception e) {
+            LOGGER.severe("Error al crear producto farmacéutico: " + e.getMessage());
+        }
     }
 
+    /**
+     * Borra el producto farmacéutico seleccionado en la tabla.
+     */
     @FXML
-    private void handleConfirmEdit() {
-        tableView.getItems().forEach(producto -> {
-            // Validación simple para asegurar que los campos esenciales no estén vacíos
-            if (producto.getNombreProducto() == null || producto.getNombreProducto().isEmpty()
-                    || producto.getLoteProducto() == null || producto.getLoteProducto().isEmpty()
-                    || producto.getFechaCaducidad() == null
-                    || producto.getCategoria() == null
-                    || producto.getPrecio() == null || producto.getPrecio() <= 0) {
-
-                LOGGER.warning("Fila con datos incompletos o inválidos: " + producto);
-            } else {
-                LOGGER.info("Producto guardado: " + producto);
-                // Aquí puedes agregar la lógica para guardar en la base de datos si es necesario
-                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-            }
-        });
-    }
-
-    @FXML
-    private void handleDeleteRow() {
+    private void borrarFila() {
         ProductoFarmaceutico productoSeleccionado = tableView.getSelectionModel().getSelectedItem();
-
         if (productoSeleccionado != null) {
             Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
             confirmacion.setTitle("Confirmar eliminación");
             confirmacion.setHeaderText("Eliminar producto");
-            confirmacion.setContentText("¿Estás seguro de que deseas eliminar el producto con ID: "
-                    + productoSeleccionado.getIdProducto() + "?");
+            confirmacion.setContentText("¿Estás seguro de que deseas eliminar el producto con ID: " + productoSeleccionado.getIdProducto() + "?");
 
             confirmacion.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
@@ -269,20 +250,79 @@ public class ProductoFarmaceuticoUIController {
                         LOGGER.info("Producto eliminado correctamente.");
                     } catch (WebApplicationException e) {
                         LOGGER.severe("Error al eliminar el producto: " + e.getMessage());
-                        Alert error = new Alert(Alert.AlertType.ERROR);
-                        error.setTitle("Error");
-                        error.setHeaderText("Error al eliminar producto");
-                        error.setContentText("No se pudo eliminar el producto. Por favor, inténtelo de nuevo.");
-                        error.show();
                     }
                 }
             });
-        } else {
-            Alert warning = new Alert(Alert.AlertType.WARNING);
-            warning.setTitle("Advertencia");
-            warning.setHeaderText("Ninguna fila seleccionada");
-            warning.setContentText("Por favor, seleccione un producto para eliminar.");
-            warning.show();
         }
+    }
+
+    /**
+     * Obtiene y muestra los productos farmacéuticos desde la base de datos.
+     */
+    private void mostrarProductos() {
+        try {
+            List<ProductoFarmaceutico> productosEncontrados = ProductoInterfazFactoria.get().encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
+            });
+            ObservableList<ProductoFarmaceutico> productos = FXCollections.observableArrayList(productosEncontrados);
+            tableView.setItems(productos);
+        } catch (Exception e) {
+            LOGGER.severe("Error al cargar los productos farmacéuticos: " + e.getMessage());
+        }
+    }
+
+    private void listarFiltros() {
+        ObservableList<String> opcionesFiltro = FXCollections.observableArrayList(
+                "ID",
+                "Fecha de caducidad",
+                "Categoría",
+                "Nombre",
+                "Lote"
+        );
+
+        combo.setItems(opcionesFiltro);
+
+        combo.setOnAction(event -> {
+            ocultarTodosLosFiltros();
+
+            switch (combo.getValue().toString()) {
+                case "ID":
+                    txtFiltro.setVisible(true);
+                    txtFiltro.setPromptText("Introduce ID");
+                    break;
+                case "Fecha de caducidad":
+                    txtFechaDesde.setVisible(true);
+                    txtFechaDesde.setPromptText("Introduce Fecha Hasta");
+                    txtFechaHasta.setVisible(true);
+                    txtFechaHasta.setPromptText("Introduce Fecha Desde");
+                    break;
+                case "Categoría":
+                    catField.setVisible(true);
+                    catField.setItems(FXCollections.observableArrayList(CategoriaProducto.values()));
+                    break;
+                case "Nombre":
+                    txtFiltro.setVisible(true);
+                    txtFiltro.setPromptText("Introduce Nombre");
+                    break;
+                case "Lote":
+                    txtFiltro.setVisible(true);
+                    txtFiltro.setPromptText("Introduce Lote");
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
+    private void ocultarTodosLosFiltros() {
+        txtFiltro.setVisible(false);
+        txtFechaDesde.setVisible(false);
+        txtFechaHasta.setVisible(false);
+        catField.setVisible(false);
+        txtFiltro.setVisible(false);
+        txtFiltro.setVisible(false);
+    }
+
+    private void filtrarPorFecha() {
+        // Aquí puedes implementar la lógica para filtrar por fecha si es necesario
     }
 }
