@@ -18,7 +18,12 @@ import javax.ws.rs.core.GenericType;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import javafx.event.EventHandler;
+import javafx.scene.image.Image;
+import javafx.stage.Modality;
+import javafx.stage.WindowEvent;
 import javax.ws.rs.WebApplicationException;
 
 /**
@@ -86,9 +91,24 @@ public class AlmacenFXMLControlador {
     public void initStage(Parent root) {
         LOGGER.info("Inicializando controlador de almacen");
 
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1366, 768);
+
+        scene.getStylesheets().add(getClass().getResource("/recursos/EstiloAlmacen.css").toExternalForm());
+        stage.getIcons().add(new Image("recursos/iconoFarmacia.png"));
+        stage.setTitle("Gestion de almacenes");
+        stage.setResizable(false);
+        //stage.initModality(Modality.APPLICATION_MODAL);
+
         stage.setScene(scene);
         stage.show();
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();  // Consumir el evento para manejarlo manualmente
+                manejoCierre();
+            }
+        });
 
         configurarColumnasTabla();
         mostrarAlmacenes();
@@ -378,6 +398,11 @@ public class AlmacenFXMLControlador {
         }
     }
 
+    @FXML
+    private void recargarTabla() {
+        mostrarAlmacenes();
+    }
+
     /**
      * Método para buscar almacenes por ID.
      */
@@ -459,6 +484,19 @@ public class AlmacenFXMLControlador {
             almacenTableView.setItems(observableResultado);
         } catch (Exception e) {
             LOGGER.severe("Error al buscar almacenes por metros: " + e.getMessage());
+        }
+    }
+
+    private void manejoCierre() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea cerrar la aplicación?");
+        alert.setContentText("Todos los cambios no guardados se perderán.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Stage stage = (Stage) añadirBtn.getScene().getWindow();
+            stage.close();
         }
     }
 }

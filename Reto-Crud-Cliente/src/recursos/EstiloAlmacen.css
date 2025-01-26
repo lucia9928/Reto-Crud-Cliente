@@ -1,0 +1,64 @@
+/* Estilo para la ventana principal */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f4f4f4;
+}
+
+/* Estilo para la tabla */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+}
+
+.table-column {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14px;
+    -fx-border-color: #ddd;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #e8f4ff;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+
+/* Estilo para las filas seleccionadas */
+.table-row-cell:selected {
+    -fx-background-color: #2196F3;  /* Cambia el color de fondo de la fila seleccionada */
+    -fx-text-fill: #000000;  /* Asegura que el texto no sea blanco */
+}
+
+/* Estilo para los botones */
+.button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #1976D2;
+}
+
+/* Estilo para los campos de texto */
+.text-field, .combo-box, .date-picker {
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+#idTitulo {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2196F3;  
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+
+
+
