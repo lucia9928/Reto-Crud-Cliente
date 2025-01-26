@@ -1,0 +1,160 @@
+/* Estilo para la ventana principal */
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #f4f4f4;
+}
+
+/* Estilo para la tabla */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #cccccc;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+/* Estilo de las columnas de la tabla */
+.table-column {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14px;
+    -fx-border-color: #ddd;
+}
+
+/* Estilo para las filas de la tabla (alternando colores) */
+.table-row-cell:even {
+    -fx-background-color: #e8f4ff;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #ffffff;
+}
+
+/* Estilo para las filas seleccionadas */
+.table-row-cell:selected {
+    -fx-background-color: #2196F3;  /* Cambia el color de fondo de la fila seleccionada */
+    -fx-text-fill: #ffffff;  /* Asegura que el texto sea blanco */
+}
+
+/* Estilo de los botones */
+.button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #1976D2;
+}
+
+/* Estilo de los botones de acción específicos */
+#addButton, #deleteButton, #btnImprimir {
+    -fx-background-color: #4CAF50; /* Botón verde para añadir */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+#addButton:hover, #deleteButton:hover, #btnImprimir:hover {
+    -fx-background-color: #388E3C;
+}
+
+/* Estilo para los campos de texto (filtros) */
+.text-field, .combo-box, .choice-box, .date-picker {
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+/* Estilo para los formularios de filtros */
+#txtFiltro, #combo, #txtFechaDesde, #txtFechaHasta, #catField {
+    -fx-background-color: white;
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+/* Estilo para el GridPane del formulario de búsqueda */
+.GridPane {
+    -fx-background-color: #ffffff;
+    -fx-border-radius: 5px;
+    -fx-border-color: #cccccc;
+    -fx-padding: 10px;
+}
+
+/* Estilo para los labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Estilo para el ComboBox y ChoiceBox */
+.combo-box, .choice-box {
+    -fx-background-color: white;
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Estilo para el VBox (contenedor de la tabla y botones) */
+.VBox {
+    -fx-padding: 20px;
+}
+
+/* Estilo para los botones dentro del VBox */
+#searchButton {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+}
+
+#searchButton:hover {
+    -fx-background-color: #1976D2;
+}
+
+/* Estilo para la fila de botones Añadir y Eliminar */
+.HBox {
+    -fx-spacing: 10px;
+    -fx-alignment: center;
+}
+
+/* Estilo del contenedor de la tabla */
+.TableView {
+    -fx-border-radius: 10px;
+}
+
+/* Estilo para los márgenes */
+.VBox.margin {
+    -fx-padding: 10px;
+}
+
+/* Estilo para los filtros de fechas */
+.date-picker {
+    -fx-font-size: 14px;
+    -fx-padding: 5px;
+    -fx-border-color: #2196F3;
+    -fx-border-radius: 5px;
+}
+
+/* Estilo para los textos de las celdas */
+.table-view .table-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+/* Estilo para el título del formulario (si existe) */
+#idTitulo {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2196F3;
+    -fx-font-family: "Roboto", sans-serif;
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}

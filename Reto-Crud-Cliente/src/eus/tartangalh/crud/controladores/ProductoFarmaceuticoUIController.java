@@ -12,10 +12,12 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,7 +34,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -100,12 +104,22 @@ public class ProductoFarmaceuticoUIController {
         LOGGER.info("Inicializando controlador de producto farmacéutico");
 
         Scene scene = new Scene(root);
+        stage.getIcons().add(new Image("recursos/iconoFarmacia.png"));
+        stage.setTitle("GESTION PRODUCTOS FARMACEUTICOS");
         stage.setScene(scene);
         stage.show();
 
-        configureTableColumns();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();  // Consumir el evento para manejarlo manualmente
+                manejoCierre();
+            }
+        });
+
+        configurarColumnasTabla();
         mostrarProductos();
-        configureTableEditable();
+        configurarTablaEditable();
         ocultarTodosLosFiltros();
         listarFiltros();
 
@@ -122,7 +136,7 @@ public class ProductoFarmaceuticoUIController {
         }
     }
 
-    private void configureTableColumns() {
+    private void configurarColumnasTabla() {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
@@ -131,98 +145,98 @@ public class ProductoFarmaceuticoUIController {
         categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
     }
 
-private void configureTableEditable() {
-    tableView.setEditable(true);
+    private void configurarTablaEditable() {
+        tableView.setEditable(true);
 
-    // Configurar columna para Nombre
-    nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-    nombreColumn.setOnEditCommit(event -> {
-        ProductoFarmaceutico producto = event.getRowValue();
-        producto.setNombreProducto(event.getNewValue());
-        ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-    });
-
-    // Configurar columna para Descripción
-    descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-    descripcionColumn.setOnEditCommit(event -> {
-        ProductoFarmaceutico producto = event.getRowValue();
-        producto.setDescription(event.getNewValue());
-        ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-    });
-
-    // Configurar columna para Lote
-    loteColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-    loteColumn.setOnEditCommit(event -> {
-        ProductoFarmaceutico producto = event.getRowValue();
-        producto.setLoteProducto(event.getNewValue());
-        ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-    });
-
-    // Configurar columna para Fecha de Caducidad con auto-guardado al perder el foco
-    caducidadColumn.setCellFactory(col -> new TableCell<ProductoFarmaceutico, Date>() {
-        private final DatePicker datePicker = new DatePicker();
-
-        @Override
-        protected void updateItem(Date item, boolean empty) {
-            super.updateItem(item, empty);
-
-            if (empty) {
-                setGraphic(null); // No mostrar nada si la celda está vacía
-            } else {
-                if (item != null) {
-                    LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
-                    datePicker.setValue(localDate); // Establecer el valor actual en el DatePicker
-                }
-                setGraphic(datePicker); // Mostrar el DatePicker en la celda
-            }
-        }
-
-        @Override
-        public void commitEdit(Date newValue) {
-            super.commitEdit(newValue);
-            ProductoFarmaceutico producto = getTableView().getItems().get(getIndex()); // Obtener el producto correspondiente
-
-            if (newValue != null) {
-                producto.setFechaCaducidad(newValue); // Actualizar el valor de fecha en el objeto
-            }
-
-            // Llamar al servicio para actualizar la base de datos
-            try {
-                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-                LOGGER.info("Producto actualizado correctamente: " + producto.toString());
-            } catch (Exception e) {
-                LOGGER.severe("Error al actualizar producto: " + e.getMessage());
-            }
-        }
-
-        // Forzar el commit cuando el DatePicker pierde el foco
-        {
-            datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
-                if (!newFocus) {
-                    if (datePicker.getValue() != null) {
-                        // Convertir LocalDate a java.util.Date
-                        Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        commitEdit(newDate); // Guardar los cambios al perder el foco
-                    }
-                }
-            });
-        }
-    });
-
-    // Configurar columna para Categoría
-    categoriaColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(
-            FXCollections.observableArrayList(CategoriaProducto.values())
-    ));
-    categoriaColumn.setOnEditCommit(event -> {
-        ProductoFarmaceutico producto = event.getRowValue();
-        try {
-            producto.setCategoria(event.getNewValue());
+        // Configurar columna para Nombre
+        nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        nombreColumn.setOnEditCommit(event -> {
+            ProductoFarmaceutico producto = event.getRowValue();
+            producto.setNombreProducto(event.getNewValue());
             ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-        } catch (Exception e) {
-            LOGGER.warning("Error al actualizar categoría: " + e.getMessage());
-        }
-    });
-}
+        });
+
+        // Configurar columna para Descripción
+        descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        descripcionColumn.setOnEditCommit(event -> {
+            ProductoFarmaceutico producto = event.getRowValue();
+            producto.setDescription(event.getNewValue());
+            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+        });
+
+        // Configurar columna para Lote
+        loteColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+        loteColumn.setOnEditCommit(event -> {
+            ProductoFarmaceutico producto = event.getRowValue();
+            producto.setLoteProducto(event.getNewValue());
+            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+        });
+
+        // Configurar columna para Fecha de Caducidad con auto-guardado al perder el foco
+        caducidadColumn.setCellFactory(col -> new TableCell<ProductoFarmaceutico, Date>() {
+            private final DatePicker datePicker = new DatePicker();
+
+            @Override
+            protected void updateItem(Date item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty) {
+                    setGraphic(null); // No mostrar nada si la celda está vacía
+                } else {
+                    if (item != null) {
+                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
+                        datePicker.setValue(localDate); // Establecer el valor actual en el DatePicker
+                    }
+                    setGraphic(datePicker); // Mostrar el DatePicker en la celda
+                }
+            }
+
+            @Override
+            public void commitEdit(Date newValue) {
+                super.commitEdit(newValue);
+                ProductoFarmaceutico producto = getTableView().getItems().get(getIndex()); // Obtener el producto correspondiente
+
+                if (newValue != null) {
+                    producto.setFechaCaducidad(newValue); // Actualizar el valor de fecha en el objeto
+                }
+
+                // Llamar al servicio para actualizar la base de datos
+                try {
+                    ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+                    LOGGER.info("Producto actualizado correctamente: " + producto.toString());
+                } catch (Exception e) {
+                    LOGGER.severe("Error al actualizar producto: " + e.getMessage());
+                }
+            }
+
+            // Forzar el commit cuando el DatePicker pierde el foco
+            {
+                datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
+                    if (!newFocus) {
+                        if (datePicker.getValue() != null) {
+                            // Convertir LocalDate a java.util.Date
+                            Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                            commitEdit(newDate); // Guardar los cambios al perder el foco
+                        }
+                    }
+                });
+            }
+        });
+
+        // Configurar columna para Categoría
+        categoriaColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(
+                FXCollections.observableArrayList(CategoriaProducto.values())
+        ));
+        categoriaColumn.setOnEditCommit(event -> {
+            ProductoFarmaceutico producto = event.getRowValue();
+            try {
+                producto.setCategoria(event.getNewValue());
+                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            } catch (Exception e) {
+                LOGGER.warning("Error al actualizar categoría: " + e.getMessage());
+            }
+        });
+    }
 
     @FXML
     private void añadirFila() {
@@ -358,33 +372,33 @@ private void configureTableEditable() {
         }
     }
 
-private void handleFechaFilter() {
-    LocalDate fechaDesde = txtFechaDesde.getValue();
-    LocalDate fechaHasta = txtFechaHasta.getValue();
+    private void handleFechaFilter() {
+        LocalDate fechaDesde = txtFechaDesde.getValue();
+        LocalDate fechaHasta = txtFechaHasta.getValue();
 
-    // Validar que ambas fechas sean proporcionadas
-    if (fechaDesde == null || fechaHasta == null) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Fechas no válidas");
-        alert.setHeaderText(null);
-        alert.setContentText("Por favor, selecciona ambas fechas: Fecha Desde y Fecha Hasta.");
-        alert.showAndWait();
-        return;
+        // Validar que ambas fechas sean proporcionadas
+        if (fechaDesde == null || fechaHasta == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Fechas no válidas");
+            alert.setHeaderText(null);
+            alert.setContentText("Por favor, selecciona ambas fechas: Fecha Desde y Fecha Hasta.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Validar que la fecha "Desde" no sea posterior a la fecha "Hasta"
+        if (fechaDesde.isAfter(fechaHasta)) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Rango de fechas inválido");
+            alert.setHeaderText(null);
+            alert.setContentText("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Realizar la búsqueda por rango de fechas
+        buscarPorFecha(fechaDesde, fechaHasta);
     }
-
-    // Validar que la fecha "Desde" no sea posterior a la fecha "Hasta"
-    if (fechaDesde.isAfter(fechaHasta)) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Rango de fechas inválido");
-        alert.setHeaderText(null);
-        alert.setContentText("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
-        alert.showAndWait();
-        return;
-    }
-
-    // Realizar la búsqueda por rango de fechas
-    buscarPorFecha(fechaDesde, fechaHasta);
-}
 
     private void handleCategoriaFilter() {
         CategoriaProducto categoria = catField.getValue();
@@ -475,6 +489,11 @@ private void handleFechaFilter() {
         }
     }
 
+    @FXML
+    private void recargarTabla() {
+        mostrarProductos();
+    }
+
     private void buscarPorLote(String lote) {
         try {
             List<ProductoFarmaceutico> productos = ProductoInterfazFactoria.get().encontrarTodos_XML(
@@ -486,6 +505,19 @@ private void handleFechaFilter() {
             tableView.setItems(FXCollections.observableArrayList(filtrados));
         } catch (Exception e) {
             LOGGER.severe("Error al buscar por lote: " + e.getMessage());
+        }
+    }
+
+    private void manejoCierre() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea cerrar la aplicación?");
+        alert.setContentText("Todos los cambios no guardados se perderán.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Stage stage = (Stage) addButton.getScene().getWindow();
+            stage.close();
         }
     }
 }

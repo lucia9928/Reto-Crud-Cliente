@@ -7,24 +7,38 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="Pane" prefHeight="620.0" prefWidth="600.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.InicioSesionFXMLControlador">
+<AnchorPane id="Pane" prefHeight="620.0" prefWidth="568.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.InicioSesionFXMLControlador">
     <children>
-        <!-- Imagen del logotipo -->
-        <ImageView fx:id="imgLogo" fitHeight="100.0" fitWidth="200.0" layoutX="268.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
-    <image>
-        <Image url="recursos/logo.png" />
-    </image>
-</ImageView>
-        <!-- Campos del formulario -->
-        <Label fx:id="lblEmail" layoutX="155.0" layoutY="154.0" prefHeight="18.0" prefWidth="50.0" text="EMAIL" />
-        <TextField fx:id="textEmail" layoutX="259.0" layoutY="148.0" prefHeight="32.0" prefWidth="198.0" />
-        <Label fx:id="lblContrasena" layoutX="155.0" layoutY="211.0" text="CONTRASEÑA" />
-      <PasswordField fx:id="pswContrasena" layoutX="258.0" layoutY="206.0" prefHeight="31.0" prefWidth="198.0" stylesheets="@../../../recursos/EstiloLogin.css" />
-        <Button fx:id="btnIniciarSesion" layoutX="309.0" layoutY="297.0" mnemonicParsing="false" text="Iniciar sesión" />
-        <Label fx:id="lblNoTienesCuenta" layoutX="110.0" layoutY="350.0" text="¿No tienes cuenta? Regístrate" />
-        <Button fx:id="btnRegistrate" layoutX="308.0" layoutY="342.0" mnemonicParsing="false" onAction="#irARegistrar" prefHeight="32.0" prefWidth="118.0" text="Registrarse" />
-        <Label fx:id="lblOlvidasteLaContrasena" layoutX="122.0" layoutY="396.0" text="¿Olvidaste tu contraseña?" />
-        <Button fx:id="btnReestablecerContrasena" layoutX="294.0" layoutY="388.0" mnemonicParsing="false" text="Restablecer contraseña" />
+        <!-- Contenedor principal para centrar el contenido -->
+        <VBox alignment="CENTER" layoutX="150.0" layoutY="100.0" spacing="20">
+            <!-- Imagen del logotipo -->
+            <ImageView fx:id="imgLogo" fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="@../../../recursos/logo.png" />
+                </image>
+            </ImageView>
+
+            <!-- Campos del formulario -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label fx:id="lblEmail" text="EMAIL" />
+                <TextField fx:id="textEmail" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu correo" />
+
+                <Label fx:id="lblContrasena" text="CONTRASEÑA" />
+                <PasswordField fx:id="pswContrasena" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu contraseña" />
+            </VBox>
+
+            <!-- Botón de iniciar sesión -->
+            <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" />
+
+            <!-- Enlaces debajo del botón -->
+            <VBox alignment="CENTER" spacing="10">
+                <Label fx:id="lblNoTienesCuenta" text="¿No tienes cuenta? Regístrate" />
+                <Button fx:id="btnRegistrate" onAction="#irARegistrar" prefHeight="35.0" prefWidth="250.0" styleClass="btn-secondary" text="Registrarse" />
+                <Label fx:id="lblOlvidasteLaContrasena" text="¿Olvidaste tu contraseña?" />
+                <Button fx:id="btnReestablecerContrasena" prefHeight="35.0" prefWidth="250.0" text="Restablecer contraseña" />
+            </VBox>
+        </VBox>
     </children>
 </AnchorPane>
