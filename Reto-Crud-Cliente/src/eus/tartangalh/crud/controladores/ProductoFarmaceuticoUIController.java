@@ -13,6 +13,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -43,20 +44,17 @@ import javax.ws.rs.core.GenericType;
 public class ProductoFarmaceuticoUIController {
 
     @FXML
-    private DatePicker desdeDatePicker;
-
-    @FXML
-    private DatePicker hastaDatePicker;
-    @FXML
     private DatePicker txtFechaDesde;
 
     @FXML
     private DatePicker txtFechaHasta;
+
     @FXML
     private TextField txtFiltro;
 
     @FXML
     private ChoiceBox<CategoriaProducto> catField;
+
     @FXML
     private Button searchButton;
 
@@ -99,7 +97,7 @@ public class ProductoFarmaceuticoUIController {
     }
 
     public void initStage(Parent root) {
-        LOGGER.info("Inicializando controlador de producto farmaceutico");
+        LOGGER.info("Inicializando controlador de producto farmacéutico");
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -111,7 +109,6 @@ public class ProductoFarmaceuticoUIController {
         ocultarTodosLosFiltros();
         listarFiltros();
 
-        // Llamada al servicio para obtener los productos
         try {
             List<ProductoFarmaceutico> productosRecibidos = ProductoInterfazFactoria.get()
                     .encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
@@ -119,8 +116,6 @@ public class ProductoFarmaceuticoUIController {
 
             ObservableList<ProductoFarmaceutico> productos = FXCollections.observableArrayList(productosRecibidos);
             tableView.setItems(productos);
-            configureTableEditable();
-
         } catch (Exception e) {
             LOGGER.severe("Error al cargar los productos: " + e.getMessage());
             e.printStackTrace();
@@ -132,107 +127,114 @@ public class ProductoFarmaceuticoUIController {
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
         caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("fechaCaducidad"));
-        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("Description"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
         categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
     }
 
-    private void configureTableEditable() {
-        tableView.setEditable(true);
+private void configureTableEditable() {
+    tableView.setEditable(true);
 
-        nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        nombreColumn.setOnEditCommit(event -> {
-            ProductoFarmaceutico producto = event.getRowValue();
-            producto.setNombreProducto(event.getNewValue());
-            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-        });
+    // Configurar columna para Nombre
+    nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+    nombreColumn.setOnEditCommit(event -> {
+        ProductoFarmaceutico producto = event.getRowValue();
+        producto.setNombreProducto(event.getNewValue());
+        ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+    });
 
-        descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        descripcionColumn.setOnEditCommit(event -> {
-            ProductoFarmaceutico producto = event.getRowValue();
-            producto.setDescription(event.getNewValue());
-            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-        });
+    // Configurar columna para Descripción
+    descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+    descripcionColumn.setOnEditCommit(event -> {
+        ProductoFarmaceutico producto = event.getRowValue();
+        producto.setDescription(event.getNewValue());
+        ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+    });
 
-        loteColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        loteColumn.setOnEditCommit(event -> {
-            ProductoFarmaceutico producto = event.getRowValue();
-            producto.setLoteProducto(event.getNewValue());
-            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-        });
+    // Configurar columna para Lote
+    loteColumn.setCellFactory(TextFieldTableCell.forTableColumn());
+    loteColumn.setOnEditCommit(event -> {
+        ProductoFarmaceutico producto = event.getRowValue();
+        producto.setLoteProducto(event.getNewValue());
+        ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+    });
 
-        categoriaColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(
-                FXCollections.observableArrayList(CategoriaProducto.values())
-        ));
-        categoriaColumn.setOnEditCommit(event -> {
-            ProductoFarmaceutico producto = event.getRowValue();
+    // Configurar columna para Fecha de Caducidad con auto-guardado al perder el foco
+    caducidadColumn.setCellFactory(col -> new TableCell<ProductoFarmaceutico, Date>() {
+        private final DatePicker datePicker = new DatePicker();
+
+        @Override
+        protected void updateItem(Date item, boolean empty) {
+            super.updateItem(item, empty);
+
+            if (empty) {
+                setGraphic(null); // No mostrar nada si la celda está vacía
+            } else {
+                if (item != null) {
+                    LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
+                    datePicker.setValue(localDate); // Establecer el valor actual en el DatePicker
+                }
+                setGraphic(datePicker); // Mostrar el DatePicker en la celda
+            }
+        }
+
+        @Override
+        public void commitEdit(Date newValue) {
+            super.commitEdit(newValue);
+            ProductoFarmaceutico producto = getTableView().getItems().get(getIndex()); // Obtener el producto correspondiente
+
+            if (newValue != null) {
+                producto.setFechaCaducidad(newValue); // Actualizar el valor de fecha en el objeto
+            }
+
+            // Llamar al servicio para actualizar la base de datos
             try {
-                CategoriaProducto nuevaCategoria = event.getNewValue();
-                producto.setCategoria(nuevaCategoria);
                 ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+                LOGGER.info("Producto actualizado correctamente: " + producto.toString());
             } catch (Exception e) {
-                LOGGER.warning("Error al actualizar categoría: " + e.getMessage());
+                LOGGER.severe("Error al actualizar producto: " + e.getMessage());
             }
-        });
+        }
 
-        caducidadColumn.setCellFactory(col -> new TableCell<ProductoFarmaceutico, Date>() {
-            private final DatePicker datePicker = new DatePicker();
-
-            @Override
-            protected void updateItem(Date item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty) {
-                    setGraphic(null);  // No mostrar nada si la celda está vacía
-                } else {
-                    // Convertir java.sql.Date a LocalDate
-                    if (item != null) {
-                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
-                        datePicker.setValue(localDate);  // Establecer la fecha en el DatePicker
-                    }
-                    setGraphic(datePicker);  // Mostrar el DatePicker en la celda
-                }
-            }
-
-            @Override
-            public void commitEdit(Date newValue) {
-                super.commitEdit(newValue);
-                ProductoFarmaceutico producto = getTableView().getItems().get(getIndex());  // Obtener el objeto correspondiente
-
-                if (newValue != null) {
-                    producto.setFechaCaducidad(newValue); // Actualizar la fecha en el objeto Producto
-                }
-                // Llamar al servicio para actualizar el producto
-                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-            }
-
-            // Forzar el commit cuando se pierde el foco
-            {
-                datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
-                    if (!newFocus) {
+        // Forzar el commit cuando el DatePicker pierde el foco
+        {
+            datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
+                if (!newFocus) {
+                    if (datePicker.getValue() != null) {
                         // Convertir LocalDate a java.util.Date
                         Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        commitEdit(newDate);  // Ejecutar commit cuando el foco se pierde
+                        commitEdit(newDate); // Guardar los cambios al perder el foco
                     }
-                });
-            }
-        });
+                }
+            });
+        }
+    });
 
-    }
+    // Configurar columna para Categoría
+    categoriaColumn.setCellFactory(ChoiceBoxTableCell.forTableColumn(
+            FXCollections.observableArrayList(CategoriaProducto.values())
+    ));
+    categoriaColumn.setOnEditCommit(event -> {
+        ProductoFarmaceutico producto = event.getRowValue();
+        try {
+            producto.setCategoria(event.getNewValue());
+            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+        } catch (Exception e) {
+            LOGGER.warning("Error al actualizar categoría: " + e.getMessage());
+        }
+    });
+}
 
     @FXML
     private void añadirFila() {
         try {
             ProductoFarmaceutico producto = new ProductoFarmaceutico();
-            ProductoInterfazFactoria.get().crearProducto_XML(producto); // Crear el producto en la base de datos
+            ProductoInterfazFactoria.get().crearProducto_XML(producto);
             mostrarProductos();
         } catch (Exception e) {
             LOGGER.severe("Error al crear producto farmacéutico: " + e.getMessage());
         }
     }
 
-    /**
-     * Borra el producto farmacéutico seleccionado en la tabla.
-     */
     @FXML
     private void borrarFila() {
         ProductoFarmaceutico productoSeleccionado = tableView.getSelectionModel().getSelectedItem();
@@ -256,9 +258,6 @@ public class ProductoFarmaceuticoUIController {
         }
     }
 
-    /**
-     * Obtiene y muestra los productos farmacéuticos desde la base de datos.
-     */
     private void mostrarProductos() {
         try {
             List<ProductoFarmaceutico> productosEncontrados = ProductoInterfazFactoria.get().encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
@@ -272,43 +271,33 @@ public class ProductoFarmaceuticoUIController {
 
     private void listarFiltros() {
         ObservableList<String> opcionesFiltro = FXCollections.observableArrayList(
-                "ID",
-                "Fecha de caducidad",
-                "Categoría",
-                "Nombre",
-                "Lote"
+                "ID", "Fecha de caducidad", "Categoría", "Nombre", "Lote"
         );
-
         combo.setItems(opcionesFiltro);
 
         combo.setOnAction(event -> {
             ocultarTodosLosFiltros();
+            String filtroSeleccionado = combo.getValue();
 
-            switch (combo.getValue().toString()) {
-                case "ID":
-                    txtFiltro.setVisible(true);
-                    txtFiltro.setPromptText("Introduce ID");
-                    break;
-                case "Fecha de caducidad":
-                    txtFechaDesde.setVisible(true);
-                    txtFechaDesde.setPromptText("Introduce Fecha Hasta");
-                    txtFechaHasta.setVisible(true);
-                    txtFechaHasta.setPromptText("Introduce Fecha Desde");
-                    break;
-                case "Categoría":
-                    catField.setVisible(true);
-                    catField.setItems(FXCollections.observableArrayList(CategoriaProducto.values()));
-                    break;
-                case "Nombre":
-                    txtFiltro.setVisible(true);
-                    txtFiltro.setPromptText("Introduce Nombre");
-                    break;
-                case "Lote":
-                    txtFiltro.setVisible(true);
-                    txtFiltro.setPromptText("Introduce Lote");
-                    break;
-                default:
-                    break;
+            if (filtroSeleccionado != null) {
+                switch (filtroSeleccionado) {
+                    case "ID":
+                    case "Nombre":
+                    case "Lote":
+                        txtFiltro.setVisible(true);
+                        txtFiltro.setPromptText("Introduce " + filtroSeleccionado.toLowerCase());
+                        break;
+                    case "Fecha de caducidad":
+                        txtFechaDesde.setVisible(true);
+                        txtFechaHasta.setVisible(true);
+                        break;
+                    case "Categoría":
+                        catField.setVisible(true);
+                        catField.setItems(FXCollections.observableArrayList(CategoriaProducto.values()));
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
@@ -318,11 +307,185 @@ public class ProductoFarmaceuticoUIController {
         txtFechaDesde.setVisible(false);
         txtFechaHasta.setVisible(false);
         catField.setVisible(false);
-        txtFiltro.setVisible(false);
-        txtFiltro.setVisible(false);
     }
 
-    private void filtrarPorFecha() {
-        // Aquí puedes implementar la lógica para filtrar por fecha si es necesario
+    @FXML
+    private void buscarFiltro() {
+        String filtroSeleccionado = combo.getValue();
+
+        if (filtroSeleccionado == null) {
+            mostrarProductos();
+            return;
+        }
+
+        try {
+            switch (filtroSeleccionado) {
+                case "ID":
+                    handleIdFilter();
+                    break;
+
+                case "Fecha de caducidad":
+                    handleFechaFilter();
+                    break;
+
+                case "Categoría":
+                    handleCategoriaFilter();
+                    break;
+
+                case "Nombre":
+                    handleNombreFilter();
+                    break;
+
+                case "Lote":
+                    handleLoteFilter();
+                    break;
+
+                default:
+                    mostrarProductos();
+                    break;
+            }
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar productos: " + e.getMessage());
+        }
+    }
+
+    private void handleIdFilter() {
+        String id = txtFiltro.getText();
+        if (id != null && !id.isEmpty()) {
+            buscarPorId(id);
+        } else {
+            mostrarProductos();
+        }
+    }
+
+private void handleFechaFilter() {
+    LocalDate fechaDesde = txtFechaDesde.getValue();
+    LocalDate fechaHasta = txtFechaHasta.getValue();
+
+    // Validar que ambas fechas sean proporcionadas
+    if (fechaDesde == null || fechaHasta == null) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Fechas no válidas");
+        alert.setHeaderText(null);
+        alert.setContentText("Por favor, selecciona ambas fechas: Fecha Desde y Fecha Hasta.");
+        alert.showAndWait();
+        return;
+    }
+
+    // Validar que la fecha "Desde" no sea posterior a la fecha "Hasta"
+    if (fechaDesde.isAfter(fechaHasta)) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Rango de fechas inválido");
+        alert.setHeaderText(null);
+        alert.setContentText("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
+        alert.showAndWait();
+        return;
+    }
+
+    // Realizar la búsqueda por rango de fechas
+    buscarPorFecha(fechaDesde, fechaHasta);
+}
+
+    private void handleCategoriaFilter() {
+        CategoriaProducto categoria = catField.getValue();
+
+        if (categoria != null) {
+            buscarPorCategoria(categoria);
+        } else {
+            mostrarProductos();
+        }
+    }
+
+    private void handleNombreFilter() {
+        String nombre = txtFiltro.getText();
+        if (nombre != null && !nombre.isEmpty()) {
+            buscarPorNombre(nombre);
+        } else {
+            mostrarProductos();
+        }
+    }
+
+    private void handleLoteFilter() {
+        String lote = txtFiltro.getText();
+        if (lote != null && !lote.isEmpty()) {
+            buscarPorLote(lote);
+        } else {
+            mostrarProductos();
+        }
+    }
+
+    private void buscarPorId(String id) {
+        try {
+            ProductoFarmaceutico producto = ProductoInterfazFactoria.get().encontrarProducto_XML(
+                    new GenericType<ProductoFarmaceutico>() {
+            }, id);
+            if (producto != null) {
+                tableView.setItems(FXCollections.observableArrayList(producto));
+            }
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar producto por ID: " + e.getMessage());
+        }
+    }
+
+    private void buscarPorFecha(LocalDate desde, LocalDate hasta) {
+        try {
+            List<ProductoFarmaceutico> productos = ProductoInterfazFactoria.get().encontrarTodos_XML(
+                    new GenericType<List<ProductoFarmaceutico>>() {
+            });
+            List<ProductoFarmaceutico> filtrados = productos.stream()
+                    .filter(p -> !p.getFechaCaducidad().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+                    .isBefore(desde) && !p.getFechaCaducidad().toInstant()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate()
+                    .isAfter(hasta))
+                    .collect(Collectors.toList());
+            tableView.setItems(FXCollections.observableArrayList(filtrados));
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar por fecha: " + e.getMessage());
+        }
+    }
+
+    private void buscarPorCategoria(CategoriaProducto categoria) {
+        try {
+            List<ProductoFarmaceutico> productos = ProductoInterfazFactoria.get().encontrarTodos_XML(
+                    new GenericType<List<ProductoFarmaceutico>>() {
+            });
+            List<ProductoFarmaceutico> filtrados = productos.stream()
+                    .filter(p -> p.getCategoria() == categoria)
+                    .collect(Collectors.toList());
+            tableView.setItems(FXCollections.observableArrayList(filtrados));
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar por categoría: " + e.getMessage());
+        }
+    }
+
+    private void buscarPorNombre(String nombre) {
+        try {
+            List<ProductoFarmaceutico> productos = ProductoInterfazFactoria.get().encontrarTodos_XML(
+                    new GenericType<List<ProductoFarmaceutico>>() {
+            });
+            List<ProductoFarmaceutico> filtrados = productos.stream()
+                    .filter(p -> p.getNombreProducto().toLowerCase().contains(nombre.toLowerCase()))
+                    .collect(Collectors.toList());
+            tableView.setItems(FXCollections.observableArrayList(filtrados));
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar por nombre: " + e.getMessage());
+        }
+    }
+
+    private void buscarPorLote(String lote) {
+        try {
+            List<ProductoFarmaceutico> productos = ProductoInterfazFactoria.get().encontrarTodos_XML(
+                    new GenericType<List<ProductoFarmaceutico>>() {
+            });
+            List<ProductoFarmaceutico> filtrados = productos.stream()
+                    .filter(p -> p.getLoteProducto().toLowerCase().contains(lote.toLowerCase()))
+                    .collect(Collectors.toList());
+            tableView.setItems(FXCollections.observableArrayList(filtrados));
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar por lote: " + e.getMessage());
+        }
     }
 }

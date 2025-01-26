@@ -1,63 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.ProductoFarmaceuticoUIController" spacing="10">
-    <!-- Título principal -->
-    <Label text="Producto Farmacéutico">
-        <font>
-            <Font size="24"/>
-        </font>
-    </Label>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="944.0" spacing="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.ProductoFarmaceuticoUIController">
     
     <!-- Formulario de búsqueda -->
-    <GridPane prefHeight="46.0" prefWidth="402.0" hgap="10" vgap="10">
+    <GridPane focusTraversable="true" hgap="5.0" maxWidth="1.7976931348623157E308" prefHeight="146.0" prefWidth="928.0" vgap="5.0" VBox.vgrow="NEVER">
         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="319.0" minWidth="174.0" prefWidth="285.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="482.0" minWidth="165.0" prefWidth="432.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="482.0" minWidth="165.0" prefWidth="184.0" />
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="325.0" minWidth="8.0" prefWidth="44.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
             <RowConstraints />
         </rowConstraints>
         <children>
             <!-- Filtro por tipo (ComboBox) -->
-            <ComboBox fx:id="combo" prefWidth="150.0" promptText="Filtrar Por:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <ComboBox fx:id="combo" prefHeight="25.0" prefWidth="248.0" promptText="Filtrar Por:" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
 
             <!-- Filtro por fechas -->
-            <DatePicker fx:id="txtFechaDesde" promptText="Desde" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <DatePicker fx:id="txtFechaHasta" promptText="Hasta" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            <DatePicker fx:id="txtFechaDesde" prefHeight="25.0" prefWidth="350.0" promptText="Desde" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <DatePicker fx:id="txtFechaHasta" prefHeight="25.0" prefWidth="352.0" promptText="Hasta" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3" />
 
             <!-- Filtro por texto (ID, nombre, lote) -->
-            <TextField fx:id="txtFiltro" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+            <TextField fx:id="txtFiltro" alignment="CENTER" maxWidth="-Infinity" prefHeight="25.0" prefWidth="351.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
 
             <!-- Filtro por categoría -->
-            <ChoiceBox fx:id="catField" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+            <ChoiceBox fx:id="catField" prefHeight="25.0" prefWidth="351.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
+            <Button fx:id="searchButton" onAction="#buscarFiltro" prefHeight="25.0" prefWidth="46.0" text="🔍" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
         </children>
     </GridPane>
 
-    <!-- Tabla de productos -->
+    <!-- Contenedor con márgenes para la tabla -->
     <TableView fx:id="tableView">
         <columns>
-            <TableColumn fx:id="idColumn" text="ID"/>
-            <TableColumn fx:id="nombreColumn" text="Nombre"/>
-            <TableColumn fx:id="loteColumn" text="Lote"/>
-            <TableColumn fx:id="caducidadColumn" text="Caducidad"/>
-            <TableColumn fx:id="descripcionColumn" text="Descripción"/>
-            <TableColumn fx:id="categoriaColumn" text="Categoría"/>
+            <TableColumn fx:id="idColumn" prefWidth="37.0" text="ID" />
+            <TableColumn fx:id="nombreColumn" prefWidth="93.0" text="Nombre" />
+            <TableColumn fx:id="loteColumn" prefWidth="79.0" text="Lote" />
+            <TableColumn fx:id="caducidadColumn" prefWidth="203.0" text="Caducidad" />
+            <TableColumn fx:id="descripcionColumn" prefWidth="314.0" text="Descripción" />
+            <TableColumn fx:id="categoriaColumn" prefWidth="157.0" text="Categoría" />
         </columns>
+      <VBox.margin>
+         <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
+      </VBox.margin>
     </TableView>
-
     <!-- Botones de acción -->
-    <HBox spacing="10">
-        <Button fx:id="addButton" text="Añadir línea" onAction="#añadirFila"/>
-        <Button fx:id="deleteButton" text="Eliminar" onAction="#borrarFila"/>
+    <HBox prefHeight="52.0" prefWidth="944.0" spacing="10" VBox.vgrow="NEVER">
+        <Button fx:id="addButton" onAction="#añadirFila" prefHeight="25.0" prefWidth="101.0" text="Añadir línea" />
+        <Button fx:id="deleteButton" onAction="#borrarFila" prefHeight="25.0" prefWidth="98.0" text="Eliminar" />
     </HBox>
 </VBox>
