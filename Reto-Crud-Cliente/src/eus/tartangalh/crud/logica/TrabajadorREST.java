@@ -28,11 +28,11 @@ public class TrabajadorREST implements TrabajadorInterfaz{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/CRUDWebApplication/webresources";
+    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
 
     public TrabajadorREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("eus.tartangalh.crud.create.trabajador");
+        webTarget = client.target(BASE_URI).path("Trabajador");
     }
 
     public void crearTrabajador_XML(Object requestEntity) throws WebApplicationException {

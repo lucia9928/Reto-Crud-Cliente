@@ -69,7 +69,7 @@
             <RadioButton fx:id="rbTrabajador" mnemonicParsing="false" text="Trabajador" GridPane.columnIndex="3" GridPane.rowIndex="13" />
             <RadioButton fx:id="rbCliente" mnemonicParsing="false" text="Cliente" GridPane.columnIndex="3" GridPane.rowIndex="14" />
             <Label fx:id="lblTieneCuenta" text="¿Tienes una cuenta? inicia sesion" GridPane.columnIndex="2" GridPane.rowIndex="15" />
-            <Button fx:id="btnIniciaSesion" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#irAInicioSesion" text="Inicia Sesion" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+           <!-- <Button fx:id="btnIniciaSesion" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#irAInicioSesion" text="Inicia Sesion" GridPane.columnIndex="3" GridPane.rowIndex="15" />-->
             <Button fx:id="btbRegistrarse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Registrarse" GridPane.columnIndex="3" GridPane.rowIndex="16" />
             <ComboBox fx:id="cbTipoTrabajador" prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="13" />
          </children>
