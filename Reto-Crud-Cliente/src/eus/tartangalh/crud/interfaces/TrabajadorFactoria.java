@@ -5,19 +5,15 @@
  */
 package eus.tartangalh.crud.interfaces;
 
+import eus.tartangalh.crud.logica.TrabajadorREST;
+
 /**
  *
  * @author melany
  */
 public class TrabajadorFactoria {
-     private static TrabajadorInterfaz trabajadorInterfaz ;
-      public TrabajadorInterfaz get() {
-        if (trabajadorInterfaz == null) {
-            trabajadorInterfaz = TrabajadorREST(); // Lazy initialization
-        }
-        return trabajadorInterfaz;
+     public static TrabajadorInterfaz get(){
+        return new TrabajadorREST();
     }
-    private TrabajadorInterfaz TrabajadorREST() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }
