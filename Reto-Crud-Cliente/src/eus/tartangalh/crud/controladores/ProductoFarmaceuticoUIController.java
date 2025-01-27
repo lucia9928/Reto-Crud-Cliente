@@ -5,7 +5,6 @@
  */
 package eus.tartangalh.crud.controladores;
 
-import eus.tartangalh.crud.entidades.Almacen;
 import eus.tartangalh.crud.entidades.CategoriaProducto;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;
@@ -152,7 +151,7 @@ public class ProductoFarmaceuticoUIController {
         nombreColumn.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         loteColumn.setCellValueFactory(new PropertyValueFactory<>("loteProducto"));
         caducidadColumn.setCellValueFactory(new PropertyValueFactory<>("fechaCaducidad"));
-        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descripcionColumn.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         categoriaColumn.setCellValueFactory(new PropertyValueFactory<>("categoria"));
     }
 
