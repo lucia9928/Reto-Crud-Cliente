@@ -20,7 +20,7 @@ public class RetoCrudCliente extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroFXML.fxml"));
 
         Parent root = loader.load();
                 
@@ -28,9 +28,9 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         registro.setStage(stage);
 
-        registro.initStage(root);*/
+        registro.initStage(root);
         
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
 
         Parent root = loader.load();
                 
@@ -38,7 +38,7 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         proveedor.setStage(stage);
 
-        proveedor.initStage(root);
+        proveedor.initStage(root);*/
 
     }
 
