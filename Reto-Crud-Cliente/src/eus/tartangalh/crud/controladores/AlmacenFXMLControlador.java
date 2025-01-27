@@ -17,7 +17,10 @@ import javafx.util.converter.IntegerStringConverter;
 import javax.ws.rs.core.GenericType;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.event.EventHandler;
@@ -25,6 +28,13 @@ import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.WebApplicationException;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * Controlador para la interfaz FXML de la entidad Almacen. Permite la gestión
@@ -497,6 +507,29 @@ public class AlmacenFXMLControlador {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Stage stage = (Stage) añadirBtn.getScene().getWindow();
             stage.close();
+        }
+    }
+
+    @FXML
+    private void imprimirInforme() {
+        try {
+            
+            JasperReport report=JasperCompileManager.compileReport("src/recursos/informeAlmacen.jrxml");
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Almacen>)this.almacenTableView.getItems());
+            
+            Map<String, Object> parameters = new HashMap<>();
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+            
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            
+            jasperViewer.setVisible(true);
+
+        } catch (JRException e) {
+            LOGGER.severe("Error al generar el reporte: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al generar el reporte.");
+            alert.showAndWait();
         }
     }
 }
