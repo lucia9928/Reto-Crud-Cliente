@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e93fe3a8-0f7e-43c4-b5b9-751c3e12ed4c">
+	<property name="ireport.zoom" value="1.9487171000000014"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="idProducto" class="java.lang.Integer"/>
+	<field name="nombreProducto" class="java.lang.String"/>
+	<field name="fechaCaducidad" class="java.util.Date"/>
+	<field name="loteProducto" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="categoria" class="java.lang.String"/>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="200" y="10" width="200" height="30" uuid="40dad876-27b5-42ce-94ef-a4ccf9370059"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Reporte de Productos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="0" width="53" height="30" uuid="265241f0-e619-4a3a-b354-99f324833275"/>
+				<text><![CDATA[ID Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="63" y="0" width="84" height="30" uuid="af339de9-d514-4903-86b9-d44271a92596"/>
+				<text><![CDATA[Nombre del Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="147" y="0" width="115" height="30" uuid="fa7d9140-d67a-4a39-b611-2dc5c593a7bc"/>
+				<text><![CDATA[Fecha Caducidad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="262" y="0" width="63" height="30" uuid="7fceaff0-0c92-4a5f-8ff3-0171404bc539"/>
+				<text><![CDATA[Lote Producto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="325" y="0" width="165" height="30" uuid="e3a11b29-6a4a-49b3-a6ba-72b5a8a8a6d9"/>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="0" width="65" height="30" uuid="605ea1fe-0aec-44cd-bd56-4d6c6df15bbf"/>
+				<text><![CDATA[Categoría]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="0" width="53" height="20" uuid="039654da-24cf-4dc6-b13b-9a6ba6043a38"/>
+				<textFieldExpression><![CDATA[$F{idProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="63" y="0" width="84" height="20" uuid="070d9246-5488-45d8-b788-17e761f40e0c"/>
+				<textFieldExpression><![CDATA[$F{nombreProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="147" y="0" width="115" height="20" uuid="2a9f57f6-7bc2-4409-aa4b-8ef541cf5684"/>
+				<textFieldExpression><![CDATA[$F{fechaCaducidad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="0" width="63" height="20" uuid="ba62a254-e57b-43f1-8a99-c0788870733f"/>
+				<textFieldExpression><![CDATA[$F{loteProducto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="325" y="0" width="165" height="20" uuid="37a1b41b-69e4-4df9-80e2-d8d04af4a294"/>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="65" height="20" uuid="8f590bbe-b94e-4d1c-a5c8-92348e2989b9"/>
+				<textFieldExpression><![CDATA[$F{categoria}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

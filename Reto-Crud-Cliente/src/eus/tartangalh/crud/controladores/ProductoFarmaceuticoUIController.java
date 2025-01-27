@@ -5,13 +5,17 @@
  */
 package eus.tartangalh.crud.controladores;
 
+import eus.tartangalh.crud.entidades.Almacen;
 import eus.tartangalh.crud.entidades.CategoriaProducto;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -39,6 +43,13 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  * FXML Controller class
@@ -160,7 +171,7 @@ public class ProductoFarmaceuticoUIController {
         descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         descripcionColumn.setOnEditCommit(event -> {
             ProductoFarmaceutico producto = event.getRowValue();
-            producto.setDescription(event.getNewValue());
+            producto.setDescripcion(event.getNewValue());
             ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
         });
 
@@ -518,6 +529,28 @@ public class ProductoFarmaceuticoUIController {
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Stage stage = (Stage) addButton.getScene().getWindow();
             stage.close();
+        }
+    }
+    @FXML
+    private void imprimirInforme() {
+        try {
+            
+            JasperReport report=JasperCompileManager.compileReport("src/recursos/ProductoReport.jrxml");
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<ProductoFarmaceutico>)this.tableView.getItems());
+            
+            Map<String, Object> parameters = new HashMap<>();
+            
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+            
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            
+            jasperViewer.setVisible(true);
+
+        } catch (JRException e) {
+            LOGGER.severe("Error al generar el reporte: " + e.getMessage());
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Error al generar el reporte.");
+            alert.showAndWait();
         }
     }
 }

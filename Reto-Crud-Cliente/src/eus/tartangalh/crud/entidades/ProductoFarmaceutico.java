@@ -39,7 +39,7 @@ public class ProductoFarmaceutico implements Serializable {
     /*
      * Descripción del producto.
      */
-    private String Description;
+    private String descripcion;
     /*
      * Categoría del producto farmacéutico (enum).
      */
@@ -67,7 +67,7 @@ public class ProductoFarmaceutico implements Serializable {
         this.nombreProducto = nombreProducto;
         this.loteProducto = loteProducto;
         this.fechaCaducidad = fechaCaducidad;
-        this.Description = Description;
+        this.descripcion = Description;
         this.categoria = categoria;
         this.precio = precio;
     }
@@ -107,12 +107,12 @@ public class ProductoFarmaceutico implements Serializable {
         this.fechaCaducidad = fechaCaducidad;
     }
 
-    public String getDescription() {
-        return Description;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescription(String Description) {
-        this.Description = Description;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public CategoriaProducto getCategoria() {
