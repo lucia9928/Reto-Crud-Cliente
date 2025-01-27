@@ -43,7 +43,7 @@ public class ProveedorFXMLController {
     private final ProveedorInterfaz proInterfaz = ProveedorFactoria.get();
 
     @FXML
-    private TextField FieldNombreProveedor;
+    private TextField FieldIdProveedor;
     @FXML
     private DatePicker fechaFiltro;
     @FXML
@@ -209,15 +209,25 @@ public class ProveedorFXMLController {
     }
 
     public void buscarProveedor(ActionEvent event) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String fecha = fechaFiltro.getValue().format(formatter);
+        Proveedor proveedor;
+        if (!FieldIdProveedor.getText().equals("")) {
+            proveedor = ProveedorFactoria.get().mostrarProveedor_XML(Proveedor.class, FieldIdProveedor.getText());
 
-        ProveedoresPorFecha = ProveedorFactoria.get().mostrarsProveedoresFecha_XML(new GenericType<List<Proveedor>>() {
-        }, fecha);
+            ProveedoresPorFechaData = FXCollections.observableArrayList(proveedor);
+            tableView.setItems(ProveedoresPorFechaData);
 
-        // Convertir la lista de proveedores en ObservableList para la TableView
-        ProveedoresPorFechaData = FXCollections.observableArrayList(ProveedoresPorFecha);
-        tableView.setItems(ProveedoresPorFechaData);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fecha = fechaFiltro.getValue().format(formatter);
+
+            ProveedoresPorFecha = ProveedorFactoria.get().mostrarsProveedoresFecha_XML(new GenericType<List<Proveedor>>() {
+            }, fecha);
+
+            // Convertir la lista de proveedores en ObservableList para la TableView
+            ProveedoresPorFechaData = FXCollections.observableArrayList(ProveedoresPorFecha);
+            tableView.setItems(ProveedoresPorFechaData);
+        }
+
     }
 
     /*public void borrarProveedor(ActionEvent event) {

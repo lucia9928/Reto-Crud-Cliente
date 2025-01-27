@@ -5,6 +5,7 @@
  */
 package reto.crud.cliente;
 
+import eus.tartangalh.crud.controladores.ProveedorFXMLController;
 import eus.tartangalh.crud.controladores.RegistroFXMLControlador;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +20,7 @@ public class RetoCrudCliente extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroFXML.fxml"));
+        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroFXML.fxml"));
 
         Parent root = loader.load();
                 
@@ -27,7 +28,17 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         registro.setStage(stage);
 
-        registro.initStage(root);
+        registro.initStage(root);*/
+        
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
+
+        Parent root = loader.load();
+                
+        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
+
+        proveedor.setStage(stage);
+
+        proveedor.initStage(root);
 
     }
 
