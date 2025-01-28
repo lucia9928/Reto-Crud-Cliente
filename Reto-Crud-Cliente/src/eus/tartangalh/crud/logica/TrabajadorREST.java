@@ -11,6 +11,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 
 /**
  * Jersey REST client generated for REST resource:TrabajadorFacadeREST
@@ -25,7 +26,7 @@ import javax.ws.rs.core.GenericType;
  *
  * @author melany
  */
-public class TrabajadorREST implements TrabajadorInterfaz{
+public class TrabajadorREST implements TrabajadorInterfaz {
 
     private WebTarget webTarget;
     private Client client;
@@ -48,6 +49,16 @@ public class TrabajadorREST implements TrabajadorInterfaz{
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    }
+
+    public <T> T encontrarPorEmail_XML(GenericType<T> responseType, String Email) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("Email/{0}", Email));
+        return resource.request(MediaType.APPLICATION_XML).get(responseType);
+    }
+    
+    public <T> T encontrarPorEmail_JSON(GenericType<T> responseType, String Email) throws WebApplicationException {
+        WebTarget resource = webTarget.path(java.text.MessageFormat.format("Email/{0}", Email));
+        return resource.request(MediaType.APPLICATION_JSON).get(responseType);
     }
 
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException {
@@ -81,5 +92,5 @@ public class TrabajadorREST implements TrabajadorInterfaz{
     public void close() {
         client.close();
     }
-    
+
 }
