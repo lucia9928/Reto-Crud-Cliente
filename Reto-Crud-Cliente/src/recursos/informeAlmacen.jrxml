@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="almacenes_report"
+              pageWidth="595" pageHeight="842"
+              columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20">
+
+    <field name="idAlmacen" class="java.lang.Integer"/>
+    <field name="pais" class="java.lang.String"/>
+    <field name="ciudad" class="java.lang.String"/>
+    <field name="metrosCuadrados" class="java.lang.Integer"/>
+    <field name="fechaAdquisicion" class="java.util.Date"/>
+
+    <title>
+        <band height="50">
+            <staticText>
+                <reportElement x="200" y="10" width="200" height="30" />
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Reporte de Almacenes]]></text>
+            </staticText>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="30">
+            <staticText>
+                <reportElement x="30" y="0" width="100" height="30"/>
+                <text><![CDATA[ID Almacén]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="130" y="0" width="100" height="30"/>
+                <text><![CDATA[País]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="230" y="0" width="100" height="30"/>
+                <text><![CDATA[Ciudad]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="330" y="0" width="100" height="30"/>
+                <text><![CDATA[M²]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="430" y="0" width="100" height="30"/>
+                <text><![CDATA[Fecha Adq.]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="20">
+            <textField>
+                <reportElement x="30" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{idAlmacen}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="130" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{pais}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="230" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{ciudad}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="330" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{metrosCuadrados}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="430" y="0" width="100" height="20"/>
+                <textFieldExpression><![CDATA[$F{fechaAdquisicion}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+</jasperReport>

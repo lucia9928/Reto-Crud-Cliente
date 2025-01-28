@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="768.0" prefWidth="1366.0" spacing="10" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.AlmacenFXMLControlador">
+<VBox prefHeight="768.0" prefWidth="1366.0" spacing="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.AlmacenFXMLControlador">
     <!-- Título principal -->
     <Label fx:id="idTitulo" text="Gestión de Almacenes">
         <font>
@@ -63,9 +63,9 @@
         <columns>
             <TableColumn fx:id="idAlmacenColumna" prefWidth="127.0" text="ID Almacén" />
             <TableColumn fx:id="paisColumna" prefWidth="113.0" text="País" />
-            <TableColumn fx:id="ciudadColumna" minWidth="0.0" prefWidth="0.0" text="Ciudad" />
-            <TableColumn fx:id="metrosCuadradosColumna" prefWidth="167.0" text="Metros Cuadrados" />
-            <TableColumn fx:id="fechaAdquisicionColumna" minWidth="0.0" prefWidth="139.0" text="Fecha Adquisición" />
+         <TableColumn fx:id="ciudadColumna" prefWidth="121.5999755859375" text="Ciudad" />
+            <TableColumn fx:id="metrosCuadradosColumna" prefWidth="147.199951171875" text="Metros Cuadrados" />
+            <TableColumn fx:id="fechaAdquisicionColumna" minWidth="0.0" prefWidth="160.800048828125" text="Fecha Adquisición" />
         </columns>
       <VBox.margin>
          <Insets left="20.0" right="20.0" />
@@ -76,7 +76,7 @@
     <HBox layoutY="-10.0" spacing="10">
         <Button fx:id="añadirBtn" layoutY="-30.0" onAction="#añadirFila" text="Añadir línea" />
         <Button fx:id="borrarBtn" onAction="#borrarFila" text="Eliminar" />
-      <Button fx:id="btnImprimir" mnemonicParsing="false" text="🖨" />
+      <Button fx:id="btnImprimir" mnemonicParsing="false" onAction="#imprimirInforme" text="🖨" />
       <padding>
          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
       </padding>
