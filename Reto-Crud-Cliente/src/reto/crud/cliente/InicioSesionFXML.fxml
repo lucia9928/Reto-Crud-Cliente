@@ -30,7 +30,7 @@
             </VBox>
 
             <!-- Botón de iniciar sesión -->
-            <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" />
+            <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" onAction="#iniciarSesion" />
 
             <!-- Enlaces debajo del botón -->
             <VBox alignment="CENTER" spacing="10">
@@ -40,5 +40,6 @@
                 <Button fx:id="btnReestablecerContrasena" prefHeight="35.0" prefWidth="250.0" text="Restablecer contraseña" />
             </VBox>
         </VBox>
+      <Button fx:id="btnMostrarContra" layoutX="412.0" layoutY="327.0" mnemonicParsing="false" onAction="#mostrarContra" text="👁" />
     </children>
 </AnchorPane>

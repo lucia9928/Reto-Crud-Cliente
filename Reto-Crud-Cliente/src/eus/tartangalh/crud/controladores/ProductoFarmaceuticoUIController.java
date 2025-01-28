@@ -251,6 +251,7 @@ public class ProductoFarmaceuticoUIController {
     @FXML
     private void añadirFila() {
         try {
+            tableView.scrollTo(tableView.getItems().size()-1);
             ProductoFarmaceutico producto = new ProductoFarmaceutico();
             ProductoInterfazFactoria.get().crearProducto_XML(producto);
             mostrarProductos();
