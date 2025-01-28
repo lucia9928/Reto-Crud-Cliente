@@ -5,13 +5,14 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RegistroTrabajadorFXMLControlador">
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador">
     <children>
         <GridPane layoutX="-10.0" prefHeight="632.0" prefWidth="684.0" stylesheets="@../../../recursos/EstiloLogin.css">
             <columnConstraints>
@@ -65,13 +66,12 @@
                 <TextField fx:id="tfxCiudad" GridPane.columnIndex="3" GridPane.rowIndex="11" />
                 <Label fx:id="lblFechaNcimiento" text="Fecha de nacimiento" GridPane.columnIndex="2" GridPane.rowIndex="12" />
                 <DatePicker fx:id="dateFechaNcimiento" GridPane.columnIndex="3" GridPane.rowIndex="12" />
-                <Label text="Cargo" GridPane.columnIndex="2" GridPane.rowIndex="13" />
-                <ComboBox fx:id="comboBoxCargo" prefHeight="26.0" prefWidth="392.0" GridPane.columnIndex="3" GridPane.rowIndex="13" />
-                <Button fx:id="btbRegistrarse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Registrarse" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+           
+                <Label fx:id="lblTieneCuenta" text="¿Tienes una cuenta? inicia sesion" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+                <Button fx:id="btnIniciaSesion" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Inicia Sesion" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+                <Button fx:id="btbRegistrarse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Registrarse" GridPane.columnIndex="3" GridPane.rowIndex="16" />
             
             </children>
         </GridPane>
-        <Label fx:id="lblFechaNcimiento1" layoutX="10.0" layoutY="10.0" text="Fecha de nacimiento" />
-        <Label fx:id="lblFechaNcimiento2" layoutX="10.0" layoutY="10.0" text="Fecha de nacimiento" />
     </children>
 </AnchorPane>

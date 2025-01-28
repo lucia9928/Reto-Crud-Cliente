@@ -5,11 +5,18 @@
  */
 package eus.tartangalh.crud.controladores;
 
-import eus.tartangalh.crud.entidades.TipoCargo;
+import eus.tartangalh.crud.entidades.Cliente;
+import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.entidades.Trabajador;
+import eus.tartangalh.crud.entidades.Usuario;
+import eus.tartangalh.crud.interfaces.ClienteFactoria;
+import eus.tartangalh.crud.interfaces.ClienteInterfaz;
+import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,20 +27,20 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.ws.rs.core.GenericType;
 
 /**
  * FXML Controller class
  *
  * @author markel
  */
-public class RegistroTrabajadorFXMLControlador {
+public class RegistroClienteFXMLControlador {
 
-    private final TrabajadorInterfaz trabajaInterfaz = TrabajadorFactoria.get();
+    private final ClienteInterfaz clienteInterfaz = ClienteFactoria.get();
     /**
      * Initializes the controller class.
      *
@@ -62,8 +69,6 @@ public class RegistroTrabajadorFXMLControlador {
     private DatePicker dateFechaNcimiento;
     @FXML
     private Button btbRegistrarse;
-    @FXML
-    private ComboBox<TipoCargo> comboBoxCargo;
 
     private Stage stage;
 
@@ -77,44 +82,40 @@ public class RegistroTrabajadorFXMLControlador {
         Scene scene = new Scene(root);
         stage.setTitle("Registro");
         stage.setScene(scene);
-
-        comboBoxCargo.getItems().addAll(TipoCargo.values());
-
-        comboBoxCargo.setValue(TipoCargo.Tecnico_Farmacia_Parafarmacia);
+        stage.show();
 
         btbRegistrarse.setVisible(true);
         btbRegistrarse.setDisable(false);
         btbRegistrarse.setOnAction(this::crearTrabajador);
-        stage.show();
 
     }
 
     private void crearTrabajador(ActionEvent event) {
 
-        if (validarTrabajador()) {
-            Trabajador trabajador = new Trabajador();
+        if (validarCliente()) {
+            Usuario cliente = new Cliente();
 
-            trabajador.setDni(tfxDni.getText());
-            trabajador.setNombre(tfxNombre.getText());
-            trabajador.setApellido(tfxApellido.getText());
-            trabajador.setEmail(tfxEmail.getText());
-            trabajador.setContrasena(tfxContrasena.getText());
-            trabajador.setCalle(tfxCalle.getText());
-            trabajador.setCodigoPosta(Integer.parseInt(tfxCodigoPostal.getText()));
-            trabajador.setCidudad(tfxCiudad.getText());
+            cliente.setDni(tfxDni.getText());
+            cliente.setNombre(tfxNombre.getText());
+            cliente.setApellido(tfxApellido.getText());
+            cliente.setEmail(tfxEmail.getText());
+            cliente.setContrasena(tfxContrasena.getText());
+            cliente.setCalle(tfxCalle.getText());
+            cliente.setCodigoPosta(Integer.parseInt(tfxCodigoPostal.getText()));
+            cliente.setCidudad(tfxCiudad.getText());
 
-            trabajador.setFechaNacimiento(dateFechaNcimiento.getValue());
+            cliente.setFechaNacimiento(dateFechaNcimiento.getValue());
 
-            trabajaInterfaz.crearTrabajador_XML(trabajador);
-            if (trabajaInterfaz.encontrarPorId_XML(Trabajador.class, tfxDni.getText()) != null) {
-                mostrarAlert("Confirmacion", "El trabajador se ha dado de alta");
+            clienteInterfaz.crearCliente_XML(clienteInterfaz);
+            if(clienteInterfaz.encontrarPorId_XML(Cliente.class, tfxDni.getText())!=null){
+                mostrarAlert("Confirmacion", "El Cliente se ha dado de alta");
             }
-
+            
         }
 
     }
 
-    private boolean validarTrabajador() {
+    private boolean validarCliente() {
         Pattern dniPatron = Pattern.compile("^\\d{8}[A-Z]$");
         Pattern emailPatron = Pattern.compile(
                 "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
@@ -129,8 +130,8 @@ public class RegistroTrabajadorFXMLControlador {
             return false;
         }
 
-        if (trabajaInterfaz.encontrarPorId_XML(Trabajador.class, dni) != null) {
-            mostrarAlert("Error", "Este usuario ya existe");
+        if (clienteInterfaz.encontrarPorId_XML(Cliente.class, dni) != null) {
+            mostrarAlert("Error", "Este cliente ya existe");
             return false;
         }
         if (!matcherEmail.matches() && !matcherDni.matches()) {
