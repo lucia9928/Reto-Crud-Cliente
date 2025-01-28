@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -31,6 +32,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
 /**
@@ -43,7 +45,7 @@ public class ProveedorFXMLController {
     private final ProveedorInterfaz proInterfaz = ProveedorFactoria.get();
 
     @FXML
-    private TextField FieldNombreProveedor;
+    private TextField FieldIdProveedor;
     @FXML
     private DatePicker fechaFiltro;
     @FXML
@@ -106,6 +108,7 @@ public class ProveedorFXMLController {
         btnCrearFila.setDisable(false);
         btnCrearFila.setOnAction(this::crearProveedor);
         btnBuscar.setOnAction(this::buscarProveedor);
+        btnBorrar.setOnAction(this::borrarProveedor);
         btnBorrar.setDisable(true);
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
@@ -179,11 +182,9 @@ public class ProveedorFXMLController {
         nombreProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor"));
         nombreProveedorColumna.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        if (tableView.getSelectionModel().getSelectedItem() != null) {
-            btnBorrar.setDisable(false);
-        } else {
-
-        }
+        tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            btnBorrar.setDisable(newValue == null); // Habilitar si hay una fila seleccionada, deshabilitar si no
+        });
 
     }
 
@@ -200,7 +201,7 @@ public class ProveedorFXMLController {
     }
 
     public ObservableList<Proveedor> mostrarProveedor() {
-        todosProveedores = ProveedorFactoria.get().mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
+        todosProveedores = proInterfaz.mostrarTodosProveedores_XML(new GenericType<List<Proveedor>>() {
         });
 
         // Convertir la lista de proveedores en ObservableList para la TableView
@@ -209,46 +210,46 @@ public class ProveedorFXMLController {
     }
 
     public void buscarProveedor(ActionEvent event) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String fecha = fechaFiltro.getValue().format(formatter);
+        Proveedor proveedor;
+        if (!FieldIdProveedor.getText().equals("")) {
+            proveedor = ProveedorFactoria.get().mostrarProveedor_XML(Proveedor.class, FieldIdProveedor.getText());
 
-        ProveedoresPorFecha = ProveedorFactoria.get().mostrarsProveedoresFecha_XML(new GenericType<List<Proveedor>>() {
-        }, fecha);
+            ProveedoresPorFechaData = FXCollections.observableArrayList(proveedor);
+            tableView.setItems(ProveedoresPorFechaData);
 
-        // Convertir la lista de proveedores en ObservableList para la TableView
-        ProveedoresPorFechaData = FXCollections.observableArrayList(ProveedoresPorFecha);
-        tableView.setItems(ProveedoresPorFechaData);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String fecha = fechaFiltro.getValue().format(formatter);
+
+            ProveedoresPorFecha = ProveedorFactoria.get().mostrarsProveedoresFecha_XML(new GenericType<List<Proveedor>>() {
+            }, fecha);
+
+            // Convertir la lista de proveedores en ObservableList para la TableView
+            ProveedoresPorFechaData = FXCollections.observableArrayList(ProveedoresPorFecha);
+            tableView.setItems(ProveedoresPorFechaData);
+        }
+
     }
 
-    /*public void borrarProveedor(ActionEvent event) {
+    public void borrarProveedor(ActionEvent event) {
         Proveedor proveedorSeleccionado = tableView.getSelectionModel().getSelectedItem();
 
-        // Mostrar una alerta de confirmación antes de proceder con el borrado
-        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmacion.setTitle("Confirmar eliminación");
-        confirmacion.setHeaderText("Eliminar almacén");
-        confirmacion.setContentText("¿Estás seguro de que deseas eliminar el almacén con ID: " + proveedorSeleccionado.getIdProveedor() + "?");
+        try {
+            // Llamada al método para borrar el almacén en el servicio REST
+            proInterfaz.borrarProveedor(String.valueOf(proveedorSeleccionado.getIdProveedor()));
 
-        confirmacion.showAndWait().ifPresent(response -> {
-            if (response == ButtonType.OK) {
-                try {
-                    // Llamada al método para borrar el almacén en el servicio REST
-                    AlmacenFactoria.get().borrarAlmacen(String.valueOf(proveedorSeleccionado.getIdProveedor()));
+            // Remover la fila de la tabla después de la eliminación exitosa
+            tableView.getItems().remove(proveedorSeleccionado);
 
-                    // Remover la fila de la tabla después de la eliminación exitosa
-                    tableView.getItems().remove(proveedorSeleccionado);
+            LOGGER.info("Proveedor eliminado correctamente.");
+        } catch (WebApplicationException e) {
+            LOGGER.severe("Error al eliminar el almacén: " + e.getMessage());
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setTitle("Error");
+            error.setHeaderText("Error al eliminar almacén");
+            error.setContentText("No se pudo eliminar el almacén. Por favor, inténtelo de nuevo.");
+            error.show();
+        }
 
-                    LOGGER.info("Almacén eliminado correctamente.");
-                } catch (WebApplicationException e) {
-                    LOGGER.severe("Error al eliminar el almacén: " + e.getMessage());
-                    Alert error = new Alert(Alert.AlertType.ERROR);
-                    error.setTitle("Error");
-                    error.setHeaderText("Error al eliminar almacén");
-                    error.setContentText("No se pudo eliminar el almacén. Por favor, inténtelo de nuevo.");
-                    error.show();
-                }
-            }
-        });
-
-    }*/
+    }
 }

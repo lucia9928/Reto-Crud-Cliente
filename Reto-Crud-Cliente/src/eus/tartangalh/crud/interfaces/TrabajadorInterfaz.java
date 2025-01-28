@@ -6,6 +6,7 @@
 package eus.tartangalh.crud.interfaces;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -19,7 +20,7 @@ public interface TrabajadorInterfaz {
     public void modificarTrabajador_XML(Object requestEntity, String id) throws WebApplicationException;
     public void modificarTrabajador_JSON(Object requestEntity, String id) throws WebApplicationException;
     public void eliminarTrabajador(String id) throws WebApplicationException;
-    public <T> T encontrarTodosLosTrabajdores_XML(Class<T> responseType) throws WebApplicationException ;
+    public <T> T encontrarTodosLosTrabajdores_XML(GenericType<T> responseType) throws WebApplicationException ;
     public <T> T encontrarTodosLosTrabajdores_JSON(Class<T> responseType) throws WebApplicationException;
     public void close() ;
 }

@@ -6,16 +6,15 @@
 package eus.tartangalh.crud.interfaces;
 
 import eus.tartangalh.crud.logica.ClienteREST;
+import eus.tartangalh.crud.logica.ProveedorRESTClient;
+
 /**
  *
  * @author melany
  */
 public class ClienteFactoria {
-      private static ClienteInterfaz clienteInterfaz ;
-      public ClienteInterfaz get() {
-        if (clienteInterfaz == null) {
-            clienteInterfaz = new ClienteREST(); // Lazy initialization
-        }
-        return clienteInterfaz;
+
+    public static ClienteInterfaz get() {
+        return new ClienteREST();
     }
 }

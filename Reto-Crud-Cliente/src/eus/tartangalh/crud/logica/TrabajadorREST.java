@@ -10,6 +10,7 @@ import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 
 /**
  * Jersey REST client generated for REST resource:TrabajadorFacadeREST
@@ -28,11 +29,11 @@ public class TrabajadorREST implements TrabajadorInterfaz{
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/CRUDWebApplication/webresources";
+    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
 
     public TrabajadorREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("eus.tartangalh.crud.create.trabajador");
+        webTarget = client.target(BASE_URI).path("Trabajador");
     }
 
     public void crearTrabajador_XML(Object requestEntity) throws WebApplicationException {
@@ -67,7 +68,7 @@ public class TrabajadorREST implements TrabajadorInterfaz{
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
 
-    public <T> T encontrarTodosLosTrabajdores_XML(Class<T> responseType) throws WebApplicationException {
+    public <T> T encontrarTodosLosTrabajdores_XML(GenericType<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
