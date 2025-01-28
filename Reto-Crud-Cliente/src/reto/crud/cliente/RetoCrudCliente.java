@@ -5,6 +5,8 @@
  */
 package reto.crud.cliente;
 
+import eus.tartangalh.crud.controladores.AlmacenFXMLControlador;
+import eus.tartangalh.crud.controladores.ProductoFarmaceuticoUIController;
 import eus.tartangalh.crud.controladores.ProveedorFXMLController;
 import eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador;
 import eus.tartangalh.crud.controladores.RegistroTrabajadorFXMLControlador;
@@ -35,7 +37,7 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         Parent root = loader.load();
                 
-        ProveedorFXMLController proveedor = (ProveedorFXMLController) loader.getController();
+        ProductoFarmaceuticoUIController proveedor = (ProductoFarmaceuticoUIController) loader.getController();
 
         proveedor.setStage(stage);
 

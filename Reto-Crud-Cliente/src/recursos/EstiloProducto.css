@@ -1,0 +1,61 @@
+/* Ventana principal */
+.root {
+    -fx-font-family: Arial;
+    -fx-background-color: #e0f7fa; /* Turquesa muy claro */
+}
+
+/* Tabla */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #80deea; /* Aqua suave */
+    -fx-border-width: 1px;
+}
+
+.table-column {
+    -fx-alignment: center;
+    -fx-font-size: 14px;
+    -fx-border-color: #b2ebf2; /* Aqua claro */
+}
+
+.table-row-cell:even {
+    -fx-background-color: #e0f2f1; /* Verde aqua claro */
+}
+
+.table-row-cell:odd {
+    -fx-background-color: white;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #26c6da; /* Turquesa */
+    -fx-text-fill: white;
+}
+
+/* Botones */
+.button {
+    -fx-background-color: #26a69a; /* Verde turquesa */
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #00796b; /* Verde turquesa oscuro */
+}
+
+/* Campos de texto */
+.text-field, .combo-box, .date-picker {
+    -fx-border-color: #26a69a; /* Verde turquesa */
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Título */
+#idTitulo {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #26a69a; /* Verde turquesa */
+    -fx-alignment: center;
+    -fx-padding: 10px;
+}
+

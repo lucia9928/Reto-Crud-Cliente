@@ -8,11 +8,14 @@ package eus.tartangalh.crud.controladores;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -39,7 +42,28 @@ public class InicioSesionFXMLControlador implements Initializable {
     private void irARegistrar() throws Exception {
         //RetoCrudCliente.navegarVentanas("RegistroFXML.fxml");
     }
+    @FXML
+    private Button btnShowPassword;
 
+    private boolean esPasswordVisible = false;
+
+    @FXML
+    private void mostrarContra() {
+        if (esPasswordVisible) {
+            // Cambia a campo de contraseña
+            pswContrasena.setText(pswContrasena.getText());
+            pswContrasena.setPromptText("Ingresa tu contraseña");
+            esPasswordVisible = false;
+            btnShowPassword.setText("👁");
+        } else {
+            // Cambia a campo de texto
+            pswContrasena.setPromptText(pswContrasena.getText());
+            pswContrasena.clear();
+            esPasswordVisible = true;
+            btnShowPassword.setText("👁");
+        }
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Platform.runLater(() -> {
@@ -55,6 +79,12 @@ public class InicioSesionFXMLControlador implements Initializable {
 
         });
     }
+    
+    @FXML
+    private void iniciarSesion() {
+
+    }
+    
 
     private void handleClose() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

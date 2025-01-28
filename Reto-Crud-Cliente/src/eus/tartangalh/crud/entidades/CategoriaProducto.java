@@ -16,5 +16,5 @@ public enum CategoriaProducto {
     CAPSULAS,
     LIQUIDOS,
     COMPRIMIDOS;
-    
+
 }
