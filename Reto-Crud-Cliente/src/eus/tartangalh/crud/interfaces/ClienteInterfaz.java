@@ -12,7 +12,7 @@ import javax.ws.rs.WebApplicationException;
  * @author melany
  */
 public interface ClienteInterfaz {
-     public void modificarCliente_XML(Object requestEntity, String id) throws WebApplicationException;
+    public void modificarCliente_XML(Object requestEntity, String id) throws WebApplicationException;
     public void modificarCliente_JSON(Object requestEntity, String id) throws WebApplicationException ;
     public <T> T encontrarTodosLosClientes_XML(Class<T> responseType) throws WebApplicationException;
     public <T> T encontrarTodosLosClientes_JSON(Class<T> responseType) throws WebApplicationException;

@@ -18,7 +18,7 @@ public interface ProveedorInterfaz {
 
     public void crearProveedor_XML(Object requestEntity) throws ClientErrorException;
 
-    public void borrarProducto(String id) throws ClientErrorException;
+    public void borrarProveedor(String id) throws ClientErrorException;
 
     public <T> T mostrarProveedor_XML(Class<T> responseType, String id) throws ClientErrorException;
 

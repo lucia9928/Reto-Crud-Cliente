@@ -7,6 +7,7 @@ package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.entidades.Trabajador;
+import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.List;
@@ -33,7 +34,7 @@ import javax.ws.rs.core.GenericType;
  *
  * @author markel
  */
-public class RegistroFXMLControlador {
+public class RegistroTrabajadorFXMLControlador {
 
     private final TrabajadorInterfaz trabajaInterfaz = TrabajadorFactoria.get();
     /**
@@ -102,8 +103,10 @@ public class RegistroFXMLControlador {
             trabajador.setFechaNacimiento(dateFechaNcimiento.getValue());
 
             trabajaInterfaz.crearTrabajador_XML(trabajador);
-
-            //trabajadores = trabajaInterfaz.encontrarTodosLosTrabajdores_XML(Trabajador[].class);
+            if(trabajaInterfaz.encontrarPorId_XML(Trabajador.class, tfxDni.getText())!=null){
+                mostrarAlert("Confirmacion", "El trabajador se ha dado de alta");
+            }
+            
         }
 
     }
@@ -114,11 +117,11 @@ public class RegistroFXMLControlador {
                 "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
         );
         String dni = tfxDni.getText().trim().toUpperCase();
-        String email = tfxDni.getText().trim().toLowerCase();
+        String email = tfxEmail.getText().trim().toLowerCase();
         Matcher matcherDni = dniPatron.matcher(dni);
         Matcher matcherEmail = emailPatron.matcher(email);
 
-        if (tfxDni.getText().isEmpty() || tfxNombre.getText().isEmpty() || tfxEmail.getText().isEmpty() || tfxCiudad.getText().isEmpty()) {
+        if (tfxDni.getText().isEmpty() || tfxNombre.getText().isEmpty() || tfxEmail.getText().isEmpty() || tfxCiudad.getText().isEmpty() || dateFechaNcimiento.getValue() == null) {
             mostrarAlert("Error", "Faltan campos por rellenar");
             return false;
         }
@@ -127,7 +130,7 @@ public class RegistroFXMLControlador {
             mostrarAlert("Error", "Este usuario ya existe");
             return false;
         }
-        if (!matcherDni.matches() && !matcherEmail.matches()) {
+        if (!matcherEmail.matches() && !matcherDni.matches()) {
             mostrarAlert("Error", "Hay campos con formato incorrecto");
             return false;
         }

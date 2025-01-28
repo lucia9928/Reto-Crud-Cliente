@@ -43,7 +43,7 @@ public class ProveedorRESTClient implements ProveedorInterfaz {
     }
 
     @Override
-    public void borrarProducto(String id) throws ClientErrorException {
+    public void borrarProveedor(String id) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("proveedorPorId/{0}", new Object[]{id})).request().delete();
     }
 
