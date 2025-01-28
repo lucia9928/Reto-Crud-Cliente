@@ -144,31 +144,69 @@ public class AlmacenFXMLControlador {
     private void configureTableEditable() {
         almacenTableView.setEditable(true);
 
+        // Configurar la columna ID
+        idAlmacenColumna.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        idAlmacenColumna.setOnEditCommit(event -> {
+            Almacen almacen = event.getRowValue();
+            Integer newId = event.getNewValue();
+            if (newId != null && String.valueOf(newId).length() <= 10) { // Validar longitud del ID
+                almacen.setIdAlmacen(newId);
+                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            } else {
+                mostrarMensajeError("El ID debe ser un número entero y no exceder 10 caracteres.");
+                almacenTableView.refresh(); // Cancelar edición y refrescar la tabla
+            }
+        });
+
+        // Configurar la columna País
         paisColumna.setCellFactory(TextFieldTableCell.forTableColumn());
         paisColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
-            almacen.setPais(event.getNewValue());
-            AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            String newPais = event.getNewValue();
+            if (newPais != null && newPais.matches("[a-zA-Z\\s]+") && newPais.length() <= 50) { // Validar solo letras y longitud
+                almacen.setPais(newPais);
+                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            } else {
+                mostrarMensajeError("El país debe contener solo letras y no exceder 50 caracteres.");
+                almacenTableView.refresh(); // Cancelar edición y refrescar la tabla
+            }
         });
 
+        // Configurar la columna Ciudad
         ciudadColumna.setCellFactory(TextFieldTableCell.forTableColumn());
         ciudadColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
-            almacen.setCiudad(event.getNewValue());
-            AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            String newCiudad = event.getNewValue();
+            if (newCiudad != null && newCiudad.matches("[a-zA-Z\\s]+") && newCiudad.length() <= 50) { // Validar solo letras y longitud
+                almacen.setCiudad(newCiudad);
+                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            } else {
+                mostrarMensajeError("La ciudad debe contener solo letras y no exceder 50 caracteres.");
+                almacenTableView.refresh(); // Cancelar edición y refrescar la tabla
+            }
         });
 
-        // Configurar la columna metrosCuadrados para manejar Integer
-        // Configurar la columna metrosCuadrados para manejar Integer
+        // Configurar la columna Metros Cuadrados
         metrosCuadradosColumna.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         metrosCuadradosColumna.setOnEditCommit(event -> {
             Almacen almacen = event.getRowValue();
-            almacen.setMetrosCuadrados(event.getNewValue());
-            System.out.println(almacen.toString());
-            AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+            String newValue = event.getNewValue().toString(); // Obtener el valor como String
+            if (esNumeroValido(newValue)) { // Validar entrada
+                int newMetros = Integer.parseInt(newValue); // Convertir a entero
+                if (newMetros >= 0) { // Validar que sea positivo
+                    almacen.setMetrosCuadrados(newMetros);
+                    AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+                } else {
+                    mostrarMensajeError("Los metros cuadrados deben ser un número entero positivo.");
+                    almacenTableView.refresh(); // Cancelar edición y refrescar la tabla
+                }
+            } else {
+                mostrarMensajeError("La entrada debe ser un número entero válido.");
+                almacenTableView.refresh(); // Cancelar edición y refrescar la tabla
+            }
         });
 
-        // Fecha
+        // Configurar la columna Fecha de Adquisición
         fechaAdquisicionColumna.setCellFactory(col -> new TableCell<Almacen, Date>() {
             private final DatePicker datePicker = new DatePicker();
 
@@ -177,44 +215,40 @@ public class AlmacenFXMLControlador {
                 super.updateItem(item, empty);
 
                 if (empty) {
-                    setGraphic(null);  // No mostrar nada si la celda está vacía
+                    setGraphic(null); // No mostrar nada si la celda está vacía
                 } else {
-                    // Convertir java.sql.Date a LocalDate
                     if (item != null) {
-                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
-                        datePicker.setValue(localDate);  // Establecer la fecha en el DatePicker
+                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        datePicker.setValue(localDate);
                     }
-                    setGraphic(datePicker);  // Mostrar el DatePicker en la celda
+                    setGraphic(datePicker);
                 }
             }
 
             @Override
             public void commitEdit(Date newValue) {
                 super.commitEdit(newValue);
-                Almacen almacen = getTableView().getItems().get(getIndex());  // Obtener el objeto correspondiente
+                Almacen almacen = getTableView().getItems().get(getIndex());
 
-                if (newValue != null) {
-                    almacen.setFechaAdquisicion(newValue); // Actualizar la fecha en el objeto almacen
+                if (newValue != null && newValue.before(new Date())) { // Validar que la fecha sea anterior a hoy
+                    almacen.setFechaAdquisicion(newValue);
+                    AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
+                } else {
+                    mostrarMensajeError("La fecha de adquisición debe ser anterior a la fecha de hoy.");
+                    almacenTableView.refresh(); // Cancelar edición y refrescar la tabla
                 }
-
-                System.out.println(almacen.toString());  // Mostrar los cambios en consola
-
-                // Llamar al servicio para actualizar el almacen
-                AlmacenFactoria.get().actualizarAlmacen_XML(almacen);
             }
 
             // Forzar el commit cuando se pierde el foco
             {
                 datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
                     if (!newFocus) {
-                        // Convertir LocalDate a java.util.Date
                         Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                        commitEdit(newDate);  // Ejecutar commit cuando el foco se pierde
+                        commitEdit(newDate);
                     }
                 });
             }
         });
-
     }
 
     /**
@@ -223,6 +257,7 @@ public class AlmacenFXMLControlador {
     @FXML
     private void añadirFila() {
         try {
+            almacenTableView.scrollTo(almacenTableView.getItems().size() - 1);
             Almacen almacen = new Almacen();
             AlmacenFactoria.get().crearAlmacen_XML(almacen);
             mostrarAlmacenes();
@@ -345,7 +380,16 @@ public class AlmacenFXMLControlador {
                     case "ID":
                         String idFiltro = txtFiltro.getText();
                         if (!idFiltro.isEmpty()) {
-                            buscarPorId(idFiltro);
+                            if (idFiltro.length() <= 50) {
+                                try {
+                                    int id = Integer.parseInt(idFiltro); // Validar que sea un número
+                                    buscarPorId(String.valueOf(id));    // Convertimos a String para buscar si es necesario
+                                } catch (NumberFormatException e) {
+                                    mostrarMensajeError("El ID debe ser un número válido.");
+                                }
+                            } else {
+                                mostrarMensajeError("El ID no debe exceder los 50 caracteres.");
+                            }
                         } else {
                             mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
                         }
@@ -354,8 +398,17 @@ public class AlmacenFXMLControlador {
                     case "Fecha":
                         LocalDate fechaDesde = txtFechaDesde.getValue();
                         LocalDate fechaHasta = txtFechaHasta.getValue();
+                        LocalDate fechaHoy = LocalDate.now(); // Obtener la fecha actual
                         if (fechaDesde != null && fechaHasta != null) {
-                            buscarPorFecha(fechaDesde, fechaHasta);
+                            if (!fechaDesde.isAfter(fechaHasta)) { // Verificar que 'Desde' no sea posterior a 'Hasta'
+                                if (!fechaDesde.isAfter(fechaHoy) && !fechaHasta.isAfter(fechaHoy)) { // Verificar que ninguna fecha sea posterior a hoy
+                                    buscarPorFecha(fechaDesde, fechaHasta);
+                                } else {
+                                    mostrarMensajeError("Las fechas no pueden ser posteriores a la fecha actual.");
+                                }
+                            } else {
+                                mostrarMensajeError("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
+                            }
                         } else {
                             mostrarAlmacenes(); // Si no hay fechas, mostrar todos
                         }
@@ -364,7 +417,15 @@ public class AlmacenFXMLControlador {
                     case "País":
                         String paisFiltro = txtFiltro.getText();
                         if (!paisFiltro.isEmpty()) {
-                            buscarPorPais(paisFiltro);
+                            if (paisFiltro.length() <= 50) {
+                                if (paisFiltro.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) { // Validar que contenga solo letras y espacios
+                                    buscarPorPais(paisFiltro);
+                                } else {
+                                    mostrarMensajeError("El nombre del país solo puede contener letras.");
+                                }
+                            } else {
+                                mostrarMensajeError("El nombre del país no debe exceder los 50 caracteres.");
+                            }
                         } else {
                             mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
                         }
@@ -373,7 +434,15 @@ public class AlmacenFXMLControlador {
                     case "Ciudad":
                         String ciudadFiltro = txtFiltro.getText();
                         if (!ciudadFiltro.isEmpty()) {
-                            buscarPorCiudad(ciudadFiltro);
+                            if (ciudadFiltro.length() <= 50) {
+                                if (ciudadFiltro.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) { // Validar que contenga solo letras y espacios
+                                    buscarPorCiudad(ciudadFiltro);
+                                } else {
+                                    mostrarMensajeError("El nombre de la ciudad solo puede contener letras.");
+                                }
+                            } else {
+                                mostrarMensajeError("El nombre de la ciudad no debe exceder los 50 caracteres.");
+                            }
                         } else {
                             mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
                         }
@@ -383,23 +452,18 @@ public class AlmacenFXMLControlador {
                         String metrosFiltro = txtFiltro.getText();
                         if (!metrosFiltro.isEmpty()) {
                             try {
-                                int metros = Integer.parseInt(metrosFiltro);
-                                buscarPorMetros(metros);
+                                int metros = Integer.parseInt(metrosFiltro); // Validar que sea un número
+                                if (metros >= 0 && metros <= 10000) { // Rango permitido
+                                    buscarPorMetros(metros);
+                                } else {
+                                    mostrarMensajeError("Por favor, ingresa un valor entre 0 y 10,000 para los metros.");
+                                }
                             } catch (NumberFormatException e) {
-                                // Si el valor no es un número válido, mostrar un mensaje de error
-                                Alert alert = new Alert(Alert.AlertType.ERROR);
-                                alert.setTitle("Error");
-                                alert.setHeaderText("Valor incorrecto");
-                                alert.setContentText("Por favor, ingresa un valor numérico válido para los metros.");
-                                alert.showAndWait();
+                                mostrarMensajeError("Por favor, ingresa un valor numérico válido para los metros.");
                             }
                         } else {
                             mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
                         }
-                        break;
-
-                    default:
-                        mostrarAlmacenes(); // Si no hay filtro seleccionado, mostrar todos
                         break;
                 }
             } catch (Exception e) {
@@ -513,23 +577,43 @@ public class AlmacenFXMLControlador {
     @FXML
     private void imprimirInforme() {
         try {
-            
-            JasperReport report=JasperCompileManager.compileReport("src/recursos/informeAlmacen.jrxml");
 
-            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Almacen>)this.almacenTableView.getItems());
-            
+            JasperReport report = JasperCompileManager.compileReport("src/recursos/informeAlmacen.jrxml");
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Almacen>) this.almacenTableView.getItems());
+
             Map<String, Object> parameters = new HashMap<>();
-            
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
-            
+
             JasperViewer jasperViewer = new JasperViewer(jasperPrint);
-            
+
             jasperViewer.setVisible(true);
 
         } catch (JRException e) {
             LOGGER.severe("Error al generar el reporte: " + e.getMessage());
             Alert alert = new Alert(Alert.AlertType.ERROR, "Error al generar el reporte.");
             alert.showAndWait();
+        }
+    }
+
+    private void mostrarMensajeError(String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Datos inválidos");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private boolean esNumeroValido(String valor) {
+        if (valor == null || valor.isEmpty()) {
+            return false; // No es válido si está vacío o nulo
+        }
+        try {
+            Integer.parseInt(valor); // Intentar convertir a entero
+            return true; // Es válido si no lanza una excepción
+        } catch (NumberFormatException e) {
+            return false; // No es un número válido
         }
     }
 }
