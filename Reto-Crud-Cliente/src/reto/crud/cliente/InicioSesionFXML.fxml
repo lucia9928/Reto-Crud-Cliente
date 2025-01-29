@@ -30,7 +30,7 @@
             </VBox>
 
             <!-- Botón de iniciar sesión -->
-            <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" onAction="#iniciarSesion" />
+            <Button fx:id="btnIniciarSesion" onAction="#iniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" />
 
             <!-- Enlaces debajo del botón -->
             <VBox alignment="CENTER" spacing="10">

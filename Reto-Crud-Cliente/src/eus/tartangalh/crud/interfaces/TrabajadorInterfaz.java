@@ -19,6 +19,8 @@ public interface TrabajadorInterfaz {
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException;
     public void modificarTrabajador_XML(Object requestEntity, String id) throws WebApplicationException;
     public void modificarTrabajador_JSON(Object requestEntity, String id) throws WebApplicationException;
+    public <T> T encontrarPorEmail_XML(GenericType<T> responseType, String Email) throws WebApplicationException;
+    public <T> T encontrarPorEmail_JSON(GenericType<T> responseType, String Email) throws WebApplicationException;
     public void eliminarTrabajador(String id) throws WebApplicationException;
     public <T> T encontrarTodosLosTrabajdores_XML(GenericType<T> responseType) throws WebApplicationException ;
     public <T> T encontrarTodosLosTrabajdores_JSON(Class<T> responseType) throws WebApplicationException;
