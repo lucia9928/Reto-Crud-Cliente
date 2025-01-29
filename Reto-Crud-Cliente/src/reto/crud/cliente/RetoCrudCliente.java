@@ -5,11 +5,8 @@
  */
 package reto.crud.cliente;
 
-import eus.tartangalh.crud.controladores.AlmacenFXMLControlador;
-import eus.tartangalh.crud.controladores.ProductoFarmaceuticoUIController;
-import eus.tartangalh.crud.controladores.ProveedorFXMLController;
+import eus.tartangalh.crud.controladores.InicioSesionFXMLControlador;
 import eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador;
-import eus.tartangalh.crud.controladores.RegistroTrabajadorFXMLControlador;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -42,7 +39,7 @@ public class RetoCrudCliente extends javafx.application.Application {
         proveedor.setStage(stage);
 
         proveedor.initStage(root);*/
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroClienteFXML.fxml"));
+ /* FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroClienteFXML.fxml"));
 
         Parent root = loader.load();
 
@@ -50,8 +47,16 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         registroCliente.setStage(stage);
 
-        registroCliente.initStage(root);
+        registroCliente.initStage(root);*/
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
 
+        Parent root = loader.load();
+
+        InicioSesionFXMLControlador inicioSesion = (InicioSesionFXMLControlador) loader.getController();
+
+        inicioSesion.setStage(stage);
+
+        inicioSesion.initStage(root);
     }
 
     /**
