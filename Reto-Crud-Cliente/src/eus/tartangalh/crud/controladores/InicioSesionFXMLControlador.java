@@ -66,17 +66,19 @@ public class InicioSesionFXMLControlador {
 
     private void mostrarContra(ActionEvent event) {
         if (esPasswordVisible) {
-            // Ocultar la contraseña
-            tfxContrasena.setText(pswContrasena.getText());
-            pswContrasena.setVisible(false);
+            // Ocultar contraseña
+            pswContrasena.setText(tfxContrasena.getText());
             pswContrasena.setVisible(true);
-            btnMostrarContra.setText("Mostrar");
-        } else {
-            tfxContrasena.setText(tfxContrasena.getText());
-            tfxContrasena.setVisible(true);
             tfxContrasena.setVisible(false);
-            btnMostrarContra.setText("Ocultar");
+            btnMostrarContra.setText("👁");
+        } else {
+            // Mostrar contraseña
+            tfxContrasena.setText(pswContrasena.getText());
+            tfxContrasena.setVisible(true);
+            pswContrasena.setVisible(false);
+            btnMostrarContra.setText("👁");
         }
+        esPasswordVisible = !esPasswordVisible;
     }
 
     private void iniciarSesion(ActionEvent event) {
