@@ -62,5 +62,9 @@ public class Cliente extends Usuario implements Serializable {
     public String toString() {
         return "eus.tartangalh.crud.create.Cliente[ id=" + super.getDni()  + " ]";
     }
+
+    public void getNombre(String newValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

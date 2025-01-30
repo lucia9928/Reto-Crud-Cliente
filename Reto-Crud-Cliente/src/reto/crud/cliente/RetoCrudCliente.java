@@ -22,15 +22,12 @@ public class RetoCrudCliente extends javafx.application.Application {
         
         Parent root = loader.load();
                 
-
         RecetaMedicaFXMLController proveedor = (RecetaMedicaFXMLController) loader.getController();
 
         proveedor.setStage(stage);
 
         proveedor.initStage(root);
-
     }
-
     /**
      * @param args the command line arguments
      */
@@ -38,5 +35,4 @@ public class RetoCrudCliente extends javafx.application.Application {
         launch(args);
 
     }
-
 }

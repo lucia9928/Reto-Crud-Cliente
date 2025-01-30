@@ -5,6 +5,9 @@
  */
 package eus.tartangalh.crud.interfaces;
 
+import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
+import eus.tartangalh.crud.entidades.RecetaMedica;
+import java.util.List;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -29,9 +32,12 @@ public interface RecetaMedicaInterfaz {
      * @return
      * @throws WebApplicationException
      */
+    public <T> T obtenerProductosPorReceta_XML(Class<T> responseType, String id) throws WebApplicationException ;
     public <T> T  encontrarTodasLasRecetas_XML(GenericType<T> responseType) throws WebApplicationException;
     public <T> T encontrarTodasLasRecetas_JSON(Class<T> responseType) throws WebApplicationException;
     public void crearRecetaMedica_XML(Object requestEntity) throws WebApplicationException;
     public void crearRecetaMedica_JSON(Object requestEntity) throws WebApplicationException ;
     public void close();
+
+
 }

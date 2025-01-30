@@ -72,7 +72,6 @@ public class RecetaMedicaREST implements RecetaMedicaInterfaz{
           return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
-
     @Override
     public <T> T encontrarTodasLasRecetas_JSON(Class<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
@@ -88,11 +87,19 @@ public class RecetaMedicaREST implements RecetaMedicaInterfaz{
     public void crearRecetaMedica_JSON(Object requestEntity) throws WebApplicationException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
+   @Override
+    public <T> T obtenerProductosPorReceta_XML(Class<T> responseType, String id) throws WebApplicationException {
+    WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
 
+    }
     @Override
     public void close() {
         client.close();
     }
+
+    
 
   
     

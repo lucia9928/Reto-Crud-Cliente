@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import javafx.beans.property.SimpleBooleanProperty;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
@@ -37,16 +38,16 @@ public class RecetaMedica implements Serializable {
     }
 
 
-   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
    
-  public Cliente getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-  public List<ProductoFarmaceutico> getProductos() {
+    public List<ProductoFarmaceutico> getProductos() {
         return productos;
     }
 
@@ -87,7 +88,9 @@ public class RecetaMedica implements Serializable {
     public String getNombreCliente() {
     return cliente != null? cliente.getNombre() : "Sin cliente";
 }
-public String getListaProductos() {
+        // Getter para el valor booleano
+   
+    public String getListaProductos() {
     if (productos == null || productos.isEmpty()) {
         return "Sin productos";
     }
@@ -128,5 +131,7 @@ public String getListaProductos() {
     public String toString() {
         return "eus.tartangalh.crud.create.RecetaMedica[ id=" + idReceta + " ]";
     }
+
+ 
     
 }

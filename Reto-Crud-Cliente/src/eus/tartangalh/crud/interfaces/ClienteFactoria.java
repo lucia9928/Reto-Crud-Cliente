@@ -12,7 +12,7 @@ import eus.tartangalh.crud.logica.ClienteREST;
  */
 public class ClienteFactoria {
       private static ClienteInterfaz clienteInterfaz ;
-      public ClienteInterfaz get() {
+      public static ClienteInterfaz get() {
         if (clienteInterfaz == null) {
             clienteInterfaz = new ClienteREST(); // Lazy initialization
         }
