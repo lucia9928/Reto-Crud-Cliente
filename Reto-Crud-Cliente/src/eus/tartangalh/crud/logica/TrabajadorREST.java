@@ -5,6 +5,7 @@
  */
 package eus.tartangalh.crud.logica;
 
+import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.WebApplicationException;
@@ -55,7 +56,7 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         WebTarget resource = webTarget.path(java.text.MessageFormat.format("Email/{0}", Email));
         return resource.request(MediaType.APPLICATION_XML).get(responseType);
     }
-    
+
     public <T> T encontrarPorEmail_JSON(GenericType<T> responseType, String Email) throws WebApplicationException {
         WebTarget resource = webTarget.path(java.text.MessageFormat.format("Email/{0}", Email));
         return resource.request(MediaType.APPLICATION_JSON).get(responseType);
@@ -93,4 +94,13 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         client.close();
     }
 
+    @Override
+    public void resetarContrasena(Trabajador trabajador) throws WebApplicationException {
+        try {
+            webTarget.path("recoverPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(trabajador, javax.ws.rs.core.MediaType.APPLICATION_XML), Trabajador.class);
+        } catch (Exception ex) {
+            throw new WebApplicationException("An error occurred while trying to edit the clients password:" + ex.getMessage());
+        }
+
+    }
 }
