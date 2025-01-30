@@ -7,6 +7,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane id="Pane" prefHeight="620.0" prefWidth="568.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.InicioSesionFXMLControlador">
@@ -24,22 +25,27 @@
             <VBox alignment="CENTER" spacing="10">
                 <Label fx:id="lblEmail" text="EMAIL" />
                 <TextField fx:id="textEmail" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu correo" />
-
+                
                 <Label fx:id="lblContrasena" text="CONTRASEÑA" />
-                <PasswordField fx:id="pswContrasena" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu contraseña" />
+                
+                <!-- Contenedor para el campo de contraseña y el botón de mostrar -->
+                <HBox alignment="CENTER" spacing="5">
+                    <PasswordField fx:id="pswContrasena" prefHeight="35.0" prefWidth="220.0" promptText="Ingresa tu contraseña" />
+                    <TextField fx:id="tfxContrasena" prefHeight="35.0" prefWidth="220.0" promptText="Ingresa tu contraseña" visible="false" />
+                    <Button fx:id="btnMostrarContra" text="👁"  />
+                </HBox>
             </VBox>
 
             <!-- Botón de iniciar sesión -->
-            <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" onAction="#iniciarSesion" />
+            <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" />
 
             <!-- Enlaces debajo del botón -->
             <VBox alignment="CENTER" spacing="10">
                 <Label fx:id="lblNoTienesCuenta" text="¿No tienes cuenta? Regístrate" />
-                <Button fx:id="btnRegistrate" onAction="#irARegistrar" prefHeight="35.0" prefWidth="250.0" styleClass="btn-secondary" text="Registrarse" />
+                <Button fx:id="btnRegistrate" prefHeight="35.0" prefWidth="250.0" styleClass="btn-secondary" text="Registrarse" />
                 <Label fx:id="lblOlvidasteLaContrasena" text="¿Olvidaste tu contraseña?" />
                 <Button fx:id="btnReestablecerContrasena" prefHeight="35.0" prefWidth="250.0" text="Restablecer contraseña" />
             </VBox>
         </VBox>
-      <Button fx:id="btnMostrarContra" layoutX="412.0" layoutY="327.0" mnemonicParsing="false" onAction="#mostrarContra" text="👁" />
     </children>
 </AnchorPane>

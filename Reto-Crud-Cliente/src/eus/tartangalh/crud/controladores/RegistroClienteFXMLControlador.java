@@ -6,17 +6,11 @@
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Cliente;
-import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.entidades.Usuario;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
-import eus.tartangalh.crud.interfaces.ProveedorFactoria;
-import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
-import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.List;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +25,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javax.ws.rs.core.GenericType;
 
 /**
  * FXML Controller class
@@ -93,7 +86,7 @@ public class RegistroClienteFXMLControlador {
     private void crearTrabajador(ActionEvent event) {
 
         if (validarCliente()) {
-            Usuario cliente = new Cliente();
+            Cliente cliente = new Cliente();
 
             cliente.setDni(tfxDni.getText());
             cliente.setNombre(tfxNombre.getText());
@@ -106,7 +99,7 @@ public class RegistroClienteFXMLControlador {
 
             cliente.setFechaNacimiento(dateFechaNcimiento.getValue());
 
-            clienteInterfaz.crearCliente_XML(clienteInterfaz);
+            clienteInterfaz.crearCliente_XML(cliente);
             if(clienteInterfaz.encontrarPorId_XML(Cliente.class, tfxDni.getText())!=null){
                 mostrarAlert("Confirmacion", "El Cliente se ha dado de alta");
             }

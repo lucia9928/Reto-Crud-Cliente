@@ -27,11 +27,11 @@ public class ClienteREST implements ClienteInterfaz {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/CRUDWebApplication/webresources";
+    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
 
     public ClienteREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("eus.tartangalh.crud.create.cliente");
+        webTarget = client.target(BASE_URI).path("Cliente");
     }
 
     public void modificarCliente_XML(Object requestEntity, String id) throws WebApplicationException {
