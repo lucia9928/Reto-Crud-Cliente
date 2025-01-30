@@ -10,15 +10,19 @@ import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.entidades.Usuario;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -65,6 +69,8 @@ public class RegistroClienteFXMLControlador {
     private DatePicker dateFechaNcimiento;
     @FXML
     private Button btbRegistrarse;
+    @FXML
+    private Button btnIniciaSesion;
 
     private Stage stage;
 
@@ -78,12 +84,26 @@ public class RegistroClienteFXMLControlador {
         Scene scene = new Scene(root);
         stage.setTitle("Registro");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         btbRegistrarse.setVisible(true);
         btbRegistrarse.setDisable(false);
         btbRegistrarse.setOnAction(this::crearTrabajador);
+        btnIniciaSesion.setOnAction(this::irIniciarSesion);
 
+    }
+
+    private void irIniciarSesion(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/InicioSesionFXML.fxml"));
+            Parent root = loader.load();
+            InicioSesionFXMLControlador inicioSesion = loader.getController();
+            inicioSesion.setStage(stage);
+            inicioSesion.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(RegistroClienteFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void crearTrabajador(ActionEvent event) {
@@ -100,7 +120,6 @@ public class RegistroClienteFXMLControlador {
             cliente.setCodigoPosta(Integer.parseInt(tfxCodigoPostal.getText()));
             cliente.setCidudad(tfxCiudad.getText());
 
-            
             Date date = Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             cliente.setFechaNacimiento(date);
 

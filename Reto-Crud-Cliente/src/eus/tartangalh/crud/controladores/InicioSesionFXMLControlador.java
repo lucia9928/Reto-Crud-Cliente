@@ -64,6 +64,7 @@ public class InicioSesionFXMLControlador {
         Scene scene = new Scene(root);
         stage.setTitle("Inicio de sesion");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         btnIniciarSesion.setOnAction(this::iniciarSesion);
@@ -73,7 +74,15 @@ public class InicioSesionFXMLControlador {
     }
 
     private void irARegistrar(ActionEvent event) {
-        //RetoCrudCliente.navegarVentanas("RegistroFXML.fxml");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/RegistroClienteFXML.fxml"));
+            Parent root = loader.load();
+            RegistroClienteFXMLControlador registroCliente = loader.getController();
+            registroCliente.setStage(stage);
+            registroCliente.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void mostrarContra(ActionEvent event) {
@@ -96,10 +105,7 @@ public class InicioSesionFXMLControlador {
     private void iniciarSesion(ActionEvent event) {
         Trabajador trabajador = trabajaInterfaz.encontrarPorId_XML(Trabajador.class, textDni.getText());
         Cliente cliente = clienteInterfaz.encontrarPorId_XML(Cliente.class, textDni.getText());
-        /*Trabajador trabajador = new Trabajador();
 
-        Cliente cliente = null;
-        trabajador.setDni("12124134T");*/
         if (cliente == null) {
             if (trabajador == null) {
                 mostrarAlerta("Error", "Este usuario no existe");
@@ -111,14 +117,23 @@ public class InicioSesionFXMLControlador {
                     menuTrabajador.setStage(stage);
                     menuTrabajador.setTrabajador(trabajador);
                     menuTrabajador.initStage(root);
-                    
 
                 } catch (IOException ex) {
                     Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuClienteFXML.fxml"));
+                Parent root = loader.load();
+                MenuClienteFXMLController menuCliente = loader.getController();
+                menuCliente.setStage(stage);
+                menuCliente.setTrabajador(cliente);
+                menuCliente.initStage(root);
 
+            } catch (IOException ex) {
+                Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
     }

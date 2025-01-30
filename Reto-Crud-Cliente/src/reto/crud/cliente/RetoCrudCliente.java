@@ -39,15 +39,7 @@ public class RetoCrudCliente extends javafx.application.Application {
         proveedor.setStage(stage);
 
         proveedor.initStage(root);*/
- /* FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroClienteFXML.fxml"));
 
-        Parent root = loader.load();
-
-        RegistroClienteFXMLControlador registroCliente = (RegistroClienteFXMLControlador) loader.getController();
-
-        registroCliente.setStage(stage);
-
-        registroCliente.initStage(root);*/
         FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
 
         Parent root = loader.load();

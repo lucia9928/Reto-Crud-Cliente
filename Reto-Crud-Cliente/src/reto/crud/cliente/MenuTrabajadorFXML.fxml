@@ -1,11 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="eus.tartangalh.crud.controladores.MenuTrabajadorFXMLController">
+<GridPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.MenuTrabajadorFXMLController">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="946.0" minWidth="10.0" prefWidth="455.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="607.3333129882812" minWidth="0.0" prefWidth="455.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="557.0" minWidth="10.0" prefWidth="455.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
    <children>
-      <TextField fx:id="texto" layoutX="151.0" layoutY="119.0" />
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #b8dcb4;" GridPane.columnIndex="1">
+         <children>
+            <VBox prefHeight="360.0" prefWidth="355.0">
+               <VBox.margin>
+                  <Insets left="50.0" right="50.0" />
+               </VBox.margin>
+               <children>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="75.0" fitWidth="75.0">
+                           <image>
+                              <Image url="@../../../recursos/icons/registrarTrabajador.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="btnRegistrarTrabajador" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Registrar trabajador">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="75.0" fitWidth="75.0">
+                           <image>
+                              <Image url="@../../../recursos/icons/producto.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="btnProducto" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Producto">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="75.0" fitWidth="75.0">
+                           <image>
+                              <Image url="@../../../recursos/icons/proveedor.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="btnProveedor" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Proveedor">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <ImageView fitHeight="75.0" fitWidth="75.0">
+                           <image>
+                              <Image url="@../../../recursos/icons/almacen.png" />
+                           </image>
+                        </ImageView>
+                        <Button fx:id="btnAlamcen" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Almacen">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="40.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="btnCerrarSesion" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Cerrar sesion">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
    </children>
-</AnchorPane>
+</GridPane>

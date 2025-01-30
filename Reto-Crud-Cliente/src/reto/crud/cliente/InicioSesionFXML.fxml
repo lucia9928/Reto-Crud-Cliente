@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane id="Pane" prefHeight="620.0" prefWidth="568.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.InicioSesionFXMLControlador">
-    <children>
+<GridPane prefHeight="768.0" prefWidth="1366.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.InicioSesionFXMLControlador">
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.0" minWidth="10.0" prefWidth="455.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.0" minWidth="10.0" prefWidth="455.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="455.0" minWidth="10.0" prefWidth="455.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+   <children>
         <!-- Contenedor principal para centrar el contenido -->
-        <VBox alignment="CENTER" layoutX="150.0" layoutY="100.0" spacing="20">
+        <VBox alignment="CENTER" prefHeight="768.0" prefWidth="943.0" spacing="20" GridPane.columnIndex="1">
             <!-- Imagen del logotipo -->
             <ImageView fx:id="imgLogo" fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                 <image>
@@ -21,25 +32,28 @@
                 </image>
             </ImageView>
 
-            <!-- Campos del formulario -->
+                  <!-- Campos del formulario -->
             <VBox alignment="CENTER" spacing="10">
                 <Label fx:id="lblEmail" text="DNI" />
                 <TextField fx:id="textDni" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu dni" />
                 
-                <Label fx:id="lblContrasena" text="CONTRASEÑA" />
+                      <Label fx:id="lblContrasena" text="CONTRASEÑA" />
                 
-                <!-- Contenedor para el campo de contraseña y el botón de mostrar -->
+                      <!-- Contenedor para el campo de contraseña y el botón de mostrar -->
                 <HBox alignment="CENTER" spacing="5">
                     <PasswordField fx:id="pswContrasena" prefHeight="35.0" prefWidth="220.0" promptText="Ingresa tu contraseña" />
                     <TextField fx:id="tfxContrasena" prefHeight="35.0" prefWidth="220.0" promptText="Ingresa tu contraseña" visible="false" />
-                    <Button fx:id="btnMostrarContra" text="👁" />
+                    <Button fx:id="btnMostrarContra" prefHeight="32.0" prefWidth="67.0" text="👁">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin></Button>
                 </HBox>
             </VBox>
 
-            <!-- Botón de iniciar sesión -->
+                  <!-- Botón de iniciar sesión -->
             <Button fx:id="btnIniciarSesion" prefHeight="40.0" prefWidth="250.0" styleClass="btn-primary" text="Iniciar sesión" />
 
-            <!-- Enlaces debajo del botón -->
+                  <!-- Enlaces debajo del botón -->
             <VBox alignment="CENTER" spacing="10">
                 <Label fx:id="lblNoTienesCuenta" text="¿No tienes cuenta? Regístrate" />
                 <Button fx:id="btnRegistrate" prefHeight="35.0" prefWidth="250.0" styleClass="btn-secondary" text="Registrarse" />
@@ -47,5 +61,5 @@
                 <Button fx:id="btnReestablecerContrasena" prefHeight="35.0" prefWidth="250.0" text="Restablecer contraseña" />
             </VBox>
         </VBox>
-    </children>
-</AnchorPane>
+   </children>
+</GridPane>
