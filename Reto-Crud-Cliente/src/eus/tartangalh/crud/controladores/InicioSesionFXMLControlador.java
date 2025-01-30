@@ -5,86 +5,85 @@
  */
 package eus.tartangalh.crud.controladores;
 
-import java.net.URL;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
-import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import reto.crud.cliente.RetoCrudCliente;
 
 /**
  *
  * @author 2dam
  */
-public class InicioSesionFXMLControlador implements Initializable {
+public class InicioSesionFXMLControlador {
 
     @FXML
     private TextField textEmail;
 
     @FXML
     private PasswordField pswContrasena;
+    @FXML
+    private Button btnIniciarSesion;
+    @FXML
+    private Button btnRegistrate;
+    @FXML
+    private Button btnMostrarContra;
 
     private static final String EMAIL_REGEX = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$";
     private static final String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,}$";
-
-    @FXML
-    private void irARegistrar() throws Exception {
-        //RetoCrudCliente.navegarVentanas("RegistroFXML.fxml");
-    }
-    @FXML
     private Button btnShowPassword;
 
     private boolean esPasswordVisible = false;
-
+    private Stage stage;
     @FXML
-    private void mostrarContra() {
+    private TextField tfxContrasena;
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void initStage(Parent root) {
+        Scene scene = new Scene(root);
+        stage.setTitle("Inicio de sesion");
+        stage.setScene(scene);
+        stage.show();
+
+        btnIniciarSesion.setOnAction(this::iniciarSesion);
+        btnRegistrate.setOnAction(this::irARegistrar);
+        btnMostrarContra.setOnAction(this::mostrarContra);
+
+    }
+
+    private void irARegistrar(ActionEvent event) {
+        //RetoCrudCliente.navegarVentanas("RegistroFXML.fxml");
+    }
+
+    private void mostrarContra(ActionEvent event) {
         if (esPasswordVisible) {
-            // Cambia a campo de contraseña
-            pswContrasena.setText(pswContrasena.getText());
-            pswContrasena.setPromptText("Ingresa tu contraseña");
-            esPasswordVisible = false;
-            btnShowPassword.setText("👁");
+            // Ocultar contraseña
+            pswContrasena.setText(tfxContrasena.getText());
+            pswContrasena.setVisible(true);
+            tfxContrasena.setVisible(false);
+            btnMostrarContra.setText("👁");
         } else {
-            // Cambia a campo de texto
-            pswContrasena.setPromptText(pswContrasena.getText());
-            pswContrasena.clear();
-            esPasswordVisible = true;
-            btnShowPassword.setText("👁");
+            // Mostrar contraseña
+            tfxContrasena.setText(pswContrasena.getText());
+            tfxContrasena.setVisible(true);
+            pswContrasena.setVisible(false);
+            btnMostrarContra.setText("👁");
         }
+        esPasswordVisible = !esPasswordVisible;
     }
-    
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        Platform.runLater(() -> {
-            Stage stage = (Stage) textEmail.getScene().getWindow();
-            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                @Override
-                public void handle(WindowEvent event) {
-                    event.consume();
-                    handleClose();
-                }
 
-            });
-
-        });
-    }
-    
-    @FXML
-    private void iniciarSesion() {
+    private void iniciarSesion(ActionEvent event) {
 
     }
-    
 
     private void handleClose() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
