@@ -23,8 +23,8 @@
 
             <!-- Campos del formulario -->
             <VBox alignment="CENTER" spacing="10">
-                <Label fx:id="lblEmail" text="EMAIL" />
-                <TextField fx:id="textEmail" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu correo" />
+                <Label fx:id="lblEmail" text="DNI" />
+                <TextField fx:id="textDni" prefHeight="35.0" prefWidth="250.0" promptText="Ingresa tu dni" />
                 
                 <Label fx:id="lblContrasena" text="CONTRASEÑA" />
                 
@@ -32,7 +32,7 @@
                 <HBox alignment="CENTER" spacing="5">
                     <PasswordField fx:id="pswContrasena" prefHeight="35.0" prefWidth="220.0" promptText="Ingresa tu contraseña" />
                     <TextField fx:id="tfxContrasena" prefHeight="35.0" prefWidth="220.0" promptText="Ingresa tu contraseña" visible="false" />
-                    <Button fx:id="btnMostrarContra" text="👁"  />
+                    <Button fx:id="btnMostrarContra" text="👁" />
                 </HBox>
             </VBox>
 

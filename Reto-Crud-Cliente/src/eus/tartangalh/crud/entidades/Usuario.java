@@ -6,7 +6,7 @@
 package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -23,7 +23,7 @@ public class Usuario implements Serializable {
     private String apellido;
     private String email;
     private String contrasena;
-    private LocalDate fechaNacimiento;
+    private Date fechaNacimiento;
     private String calle;
     private Integer codigoPosta;
     private String cidudad;
@@ -68,11 +68,11 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
     }
 
-    public LocalDate getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
