@@ -6,6 +6,7 @@
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Proveedor;
+import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
 import java.time.LocalDate;
@@ -85,9 +86,14 @@ public class ProveedorFXMLController {
     List<Proveedor> ProveedoresPorFecha;
     ObservableList<Proveedor> todosProveedoresData;
     ObservableList<Proveedor> ProveedoresPorFechaData;
+    private Trabajador trabajador;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 
     public void initStage(Parent root) {

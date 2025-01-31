@@ -1,5 +1,6 @@
 package eus.tartangalh.crud.controladores;
 
+import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.entidades.RecetaMedica;
 import eus.tartangalh.crud.interfaces.RecetaMedicaFactoria;
@@ -24,6 +25,7 @@ import javax.ws.rs.core.GenericType;
 
 public class RecetaMedicaFXMLController {
 
+    private Cliente cliente;
     @FXML
     private DatePicker desde;
     @FXML
@@ -48,42 +50,51 @@ public class RecetaMedicaFXMLController {
         this.stage = stage;
     }
 
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public void initStage(Parent root) {
         LOGGER.info("Inicializando controlador de receta médica");
         Scene scene = new Scene(root);
         stage.setTitle("Recetas Médicas");
         stage.setScene(scene);
         stage.show();
-       /** colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-       listaProductos.setCellValueFactory(new PropertyValueFactory<>("productos"));
-        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
-        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-            List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>(){});
-            ObservableList<RecetaMedica> recetaList = FXCollections.observableArrayList(recetas);
-            tableRecetas.setItems(recetaList);
-*/
+        /**
+         * colCliente.setCellValueFactory(new
+         * PropertyValueFactory<>("nombreCliente"));
+         * listaProductos.setCellValueFactory(new
+         * PropertyValueFactory<>("productos"));
+         * colFecha.setCellValueFactory(new
+         * PropertyValueFactory<>("fechaReceta"));
+         * colDescripcion.setCellValueFactory(new
+         * PropertyValueFactory<>("descripcion")); List<RecetaMedica> recetas =
+         * RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new
+         * GenericType<List<RecetaMedica>>(){}); ObservableList<RecetaMedica>
+         * recetaList = FXCollections.observableArrayList(recetas);
+         * tableRecetas.setItems(recetaList);
+         */
         configurarTabla();
         cargarRecetas();
     }
 
     private void configurarTabla() {
         // Configuración de columnas
-        Integer num=1;
+        Integer num = 1;
         colId.setCellValueFactory(new PropertyValueFactory<>("idReceta"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-      List<ProductoFarmaceutico> producto= buscarProductosPorReceta(num.toString());
-     //colProductos.setCellFactory((Callback<TableColumn<RecetaMedica, String>, TableCell<RecetaMedica, String>>) (producto));
+        List<ProductoFarmaceutico> producto = buscarProductosPorReceta(num.toString());
+        //colProductos.setCellFactory((Callback<TableColumn<RecetaMedica, String>, TableCell<RecetaMedica, String>>) (producto));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        
+
     }
-    
-    
+
     private void cargarRecetas() {
         try {
             // Obtener todas las recetas médicas desde el servicio REST
-            
-            List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>() { 
+
+            List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>() {
             });
             if (recetas != null && !recetas.isEmpty()) {
                 ObservableList<RecetaMedica> recetaList = FXCollections.observableArrayList(recetas);
@@ -97,35 +108,34 @@ public class RecetaMedicaFXMLController {
     }
 
     private List<ProductoFarmaceutico> buscarProductosPorReceta(String idReceta) {
-         ProductoFarmaceutico lista=null;
-    try {
-        // Llamar al método REST para obtener los productos farmacéuticos
-         lista = RecetaMedicaFactoria.get().obtenerProductosPorReceta(new GenericType<ProductoFarmaceutico>() {
+        ProductoFarmaceutico lista = null;
+        try {
+            // Llamar al método REST para obtener los productos farmacéuticos
+            lista = RecetaMedicaFactoria.get().obtenerProductosPorReceta(new GenericType<ProductoFarmaceutico>() {
             }, idReceta);
-        if (lista != null && lista.getNombreProducto() != null) {
-            return FXCollections.observableArrayList(lista);
-            
+            if (lista != null && lista.getNombreProducto() != null) {
+                return FXCollections.observableArrayList(lista);
+
+            }
+            LOGGER.log(Level.WARNING, "No se encontraron productos para la receta con ID {0}", idReceta);
+        } catch (WebApplicationException e) {
+            LOGGER.log(Level.SEVERE, "Error al buscar productos para la receta con ID {0}: {1}", new Object[]{idReceta, e.getMessage()});
         }
-        LOGGER.log(Level.WARNING, "No se encontraron productos para la receta con ID {0}", idReceta);
-    } catch (WebApplicationException e) {
-        LOGGER.log(Level.SEVERE, "Error al buscar productos para la receta con ID {0}: {1}", new Object[]{idReceta, e.getMessage()});
+        return (List<ProductoFarmaceutico>) lista;
     }
-    return (List<ProductoFarmaceutico>) lista;
-}
-    
- /**  private Cliente buscarCliente (){
-        Cliente cliente = null;
-        cliente = ClienteFactoria.get().encontrarTodosLosClientes_XML(Cliente.class);
-        ObservableList<Cliente> clienteList = FXCollections.observableArrayList(cliente);
-        for (Cliente cliente1 : clienteList) {
-            cliente1.getNombre();
-        }
-    return cliente;
-    }*/
+
+    /**
+     * private Cliente buscarCliente (){ Cliente cliente = null; cliente =
+     * ClienteFactoria.get().encontrarTodosLosClientes_XML(Cliente.class);
+     * ObservableList<Cliente> clienteList =
+     * FXCollections.observableArrayList(cliente); for (Cliente cliente1 :
+     * clienteList) { cliente1.getNombre(); } return cliente;
+    }
+     */
     @FXML
     private void handleBuscar() {
         LOGGER.info("Buscando recetas médicas por filtros.");
         // Implementar lógica de búsqueda aquí si se necesitan filtros (como por fechas)
     }
-    
+
 }

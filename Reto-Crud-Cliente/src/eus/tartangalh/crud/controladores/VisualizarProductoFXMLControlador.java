@@ -6,6 +6,7 @@
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.CategoriaProducto;
+import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.interfaces.ProductoInterfaz;
@@ -67,9 +68,14 @@ public class VisualizarProductoFXMLControlador {
     private Stage stage;
     List<ProductoFarmaceutico> todosProductos;
     ObservableList<ProductoFarmaceutico> todosProductosData;
+    private Cliente cliente;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public void initStage(Parent root) {

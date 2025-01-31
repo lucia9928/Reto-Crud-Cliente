@@ -23,7 +23,7 @@ public class RetoCrudCliente extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RecetaMedicaFXML.fxml"));
+       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("RecetaMedicaFXML.fxml"));
 
         Parent root = loader.load();
 
@@ -31,9 +31,9 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         recetaMedica.setStage(stage);
 
-        recetaMedica.initStage(root);
+        recetaMedica.initStage(root);*/
 
-       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
 
         Parent root = loader.load();
 
@@ -41,7 +41,7 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         inicioSesion.setStage(stage);
 
-        inicioSesion.initStage(root);*/
+        inicioSesion.initStage(root);
     }
 
     /**

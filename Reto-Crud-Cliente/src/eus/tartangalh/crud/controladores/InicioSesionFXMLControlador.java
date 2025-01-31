@@ -132,7 +132,7 @@ public class InicioSesionFXMLControlador {
                 Parent root = loader.load();
                 MenuClienteFXMLController menuCliente = loader.getController();
                 menuCliente.setStage(stage);
-                menuCliente.setTrabajador(cliente);
+                menuCliente.setCliente(cliente);
                 menuCliente.initStage(root);
 
             } catch (IOException ex) {
