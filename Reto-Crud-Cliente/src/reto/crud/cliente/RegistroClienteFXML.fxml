@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador">
+    <children>
+        <GridPane layoutX="-10.0" prefHeight="632.0" prefWidth="684.0" stylesheets="@../../../recursos/EstiloLogin.css">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="20.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="79.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="264.0" minWidth="10.0" prefWidth="226.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="235.0" minWidth="10.0" prefWidth="178.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="173.0" minWidth="10.0" prefWidth="150.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="39.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="156.0" minWidth="10.0" prefWidth="53.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints maxHeight="20.0" minHeight="9.0" prefHeight="9.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="122.4" minHeight="0.0" prefHeight="51.00000915527344" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="359.2000137329102" minHeight="0.0" prefHeight="34.79999237060545" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="0.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="57.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="430.4" minHeight="10.0" prefHeight="36.19999999999999" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Label fx:id="lblDni" text="Dni" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <TextField fx:id="tfxDni" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                <Label fx:id="lblNombre" text="Nombre" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                <TextField fx:id="tfxNombre" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                <Label fx:id="lblApellido" alignment="TOP_CENTER" text="Apellido" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+                <TextField fx:id="tfxApellido" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+                <Label fx:id="lblEmail" text="Email" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                <TextField fx:id="tfxEmail" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+                <Label fx:id="lblContrasena" text="Contraseña" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+                <PasswordField fx:id="tfxContrasena" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+                <Label fx:id="lblConfirmarContrasena" text="ConfirmarContraseña" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+                <PasswordField fx:id="tfxConfirmarContrasena" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+                <Label fx:id="lblCalle" text="Calle" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+                <TextField fx:id="tfxCalle" GridPane.columnIndex="3" GridPane.rowIndex="9" />
+                <Label fx:id="lblCodigoPostal" text="Codigo Postal" GridPane.columnIndex="2" GridPane.rowIndex="10" />
+                <TextField fx:id="tfxCodigoPostal" GridPane.columnIndex="3" GridPane.rowIndex="10" />
+                <Label fx:id="lblCiudad" text="Ciudad" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+                <TextField fx:id="tfxCiudad" GridPane.columnIndex="3" GridPane.rowIndex="11" />
+                <Label fx:id="lblFechaNcimiento" text="Fecha de nacimiento" GridPane.columnIndex="2" GridPane.rowIndex="12" />
+                <DatePicker fx:id="dateFechaNcimiento" GridPane.columnIndex="3" GridPane.rowIndex="12" />
+           
+                <Label fx:id="lblTieneCuenta" text="¿Tienes una cuenta? inicia sesion" GridPane.columnIndex="2" GridPane.rowIndex="15" />
+                <Button fx:id="btnIniciaSesion" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Inicia Sesion" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+                <Button fx:id="btbRegistrarse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Registrarse" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+            
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>
