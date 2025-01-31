@@ -543,7 +543,7 @@ public class ProductoFarmaceuticoUIController {
             
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
             
-            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
             
             jasperViewer.setVisible(true);
 

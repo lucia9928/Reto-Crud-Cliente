@@ -6,7 +6,7 @@
 package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
@@ -17,13 +17,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Trabajador extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Date fechaContratacion;
+    private LocalDate fechaContratacion;
     private TipoCargo tipoCargo;
     private List<Gestiona> gestionaProducto;
 
   
 
-    public Trabajador(Date fechaContratacion, TipoCargo tipoCargo) {
+    public Trabajador(LocalDate fechaContratacion, TipoCargo tipoCargo) {
         this.fechaContratacion = fechaContratacion;
         this.tipoCargo = tipoCargo;
     }
@@ -32,11 +32,11 @@ public class Trabajador extends Usuario implements Serializable {
         super();
     }
 
-    public Date getFechaContratacion() {
+    public LocalDate getFechaContratacion() {
         return fechaContratacion;
     }
 
-    public void setFechaContratacion(Date fechaContratacion) {
+    public void setFechaContratacion(LocalDate fechaContratacion) {
         this.fechaContratacion = fechaContratacion;
     }
 
