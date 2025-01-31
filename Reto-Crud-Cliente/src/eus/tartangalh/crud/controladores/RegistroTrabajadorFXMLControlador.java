@@ -35,7 +35,7 @@ import javafx.stage.Stage;
  */
 public class RegistroTrabajadorFXMLControlador {
 
-    private final TrabajadorInterfaz trabajaInterfaz = TrabajadorFactoria.get();
+    private static final TrabajadorInterfaz trabajaInterfaz = TrabajadorFactoria.get();
     /**
      * Initializes the controller class.
      *

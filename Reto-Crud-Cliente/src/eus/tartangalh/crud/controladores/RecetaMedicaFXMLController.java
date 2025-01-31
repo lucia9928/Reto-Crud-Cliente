@@ -7,13 +7,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -71,8 +71,8 @@ public class RecetaMedicaFXMLController {
         Integer num=1;
         colId.setCellValueFactory(new PropertyValueFactory<>("idReceta"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-      List<ProductoFarmaceutico> producto= buscarProductosPorReceta(num);
-        colProductos.setCellValueFactory((Callback<TableColumn.CellDataFeatures<RecetaMedica, String>, ObservableValue<String>>) producto);
+      List<ProductoFarmaceutico> producto= buscarProductosPorReceta(num.toString());
+     //colProductos.setCellFactory((Callback<TableColumn<RecetaMedica, String>, TableCell<RecetaMedica, String>>) (producto));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         
@@ -96,13 +96,15 @@ public class RecetaMedicaFXMLController {
         }
     }
 
-    private List<ProductoFarmaceutico> buscarProductosPorReceta(Integer idReceta) {
+    private List<ProductoFarmaceutico> buscarProductosPorReceta(String idReceta) {
          ProductoFarmaceutico lista=null;
     try {
         // Llamar al método REST para obtener los productos farmacéuticos
-         lista = RecetaMedicaFactoria.get().obtenerProductosPorReceta_XML(ProductoFarmaceutico.class, idReceta);
+         lista = RecetaMedicaFactoria.get().obtenerProductosPorReceta(new GenericType<ProductoFarmaceutico>() {
+            }, idReceta);
         if (lista != null && lista.getNombreProducto() != null) {
             return FXCollections.observableArrayList(lista);
+            
         }
         LOGGER.log(Level.WARNING, "No se encontraron productos para la receta con ID {0}", idReceta);
     } catch (WebApplicationException e) {
