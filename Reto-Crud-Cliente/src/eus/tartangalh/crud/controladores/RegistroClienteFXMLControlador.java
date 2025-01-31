@@ -10,12 +10,19 @@ import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.entidades.Usuario;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -62,6 +69,8 @@ public class RegistroClienteFXMLControlador {
     private DatePicker dateFechaNcimiento;
     @FXML
     private Button btbRegistrarse;
+    @FXML
+    private Button btnIniciaSesion;
 
     private Stage stage;
 
@@ -75,12 +84,26 @@ public class RegistroClienteFXMLControlador {
         Scene scene = new Scene(root);
         stage.setTitle("Registro");
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
 
         btbRegistrarse.setVisible(true);
         btbRegistrarse.setDisable(false);
         btbRegistrarse.setOnAction(this::crearTrabajador);
+        btnIniciaSesion.setOnAction(this::irIniciarSesion);
 
+    }
+
+    private void irIniciarSesion(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/InicioSesionFXML.fxml"));
+            Parent root = loader.load();
+            InicioSesionFXMLControlador inicioSesion = loader.getController();
+            inicioSesion.setStage(stage);
+            inicioSesion.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(RegistroClienteFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void crearTrabajador(ActionEvent event) {
@@ -97,13 +120,14 @@ public class RegistroClienteFXMLControlador {
             cliente.setCodigoPosta(Integer.parseInt(tfxCodigoPostal.getText()));
             cliente.setCidudad(tfxCiudad.getText());
 
-            cliente.setFechaNacimiento(dateFechaNcimiento.getValue());
+            Date date = Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            cliente.setFechaNacimiento(date);
 
             clienteInterfaz.crearCliente_XML(cliente);
-            if(clienteInterfaz.encontrarPorId_XML(Cliente.class, tfxDni.getText())!=null){
-                mostrarAlert("Confirmacion", "El Cliente se ha dado de alta");
+            if (clienteInterfaz.encontrarPorId_XML(Cliente.class, tfxDni.getText()) != null) {
+                mostrarAlerta("Confirmacion", "El Cliente se ha dado de alta");
             }
-            
+
         }
 
     }
@@ -119,26 +143,26 @@ public class RegistroClienteFXMLControlador {
         Matcher matcherEmail = emailPatron.matcher(email);
 
         if (tfxDni.getText().isEmpty() || tfxNombre.getText().isEmpty() || tfxEmail.getText().isEmpty() || tfxCiudad.getText().isEmpty() || dateFechaNcimiento.getValue() == null) {
-            mostrarAlert("Error", "Faltan campos por rellenar");
+            mostrarAlerta("Error", "Faltan campos por rellenar");
             return false;
         }
 
         if (clienteInterfaz.encontrarPorId_XML(Cliente.class, dni) != null) {
-            mostrarAlert("Error", "Este cliente ya existe");
+            mostrarAlerta("Error", "Este cliente ya existe");
             return false;
         }
         if (!matcherEmail.matches() && !matcherDni.matches()) {
-            mostrarAlert("Error", "Hay campos con formato incorrecto");
+            mostrarAlerta("Error", "Hay campos con formato incorrecto");
             return false;
         }
 
         if (!validarContrasena(tfxContrasena.getText()) || !validarContrasena(tfxConfirmarContrasena.getText())) {
             if (!tfxContrasena.getText().equals(tfxConfirmarContrasena.getText())) {
-                mostrarAlert("Error", "Las contraseñas no coinciden");
+                mostrarAlerta("Error", "Las contraseñas no coinciden");
 
                 return false;
             }
-            mostrarAlert("Error", "La contraseña debe tener ocho caracteres y al menos una minúscula, una mayúscula y un dígito");
+            mostrarAlerta("Error", "La contraseña debe tener ocho caracteres y al menos una minúscula, una mayúscula y un dígito");
             return false;
         }
 
@@ -153,7 +177,7 @@ public class RegistroClienteFXMLControlador {
 
     }
 
-    private boolean mostrarAlert(String titulo, String mensaje) {
+    private boolean mostrarAlerta(String titulo, String mensaje) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(titulo);
         alert.setHeaderText(null);

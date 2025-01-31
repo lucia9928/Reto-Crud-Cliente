@@ -26,6 +26,8 @@ public interface ClienteInterfaz {
     public <T> T encontrarTodosLosClientes_XML(GenericType<T> responseType) throws WebApplicationException;
 
     public <T> T encontrarTodosLosClientes_JSON(GenericType<T> responseType) throws WebApplicationException;
+    
+    public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException;
 
     public void resetarContrasena(Cliente Cliente) throws WebApplicationException;
 
