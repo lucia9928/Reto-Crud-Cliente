@@ -5,9 +5,10 @@
  */
 package eus.tartangalh.crud.logica;
 
+import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
-import javax.ws.rs.ClientErrorException;
+import java.util.logging.Level;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -103,4 +104,34 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         }
 
     }
+
+    @Override
+    public void actualizarContrasena(Trabajador trabajador) throws WebApplicationException {
+        try {
+            webTarget.path("editPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(trabajador, javax.ws.rs.core.MediaType.APPLICATION_XML), Trabajador.class);
+        } catch (Exception ex) {
+            throw new WebApplicationException("An error occurred while trying to edit the clients password:" + ex.getMessage());
+        }
+    }
+
+    @Override
+    public <T> T iniciarSesion(GenericType<T> responseType, String emailUsr, String contraseniaUsr) throws WebApplicationException {
+        try {
+            LOGGER.log(Level.INFO, "Intentando iniciar sesion");
+            WebTarget resource = webTarget;
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+
+            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{emailUsr, contraseniaUsr}));
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
+            throw new WebApplicationException("User not found");
+        }
+    }
+
 }

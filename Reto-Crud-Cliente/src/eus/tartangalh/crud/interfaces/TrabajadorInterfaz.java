@@ -34,8 +34,10 @@ public interface TrabajadorInterfaz {
     public void eliminarTrabajador(String id) throws WebApplicationException;
 
     public void resetarContrasena(Trabajador trabajador) throws WebApplicationException;
+
+    public void actualizarContrasena(Trabajador trabajador) throws WebApplicationException;
     
-    
+    public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException;
 
     public <T> T encontrarTodosLosTrabajdores_XML(GenericType<T> responseType) throws WebApplicationException;
 
