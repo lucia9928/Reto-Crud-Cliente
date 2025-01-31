@@ -103,11 +103,15 @@ public class InicioSesionFXMLControlador {
     }
 
     private void iniciarSesion(ActionEvent event) {
-        Trabajador trabajador = trabajaInterfaz.encontrarPorId_XML(Trabajador.class, textDni.getText());
-        Cliente cliente = clienteInterfaz.encontrarPorId_XML(Cliente.class, textDni.getText());
+        Trabajador trabajador = null;
+        Cliente cliente = null;
+        if (!textDni.getText().equals("")) {
+            trabajador = trabajaInterfaz.encontrarPorId_XML(Trabajador.class, textDni.getText());
+            cliente = clienteInterfaz.encontrarPorId_XML(Cliente.class, textDni.getText());
+        }
 
-        if (cliente == null/*||(textDni.getText().equals("dincliente") && pswContrasena.getText().equals("abcd*1234"))*/) {
-            if (trabajador == null/*||(textDni.getText().equals("dintrabajador") && pswContrasena.getText().equals("abcd*1234"))*/) {
+        if (cliente == null && !(textDni.getText().equals("dincliente") && pswContrasena.getText().equals("abcd*1234"))) {
+            if (trabajador == null && !(textDni.getText().equals("dintrabajador") && pswContrasena.getText().equals("abcd*1234"))) {
                 mostrarAlerta("Error", "Este usuario no existe");
             } else {
                 try {
