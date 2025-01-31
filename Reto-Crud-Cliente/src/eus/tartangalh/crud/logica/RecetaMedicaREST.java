@@ -88,7 +88,7 @@ public class RecetaMedicaREST implements RecetaMedicaInterfaz{
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
    @Override
-    public <T> T obtenerProductosPorReceta_XML(Class<T> responseType, String id) throws WebApplicationException {
+    public <T> T obtenerProductosPorReceta_XML(Class<T> responseType, Integer id) throws WebApplicationException {
     WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);

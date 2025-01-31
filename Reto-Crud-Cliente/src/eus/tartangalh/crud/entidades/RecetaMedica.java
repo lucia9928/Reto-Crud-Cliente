@@ -6,10 +6,8 @@
 package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import javafx.beans.property.SimpleBooleanProperty;
 import javax.xml.bind.annotation.XmlRootElement;
 /**
  *
@@ -30,11 +28,12 @@ public class RecetaMedica implements Serializable {
         
     }
 
-    public RecetaMedica(Integer idReceta,Date fechaReceta, String descripcion, Integer cantidad) {
+    public RecetaMedica(Integer idReceta,Date fechaReceta, String descripcion, Integer cantidad, List<ProductoFarmaceutico>productos) {
         this.idReceta = idReceta;
         this.fechaReceta = fechaReceta;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
+        this.productos=productos;
     }
 
 

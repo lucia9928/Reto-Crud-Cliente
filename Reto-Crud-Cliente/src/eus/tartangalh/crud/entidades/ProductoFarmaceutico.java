@@ -62,7 +62,7 @@ public class ProductoFarmaceutico implements Serializable {
     /*
      * Constructor con parámetros para inicializar las propiedades del producto.
      */
-    public ProductoFarmaceutico(Integer idProducto, String nombreProducto, String loteProducto, Date fechaCaducidad, String Description, CategoriaProducto categoria, Float precio) {
+    public ProductoFarmaceutico(Integer idProducto, String nombreProducto, String loteProducto, Date fechaCaducidad, String Description, CategoriaProducto categoria, Float precio, List<RecetaMedica> receta) {
         this.idProducto = idProducto;
         this.nombreProducto = nombreProducto;
         this.loteProducto = loteProducto;
@@ -70,6 +70,7 @@ public class ProductoFarmaceutico implements Serializable {
         this.Description = Description;
         this.categoria = categoria;
         this.precio = precio;
+        this.receta=receta;
     }
 
     /*
@@ -153,5 +154,9 @@ public class ProductoFarmaceutico implements Serializable {
     @Override
     public String toString() {
         return idProducto + nombreProducto + categoria;
+    }
+
+    public void setDescripcion(String newValue) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

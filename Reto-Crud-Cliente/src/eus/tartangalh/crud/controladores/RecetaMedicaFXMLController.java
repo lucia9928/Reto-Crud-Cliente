@@ -1,14 +1,13 @@
 package eus.tartangalh.crud.controladores;
 
-import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.entidades.RecetaMedica;
-import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.RecetaMedicaFactoria;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -30,6 +30,8 @@ public class RecetaMedicaFXMLController {
     private DatePicker hasta;
     @FXML
     private TableView<RecetaMedica> tableRecetas;
+    @FXML
+    private TableColumn<RecetaMedica, String> colId;
     @FXML
     private TableColumn<RecetaMedica, String> colCliente;
     @FXML
@@ -52,7 +54,14 @@ public class RecetaMedicaFXMLController {
         stage.setTitle("Recetas Médicas");
         stage.setScene(scene);
         stage.show();
-
+       /** colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+       listaProductos.setCellValueFactory(new PropertyValueFactory<>("productos"));
+        colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
+        colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
+            List<RecetaMedica> recetas = RecetaMedicaFactoria.get().encontrarTodasLasRecetas_XML(new GenericType<List<RecetaMedica>>(){});
+            ObservableList<RecetaMedica> recetaList = FXCollections.observableArrayList(recetas);
+            tableRecetas.setItems(recetaList);
+*/
         configurarTabla();
         cargarRecetas();
     }
@@ -60,13 +69,13 @@ public class RecetaMedicaFXMLController {
     private void configurarTabla() {
         // Configuración de columnas
         Integer num=1;
-        Cliente client= buscarCliente();
-       
-        colCliente.setCellValueFactory(new PropertyValueFactory<>(client.getNombre()));
+        colId.setCellValueFactory(new PropertyValueFactory<>("idReceta"));
+        colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+      List<ProductoFarmaceutico> producto= buscarProductosPorReceta(num);
+        colProductos.setCellValueFactory((Callback<TableColumn.CellDataFeatures<RecetaMedica, String>, ObservableValue<String>>) producto);
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fechaReceta"));
         colDescripcion.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
-        List<ProductoFarmaceutico> prod= buscarProductosPorReceta(num.toString());
-        colProductos.setCellValueFactory(new PropertyValueFactory<>(prod.toString()));
+        
     }
     
     
@@ -87,7 +96,7 @@ public class RecetaMedicaFXMLController {
         }
     }
 
-    private List<ProductoFarmaceutico> buscarProductosPorReceta(String idReceta) {
+    private List<ProductoFarmaceutico> buscarProductosPorReceta(Integer idReceta) {
          ProductoFarmaceutico lista=null;
     try {
         // Llamar al método REST para obtener los productos farmacéuticos
@@ -102,7 +111,7 @@ public class RecetaMedicaFXMLController {
     return (List<ProductoFarmaceutico>) lista;
 }
     
-    private Cliente buscarCliente (){
+ /**  private Cliente buscarCliente (){
         Cliente cliente = null;
         cliente = ClienteFactoria.get().encontrarTodosLosClientes_XML(Cliente.class);
         ObservableList<Cliente> clienteList = FXCollections.observableArrayList(cliente);
@@ -110,7 +119,7 @@ public class RecetaMedicaFXMLController {
             cliente1.getNombre();
         }
     return cliente;
-    }
+    }*/
     @FXML
     private void handleBuscar() {
         LOGGER.info("Buscando recetas médicas por filtros.");

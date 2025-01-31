@@ -5,7 +5,6 @@
  */
 package eus.tartangalh.crud.interfaces;
 
-import eus.tartangalh.crud.logica.ClienteREST;
 import eus.tartangalh.crud.logica.RecetaMedicaREST;
 
 /**
