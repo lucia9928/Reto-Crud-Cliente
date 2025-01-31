@@ -9,6 +9,8 @@ import eus.tartangalh.crud.entidades.TipoCargo;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -103,7 +105,8 @@ public class RegistroTrabajadorFXMLControlador {
             trabajador.setCodigoPosta(Integer.parseInt(tfxCodigoPostal.getText()));
             trabajador.setCidudad(tfxCiudad.getText());
 
-            trabajador.setFechaNacimiento(dateFechaNcimiento.getValue());
+          Date date= Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+          trabajador.setFechaNacimiento(date);
 
             trabajaInterfaz.crearTrabajador_XML(trabajador);
             if (trabajaInterfaz.encontrarPorId_XML(Trabajador.class, tfxDni.getText()) != null) {

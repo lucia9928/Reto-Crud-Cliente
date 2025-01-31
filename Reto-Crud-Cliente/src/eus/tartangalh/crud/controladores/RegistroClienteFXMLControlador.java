@@ -10,6 +10,8 @@ import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.entidades.Usuario;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -97,8 +99,8 @@ public class RegistroClienteFXMLControlador {
             cliente.setCodigoPosta(Integer.parseInt(tfxCodigoPostal.getText()));
             cliente.setCidudad(tfxCiudad.getText());
 
-            cliente.setFechaNacimiento(dateFechaNcimiento.getValue());
-
+Date date= Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+cliente.setFechaNacimiento(date);
             clienteInterfaz.crearCliente_XML(cliente);
             if(clienteInterfaz.encontrarPorId_XML(Cliente.class, tfxDni.getText())!=null){
                 mostrarAlert("Confirmacion", "El Cliente se ha dado de alta");
