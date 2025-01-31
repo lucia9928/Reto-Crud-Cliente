@@ -196,10 +196,10 @@
                 </HBox>
             </children>
         </VBox>
-        <ImageView fitHeight="768.0" fitWidth="768.0">
-            <image>
-                <Image url="@../../../recursos/fondo.png" />
-            </image>
-        </ImageView>
+      <ImageView fitHeight="768.0" fitWidth="768.0">
+         <image>
+            <Image url="@../../../recursos/League%20Spartan.png" />
+         </image>
+      </ImageView>
     </children>
 </GridPane>

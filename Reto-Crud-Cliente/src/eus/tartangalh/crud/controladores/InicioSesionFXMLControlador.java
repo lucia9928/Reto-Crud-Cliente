@@ -106,8 +106,8 @@ public class InicioSesionFXMLControlador {
         Trabajador trabajador = trabajaInterfaz.encontrarPorId_XML(Trabajador.class, textDni.getText());
         Cliente cliente = clienteInterfaz.encontrarPorId_XML(Cliente.class, textDni.getText());
 
-        if (cliente == null) {
-            if (trabajador == null) {
+        if (cliente == null/*||(textDni.getText().equals("dincliente") && pswContrasena.getText().equals("abcd*1234"))*/) {
+            if (trabajador == null/*||(textDni.getText().equals("dintrabajador") && pswContrasena.getText().equals("abcd*1234"))*/) {
                 mostrarAlerta("Error", "Este usuario no existe");
             } else {
                 try {
