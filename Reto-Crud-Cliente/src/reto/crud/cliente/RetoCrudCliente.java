@@ -6,8 +6,10 @@
 package reto.crud.cliente;
 
 import eus.tartangalh.crud.controladores.InicioSesionFXMLControlador;
+import eus.tartangalh.crud.controladores.RecetaMedicaFXMLController;
 import eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador;
 import eus.tartangalh.crud.controladores.VisualizarProductoFXMLControlador;
+import eus.tartangalh.crud.logica.RecetaMedicaREST;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -21,17 +23,17 @@ public class RetoCrudCliente extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        /*FXMLLoader loader = new FXMLLoader(getClass().getResource("VisualizarProducto.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RecetaMedicaFXML.fxml"));
 
         Parent root = loader.load();
 
-        VisualizarProductoFXMLControlador visualizar = (VisualizarProductoFXMLControlador) loader.getController();
+        RecetaMedicaFXMLController recetaMedica = (RecetaMedicaFXMLController) loader.getController();
 
-        visualizar.setStage(stage);
+        recetaMedica.setStage(stage);
 
-        visualizar.initStage(root);*/
+        recetaMedica.initStage(root);
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
+       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
 
         Parent root = loader.load();
 
@@ -39,7 +41,7 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         inicioSesion.setStage(stage);
 
-        inicioSesion.initStage(root);
+        inicioSesion.initStage(root);*/
     }
 
     /**

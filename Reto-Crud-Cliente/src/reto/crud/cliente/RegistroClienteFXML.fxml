@@ -198,7 +198,7 @@
         </VBox>
       <ImageView fitHeight="768.0" fitWidth="768.0">
          <image>
-            <Image url="@../../../recursos/League%20Spartan.png" />
+            <Image url="@../../../recursos/fondoRegistro.png" />
          </image>
       </ImageView>
     </children>
