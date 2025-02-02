@@ -9,14 +9,18 @@ import eus.tartangalh.crud.entidades.TipoCargo;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -65,14 +69,21 @@ public class RegistroTrabajadorFXMLControlador {
     @FXML
     private Button btbRegistrarse;
     @FXML
+    private Button btnAtras;
+    @FXML
     private ComboBox<TipoCargo> comboBoxCargo;
 
     private Stage stage;
 
     List<Trabajador> trabajadores;
+    private Trabajador trabajador;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 
     public void initStage(Parent root) {
@@ -87,8 +98,22 @@ public class RegistroTrabajadorFXMLControlador {
         btbRegistrarse.setVisible(true);
         btbRegistrarse.setDisable(false);
         btbRegistrarse.setOnAction(this::crearTrabajador);
+        btnAtras.setOnAction(this::menuTrabajador);
         stage.show();
 
+    }
+    
+    private void menuTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+            menuTrabajador.setStage(stage);
+            menuTrabajador.setTrabajador(trabajador);
+            menuTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void crearTrabajador(ActionEvent event) {

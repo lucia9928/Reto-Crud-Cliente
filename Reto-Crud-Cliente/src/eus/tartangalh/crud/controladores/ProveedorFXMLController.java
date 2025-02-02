@@ -9,15 +9,18 @@ import eus.tartangalh.crud.entidades.Proveedor;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ProveedorFactoria;
 import eus.tartangalh.crud.interfaces.ProveedorInterfaz;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -116,6 +119,7 @@ public class ProveedorFXMLController {
         btnBuscar.setOnAction(this::buscarProveedor);
         btnBorrar.setOnAction(this::borrarProveedor);
         btnBorrar.setDisable(true);
+        btnAtras.setOnAction(this::menuTrabajador);
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
         calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));
@@ -257,5 +261,18 @@ public class ProveedorFXMLController {
             error.show();
         }
 
+    }
+
+    private void menuTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+            menuTrabajador.setStage(stage);
+            menuTrabajador.setTrabajador(trabajador);
+            menuTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

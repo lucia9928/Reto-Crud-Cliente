@@ -68,6 +68,7 @@
                 <Label text="Cargo" GridPane.columnIndex="2" GridPane.rowIndex="13" />
                 <ComboBox fx:id="comboBoxCargo" prefHeight="26.0" prefWidth="392.0" GridPane.columnIndex="3" GridPane.rowIndex="13" />
                 <Button fx:id="btbRegistrarse" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Registrarse" GridPane.columnIndex="3" GridPane.rowIndex="15" />
+            <Button fx:id="btnAtras" mnemonicParsing="false" text="Atras" GridPane.columnIndex="2" GridPane.rowIndex="15" />
             
             </children>
         </GridPane>

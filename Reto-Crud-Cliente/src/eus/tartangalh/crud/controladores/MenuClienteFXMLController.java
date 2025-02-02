@@ -35,6 +35,8 @@ public class MenuClienteFXMLController {
     private Button btnCerrarSesion;
     @FXML
     private Button btnRecetasMedicas;
+    @FXML
+    private Button btnProducto;
 
     /**
      * Initializes the controller class.
@@ -58,6 +60,7 @@ public class MenuClienteFXMLController {
 
         btnCerrarSesion.setOnAction(this::cerrarSesion);
         btnRecetasMedicas.setOnAction(this::recetaMedica);
+        btnProducto.setOnAction(this::visualizarProducto);
     }
 
     private void cerrarSesion(ActionEvent event) {

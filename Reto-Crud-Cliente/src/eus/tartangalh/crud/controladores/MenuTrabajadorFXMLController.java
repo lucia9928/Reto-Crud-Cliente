@@ -66,7 +66,10 @@ public class MenuTrabajadorFXMLController {
         stage.show();
 
         btnCerrarSesion.setOnAction(this::cerrarSesion);
-
+        btnProveedor.setOnAction(this::tablaProveedor);
+        btnAlamcen.setOnAction(this::tablaAlmacen);
+        btnProducto.setOnAction(this::tablaProducto);
+        btnRegistrarTrabajador.setOnAction(this::registroTrabajador);
     }
 
     private void cerrarSesion(ActionEvent event) {
@@ -82,6 +85,19 @@ public class MenuTrabajadorFXMLController {
 
     }
 
+    private void registroTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/RegistroTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            RegistroTrabajadorFXMLControlador registroTrabajador = loader.getController();
+            registroTrabajador.setStage(stage);
+            registroTrabajador.setTrabajador(trabajador);
+            registroTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void tablaProveedor(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/ProveedorFXML.fxml"));
@@ -90,6 +106,32 @@ public class MenuTrabajadorFXMLController {
             proveedor.setStage(stage);
             proveedor.setTrabajador(trabajador);
             proveedor.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void tablaAlmacen(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/AlmacenFXML.fxml"));
+            Parent root = loader.load();
+            AlmacenFXMLControlador almacen = loader.getController();
+            almacen.setStage(stage);
+            almacen.setTrabajador(trabajador);
+            almacen.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void tablaProducto(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/ProductoFarmaceuticoUI.fxml"));
+            Parent root = loader.load();
+            ProductoFarmaceuticoUIController producto = loader.getController();
+            producto.setStage(stage);
+            producto.setTrabajador(trabajador);
+            producto.initStage(root);
         } catch (IOException ex) {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }

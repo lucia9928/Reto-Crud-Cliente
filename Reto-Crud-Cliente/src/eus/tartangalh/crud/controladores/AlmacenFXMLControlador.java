@@ -1,6 +1,7 @@
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Almacen;
+import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.AlmacenFactoria;
 import java.util.List;
 import java.util.logging.Logger;
@@ -83,6 +84,7 @@ public class AlmacenFXMLControlador {
     private Stage stage;
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
+    private Trabajador trabajador;
 
     /**
      * Establece el escenario principal de la aplicación.
@@ -91,6 +93,10 @@ public class AlmacenFXMLControlador {
      */
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 
     /**
