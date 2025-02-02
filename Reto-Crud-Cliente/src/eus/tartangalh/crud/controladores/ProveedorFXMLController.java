@@ -27,12 +27,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.converter.IntegerStringConverter;
@@ -56,12 +59,19 @@ public class ProveedorFXMLController {
     private Button btnBuscar;
     @FXML
     private Button btnCrearFila;
-    @FXML
-    private Button btnGuardar;
+    
     @FXML
     private Button btnBorrar;
     @FXML
     private Button btnAtras;
+    @FXML
+    private MenuBar menuBar;
+    @FXML
+    private Menu menuTrabajador;
+    @FXML
+    private Menu menuInforme;
+    @FXML
+    private Menu menuAyuda;
 
     @FXML
     private TableView<Proveedor> tableView;
@@ -104,9 +114,10 @@ public class ProveedorFXMLController {
 
         Scene scene = new Scene(root);
         stage.setTitle("Gestion de proveedores");
-
-        stage.show();
         stage.setScene(scene);
+        stage.show();
+
+       
 
         tableView.setEditable(true);
 
@@ -119,7 +130,8 @@ public class ProveedorFXMLController {
         btnBuscar.setOnAction(this::buscarProveedor);
         btnBorrar.setOnAction(this::borrarProveedor);
         btnBorrar.setDisable(true);
-        btnAtras.setOnAction(this::menuTrabajador);
+        //btnAtras.setOnAction(this::menuTrabajador);
+        menuTrabajador.setOnAction(this::menuTrabajador);
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
         calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));

@@ -119,6 +119,7 @@ public class VisualizarProductoFXMLControlador {
     }
 
     public void comprarProductos(ActionEvent event) {
+        
         ProductoFarmaceutico productoFarmaceutico = tableView.getSelectionModel().getSelectedItem();
 
         if (productoFarmaceutico != null) {
@@ -160,14 +161,23 @@ public class VisualizarProductoFXMLControlador {
                 });
                 for (Gestiona gestion : gestiones) {
                     if (gestion.getGestionaId().getIdProducto() == productoFarmaceutico.getIdProducto()) {
-                        gestion.setCantidad(gestion.getCantidad() - cantidad);
-                        gesInterfaz.actualizarGestiona_XML(gestion);
-                        break;
+
+                        if (gestion.getCantidad() < cantidad) {
+                            mostrarAlerta("Informacion", "Stock maximo "+gestion.getCantidad()+" unidades");
+                            break;
+                        } else {
+                            gestion.setCantidad(gestion.getCantidad() - cantidad);
+                            gesInterfaz.actualizarGestiona_XML(gestion);
+                            mostrarAlerta("Compra Confirmada", "Has comprado " + cantidad + " unidades de " + productoFarmaceutico.getNombreProducto());
+                            modal.close();
+                            break;
+                        }
+
                     }
                 }
 
-                mostrarAlerta("Compra Confirmada", "Has comprado " + cantidad + " unidades de " + productoFarmaceutico.getNombreProducto());
-                modal.close();
+                
+                
             });
 
             // Disposición del contenido en el modal
