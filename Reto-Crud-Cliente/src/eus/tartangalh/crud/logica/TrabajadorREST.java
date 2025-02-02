@@ -4,11 +4,10 @@
  * and open the template in the editor.
  */
 package eus.tartangalh.crud.logica;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -33,6 +32,7 @@ public class TrabajadorREST implements TrabajadorInterfaz {
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
+    private static final Logger LOGGER = Logger.getLogger("TrabajadorREST.class");
 
     public TrabajadorREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
@@ -51,16 +51,6 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-    }
-
-    public <T> T encontrarPorEmail_XML(GenericType<T> responseType, String Email) throws WebApplicationException {
-        WebTarget resource = webTarget.path(java.text.MessageFormat.format("Email/{0}", Email));
-        return resource.request(MediaType.APPLICATION_XML).get(responseType);
-    }
-
-    public <T> T encontrarPorEmail_JSON(GenericType<T> responseType, String Email) throws WebApplicationException {
-        WebTarget resource = webTarget.path(java.text.MessageFormat.format("Email/{0}", Email));
-        return resource.request(MediaType.APPLICATION_JSON).get(responseType);
     }
 
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException {
@@ -89,6 +79,23 @@ public class TrabajadorREST implements TrabajadorInterfaz {
     public <T> T encontrarTodosLosTrabajdores_JSON(Class<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+    
+    @Override
+    public <T> T buscarTrabajador(GenericType<T> respuesta, String userEmail) throws WebApplicationException {
+        try {
+            WebTarget resource = webTarget;
+            LOGGER.info("Intentnado buscar cliente");
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            resource = resource.path(java.text.MessageFormat.format("busqueda/{0}", new Object[]{userEmail}));
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+        } catch (Exception ex) {
+            throw new WebApplicationException("No se encontro ningun cliente.");
+        }
     }
 
     public void close() {

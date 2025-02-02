@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eus.tartangalh.crud.controladores;
 
+import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.TipoCargo;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
@@ -27,6 +23,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * FXML Controller class
@@ -107,7 +104,8 @@ public class RegistroTrabajadorFXMLControlador {
 
             Date date = Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             trabajador.setFechaNacimiento(date);
-
+            byte[] passwdBytes =  new AsymmetricCliente().cipher(tfxContrasena.getText());
+            trabajador.setContrasena(DatatypeConverter.printHexBinary(passwdBytes));
             trabajaInterfaz.crearTrabajador_XML(trabajador);
             if (trabajaInterfaz.encontrarPorId_XML(Trabajador.class, tfxDni.getText()) != null) {
                 mostrarAlert("Confirmacion", "El trabajador se ha dado de alta");

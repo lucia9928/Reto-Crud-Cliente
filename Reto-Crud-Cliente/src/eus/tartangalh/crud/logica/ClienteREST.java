@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package eus.tartangalh.crud.logica;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -33,6 +32,7 @@ public class ClienteREST implements ClienteInterfaz {
     private WebTarget webTarget;
     private Client client;
     private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
+    private static final Logger LOGGER = Logger.getLogger("ClienteREST.class");
 
     public ClienteREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
@@ -89,6 +89,23 @@ public class ClienteREST implements ClienteInterfaz {
 
     public void crearCliente_JSON(Object requestEntity) throws WebApplicationException {
         webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+    }
+    
+    @Override
+    public <T> T buscarCliente(GenericType<T> respuesta, String userEmail) throws WebApplicationException {
+        try {
+            WebTarget resource = webTarget;
+            LOGGER.info("Intentnado buscar cliente");
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            resource = resource.path(java.text.MessageFormat.format("busqueda/{0}", new Object[]{userEmail}));
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+        } catch (Exception ex) {
+            throw new WebApplicationException("No se encontro ningun cliente.");
+        }
     }
 
     public void close() {

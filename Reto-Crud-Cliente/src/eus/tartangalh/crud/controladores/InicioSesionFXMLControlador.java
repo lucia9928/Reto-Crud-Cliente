@@ -6,12 +6,14 @@
 package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.Cliente;
+import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,6 +28,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -106,8 +109,10 @@ public class InicioSesionFXMLControlador {
         Trabajador trabajador = null;
         Cliente cliente = null;
         if (!textDni.getText().equals("")) {
-            trabajador = trabajaInterfaz.encontrarPorId_XML(Trabajador.class, textDni.getText());
-            cliente = clienteInterfaz.encontrarPorId_XML(Cliente.class, textDni.getText());
+            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {
+                    }, pswContrasena.getText(), textDni.getText());
+            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {
+                    }, pswContrasena.getText(), textDni.getText());
         }
 
         if (cliente == null && !(textDni.getText().equals("dincliente") && pswContrasena.getText().equals("abcd*1234"))) {

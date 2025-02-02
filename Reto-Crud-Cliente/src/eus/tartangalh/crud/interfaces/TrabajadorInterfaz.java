@@ -27,15 +27,13 @@ public interface TrabajadorInterfaz {
 
     public void modificarTrabajador_JSON(Object requestEntity, String id) throws WebApplicationException;
 
-    public <T> T encontrarPorEmail_XML(GenericType<T> responseType, String Email) throws WebApplicationException;
-
-    public <T> T encontrarPorEmail_JSON(GenericType<T> responseType, String Email) throws WebApplicationException;
-
     public void eliminarTrabajador(String id) throws WebApplicationException;
 
     public void resetarContrasena(Trabajador trabajador) throws WebApplicationException;
 
     public void actualizarContrasena(Trabajador trabajador) throws WebApplicationException;
+    
+    public <T> T buscarTrabajador(GenericType<T> respuesta, String userEmail) throws WebApplicationException;
     
     public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException;
 
