@@ -8,38 +8,44 @@
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="653.0" prefWidth="687.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RecetaMedicaFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="700.0" prefWidth="936.0" stylesheets="@../../../recursos/EstiloLogin.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RecetaMedicaFXMLController">
    <children>
-      <TextField layoutX="38.0" layoutY="76.0" prefHeight="31.0" prefWidth="65.0" text="Desde:" />
-      <DatePicker fx:id="desde" layoutX="109.0" layoutY="77.0" prefHeight="26.0" prefWidth="151.0" />
-      <TextField layoutX="289.0" layoutY="76.0" prefHeight="31.0" prefWidth="65.0" text="Hasta:" />
-      <DatePicker fx:id="hasta" layoutX="366.0" layoutY="77.0" prefHeight="26.0" prefWidth="143.0" />
-       <Button fx:id="btnBuscar" layoutX="570.0" layoutY="78.0" onAction="#handleBuscar" text="🔍" />
-      <TableView fx:id="tableRecetas" layoutX="82.0" layoutY="163.0" prefHeight="402.0" prefWidth="480.0">
+      <TextField layoutX="267.0" layoutY="76.0" prefHeight="31.0" prefWidth="65.0" text="Desde:" />
+      <DatePicker fx:id="desde" layoutX="345.0" layoutY="78.0" prefHeight="26.0" prefWidth="151.0" />
+      <TextField layoutX="551.0" layoutY="77.0" prefHeight="31.0" prefWidth="65.0" text="Hasta:" />
+      <DatePicker fx:id="hasta" layoutX="623.0" layoutY="78.0" prefHeight="26.0" prefWidth="143.0" />
+       <Button fx:id="btnBuscar" layoutX="851.0" layoutY="79.0" onAction="#handleBuscar" text="🔍" />
+      <TableView fx:id="tableRecetas" layoutX="84.0" layoutY="138.0" prefHeight="402.0" prefWidth="806.0">
         <columns>
-            <TableColumn  fx:id="colCliente" prefWidth="145.0" text="Nombre del cliente ">
+            <TableColumn fx:id="colId" prefWidth="71.0" text="Id">
                 <cellValueFactory>  
-                 <PropertyValueFactory property="Nombre del cliente" />
+                 <PropertyValueFactory property="IdReceta" />
                 </cellValueFactory>
             </TableColumn>
           
-            <TableColumn  fx:id="listaProductos" minWidth="5.0" prefWidth="153.0" text="Lista de productos">
+            <TableColumn fx:id="colCliente" minWidth="5.0" prefWidth="197.0" text="Nombre del cliente ">
                 <cellValueFactory>           
-                    <PropertyValueFactory property="Lista de productos" />         
+                    <PropertyValueFactory property="cliente" />         
                 </cellValueFactory>
             </TableColumn>
-          
-            <TableColumn fx:id= "colFecha" minWidth="0.0" prefWidth="89.0" text="Fecha">
+            <TableColumn fx:id="colProductos" minWidth="0.0" prefWidth="204.0" text="Lista de Productos">
                 <cellValueFactory>           
-                     <PropertyValueFactory property="Fecha" />
+                     <PropertyValueFactory property   ="productos" />
                 </cellValueFactory>
             </TableColumn>
-            <TableColumn fx:id= "colDescripcion" minWidth="0.0" prefWidth="91.0" text="Descripcion">
+            <TableColumn fx:id="colFecha" minWidth="0.0" prefWidth="176.0" text="Fecha">
                 <cellValueFactory>           
-                    <PropertyValueFactory property="Descripcion" />
+                    <PropertyValueFactory property="fechaReceta" />
                 </cellValueFactory>
+            </TableColumn>
+            <TableColumn fx:id="colDescripcion" prefWidth="169.0" text="Descripcion">
+               <cellValueFactory>
+                  <PropertyValueFactory property="descripcion" />
+               </cellValueFactory>
             </TableColumn>
         </columns>
       </TableView>
+      <Button fx:id="btnCrearReceta" layoutX="420.0" layoutY="581.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="106.0" text="Crear" />
+      <Button fx:id="btnDetalles" layoutX="577.0" layoutY="581.0" mnemonicParsing="false" text="Detalles de la receta" />
    </children>
 </AnchorPane>

@@ -6,7 +6,10 @@
 package reto.crud.cliente;
 
 import eus.tartangalh.crud.controladores.InicioSesionFXMLControlador;
+import eus.tartangalh.crud.controladores.RecetaMedicaFXMLController;
 import eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador;
+import eus.tartangalh.crud.controladores.VisualizarProductoFXMLControlador;
+import eus.tartangalh.crud.logica.RecetaMedicaREST;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
@@ -20,34 +23,16 @@ public class RetoCrudCliente extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        /*  FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroTrabajadorFXML.fxml"));
+       /* FXMLLoader loader = new FXMLLoader(getClass().getResource("RecetaMedicaFXML.fxml"));
 
         Parent root = loader.load();
 
-        RegistroTrabajadorFXMLControlador registroTrabajador = (RegistroTrabajadorFXMLControlador) loader.getController();
+        RecetaMedicaFXMLController recetaMedica = (RecetaMedicaFXMLController) loader.getController();
 
-        registroTrabajador.setStage(stage);
+        recetaMedica.setStage(stage);
 
-        registroTrabajador.initStage(root);*/
+        recetaMedica.initStage(root);*/
 
- /* FXMLLoader loader = new FXMLLoader(getClass().getResource("ProveedorFXML.fxml"));
-
-        Parent root = loader.load();
-                
-        ProductoFarmaceuticoUIController proveedor = (ProductoFarmaceuticoUIController) loader.getController();
-
-        proveedor.setStage(stage);
-
-        proveedor.initStage(root);*/
- /* FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroClienteFXML.fxml"));
-
-        Parent root = loader.load();
-
-        RegistroClienteFXMLControlador registroCliente = (RegistroClienteFXMLControlador) loader.getController();
-
-        registroCliente.setStage(stage);
-
-        registroCliente.initStage(root);*/
         FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
 
         Parent root = loader.load();
