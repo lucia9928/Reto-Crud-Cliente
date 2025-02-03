@@ -8,11 +8,13 @@ import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * Jersey REST client generated for REST resource:TrabajadorFacadeREST
@@ -121,24 +123,48 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         }
     }
 
-    @Override
-    public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException {
-        try {
-            LOGGER.log(Level.INFO, "Intentando iniciar sesion");
-            WebTarget resource = webTarget;
-            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+@Override
+public <T> T iniciarSesion(GenericType<T> responseType, String Tradni, String contrasenaTra) throws WebApplicationException {
+    try {
+        LOGGER.log(Level.INFO, "Intentando iniciar sesión con DNI: {0}", Tradni);
 
-            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{dni, passwd}));
-            int statusCode = resource.request().get().getStatus();
-            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
-            String responseContent = resource.request().get(String.class);
-            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+        // Construcción segura de la URL con queryParams en lugar de incluir credenciales en la URL
+        WebTarget resource = webTarget.path("iniciarSesion")
+                                      .queryParam("Tradni", Tradni)
+                                      .queryParam("contrasenaTra", contrasenaTra);
 
-            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
-            throw new WebApplicationException("User not found");
+        LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+
+        // Ejecutar la petición una sola vez
+        Response response = resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get();
+
+        int statusCode = response.getStatus();
+        LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+
+        // Leer contenido de la respuesta antes de evaluar errores
+        String responseContent = response.readEntity(String.class);
+        LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+
+        // Manejo de errores HTTP
+        if (statusCode == Response.Status.OK.getStatusCode()) {
+            return response.readEntity(responseType);
+        } else if (statusCode == Response.Status.UNAUTHORIZED.getStatusCode()) {
+            throw new WebApplicationException("Credenciales incorrectas", Response.Status.UNAUTHORIZED);
+        } else if (statusCode == Response.Status.NOT_FOUND.getStatusCode()) {
+            throw new WebApplicationException("Usuario no encontrado", Response.Status.NOT_FOUND);
+        } else if (statusCode >= 500) {
+            throw new WebApplicationException("Error interno en el servidor: " + responseContent, Response.Status.INTERNAL_SERVER_ERROR);
         }
+
+        throw new WebApplicationException("Error inesperado: " + responseContent, statusCode);
+
+    } catch (ProcessingException e) {
+        LOGGER.log(Level.SEVERE, "Error de comunicación con el servidor", e);
+        throw new WebApplicationException("No se pudo conectar con el servidor", Response.Status.SERVICE_UNAVAILABLE);
+    } catch (Exception e) {
+        LOGGER.log(Level.SEVERE, "Error inesperado durante el inicio de sesión", e);
+        throw new WebApplicationException("Error inesperado en el inicio de sesión", Response.Status.INTERNAL_SERVER_ERROR);
     }
+}
 
 }
