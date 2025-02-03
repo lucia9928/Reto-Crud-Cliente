@@ -5,6 +5,7 @@
  */
 package eus.tartangalh.crud.controladores;
 
+import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
@@ -27,6 +28,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  *
@@ -122,10 +124,9 @@ public class InicioSesionFXMLControlador {
         // Verifica que el campo DNI no esté vacío
         if (!dni.isEmpty()) {
             // Consultar en la base de datos
-            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {
-            }, dni, contrasena);
-            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {
-            }, dni, contrasena);
+            byte[] passwordBytes = new AsymmetricCliente().cipher(pswContrasena.getText());
+            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>{}();, dni, DatatypeConverter.printHexBinary(passwordBytes));
+            cliente = clienteInterfaz.iniciarSesion(Cliente.class, dni, DatatypeConverter.printHexBinary(passwordBytes));
 
             // Verifica si es cliente
             if (cliente != null) {
