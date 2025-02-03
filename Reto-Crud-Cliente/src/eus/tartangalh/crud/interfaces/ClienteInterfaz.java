@@ -5,21 +5,45 @@
  */
 package eus.tartangalh.crud.interfaces;
 
+import eus.tartangalh.crud.entidades.Cliente;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
  * @author melany
  */
 public interface ClienteInterfaz {
+
     public void modificarCliente_XML(Object requestEntity, String id) throws WebApplicationException;
-    public void modificarCliente_JSON(Object requestEntity, String id) throws WebApplicationException ;
+
+    public void modificarCliente_JSON(Object requestEntity, String id) throws WebApplicationException;
+
     public <T> T encontrarTodosLosClientes_XML(Class<T> responseType) throws WebApplicationException;
+
     public <T> T encontrarTodosLosClientes_JSON(Class<T> responseType) throws WebApplicationException;
+
+    public <T> T encontrarTodosLosClientes_XML(GenericType<T> responseType) throws WebApplicationException;
+
+    public <T> T encontrarTodosLosClientes_JSON(GenericType<T> responseType) throws WebApplicationException;
+    
+    public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException;
+    
+     public <T> T buscarCliente(GenericType<T> respuesta, String userEmail) throws WebApplicationException;
+
+    public void resetarContrasena(Cliente Cliente) throws WebApplicationException;
+
+    public void actualizarContrasena(Cliente cliente) throws WebApplicationException;
+
     public <T> T encontrarPorId_XML(Class<T> responseType, String id) throws WebApplicationException;
-    public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException ;
+
+    public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException;
+
     public void eliminarCliente(String id) throws WebApplicationException;
-    public void crearCliente_XML(Object requestEntity) throws WebApplicationException ;
+
+    public void crearCliente_XML(Object requestEntity) throws WebApplicationException;
+
     public void crearCliente_JSON(Object requestEntity) throws WebApplicationException;
-    public void close() ;
+
+    public void close();
 }

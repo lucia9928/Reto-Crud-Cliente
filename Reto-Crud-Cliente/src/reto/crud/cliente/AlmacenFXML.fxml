@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="768.0" prefWidth="1366.0" spacing="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.AlmacenFXMLControlador">
+<VBox prefHeight="768.0" prefWidth="1366.0" fx:id="idVBox" spacing="10" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.AlmacenFXMLControlador">
     <!-- Título principal -->
     <Label fx:id="idTitulo" text="Gestión de Almacenes">
         <font>

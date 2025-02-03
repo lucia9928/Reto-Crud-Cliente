@@ -1,22 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package eus.tartangalh.crud.controladores;
 
+import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.TipoCargo;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -27,6 +27,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * FXML Controller class
@@ -65,14 +66,21 @@ public class RegistroTrabajadorFXMLControlador {
     @FXML
     private Button btbRegistrarse;
     @FXML
+    private Button btnAtras;
+    @FXML
     private ComboBox<TipoCargo> comboBoxCargo;
 
     private Stage stage;
 
     List<Trabajador> trabajadores;
+    private Trabajador trabajador;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 
     public void initStage(Parent root) {
@@ -87,8 +95,22 @@ public class RegistroTrabajadorFXMLControlador {
         btbRegistrarse.setVisible(true);
         btbRegistrarse.setDisable(false);
         btbRegistrarse.setOnAction(this::crearTrabajador);
+        btnAtras.setOnAction(this::menuTrabajador);
         stage.show();
 
+    }
+    
+    private void menuTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+            menuTrabajador.setStage(stage);
+            menuTrabajador.setTrabajador(trabajador);
+            menuTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void crearTrabajador(ActionEvent event) {
@@ -107,7 +129,8 @@ public class RegistroTrabajadorFXMLControlador {
 
             Date date = Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             trabajador.setFechaNacimiento(date);
-
+            byte[] passwdBytes =  new AsymmetricCliente().cipher(tfxContrasena.getText());
+            trabajador.setContrasena(DatatypeConverter.printHexBinary(passwdBytes));
             trabajaInterfaz.crearTrabajador_XML(trabajador);
             if (trabajaInterfaz.encontrarPorId_XML(Trabajador.class, tfxDni.getText()) != null) {
                 mostrarAlert("Confirmacion", "El trabajador se ha dado de alta");

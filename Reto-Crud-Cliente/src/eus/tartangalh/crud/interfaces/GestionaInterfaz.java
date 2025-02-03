@@ -7,6 +7,7 @@ package eus.tartangalh.crud.interfaces;
 
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -14,16 +15,22 @@ import javax.ws.rs.client.WebTarget;
  */
 public interface GestionaInterfaz {
 
-    public void actualizarGestiona_XML(Object requestEntity, String id) throws ClientErrorException;
+    public void actualizarGestiona_XML(Object requestEntity);
 
-    public void crearGestiona_XML(Object requestEntity) throws ClientErrorException;
+    public void actualizarGestiona_JSON(Object requestEntity);
 
-    public <T> T find_XML(Class<T> responseType, String id) throws ClientErrorException ;
+    public <T> T encontrarGestiona_XML(Class<T> responseType, String dni, String idProducto);
 
-    public <T> T findRange_XML(Class<T> responseType, String from, String to) throws ClientErrorException;
+    public <T> T encontrarGestiona_JSON(Class<T> responseType, String dni, String idProducto);
 
-    public <T> T findAll_XML(Class<T> responseType) throws ClientErrorException;
+    public <T> T mostrarTodosGestiona_XML(GenericType<T> responseType);
 
-    public void remove(String id) throws ClientErrorException;
+    public <T> T mostrarTodosGestiona_JSON(Class<T> responseType);
+
+    public void crearGestiona_XML(Object requestEntity);
+
+    public void crearGestiona_JSON(Object requestEntity);
+
+    public void borrarGestiona(String dni, String idProducto);
 
 }

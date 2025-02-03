@@ -7,12 +7,14 @@ package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author 2dam
  */
-
+@XmlRootElement
 public class Gestiona implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,11 +23,11 @@ public class Gestiona implements Serializable {
     private Trabajador trabajador;
 
     private ProductoFarmaceutico productoFarmaceutico;
-    private LocalDate fechaCompra;
+    private Date fechaCompra;
 
     private Integer cantidad;
 
-    public Gestiona(GestionaId gestionaId, Trabajador trabajador, ProductoFarmaceutico productoFarmaceutico, Integer cantidad, LocalDate fechaCompra) {
+    public Gestiona(GestionaId gestionaId, Trabajador trabajador, ProductoFarmaceutico productoFarmaceutico, Integer cantidad, Date fechaCompra) {
         this.gestionaId = gestionaId;
         this.trabajador = trabajador;
         this.productoFarmaceutico = productoFarmaceutico;
@@ -36,11 +38,11 @@ public class Gestiona implements Serializable {
     public Gestiona() {
     }
 
-    public LocalDate getFechaCompra() {
+    public Date getFechaCompra() {
         return fechaCompra;
     }
 
-    public void setFechaCompra(LocalDate fechaCompra) {
+    public void setFechaCompra(Date fechaCompra) {
         this.fechaCompra = fechaCompra;
     }
 

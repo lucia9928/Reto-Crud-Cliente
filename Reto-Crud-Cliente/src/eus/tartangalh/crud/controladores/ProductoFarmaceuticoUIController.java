@@ -7,6 +7,7 @@ package eus.tartangalh.crud.controladores;
 
 import eus.tartangalh.crud.entidades.CategoriaProducto;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
+import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -105,9 +106,14 @@ public class ProductoFarmaceuticoUIController {
     private Stage stage;
 
     private static final Logger LOGGER = Logger.getLogger("productoFarmaceuticoControlador.view");
+    private Trabajador trabajador;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
     }
 
     public void initStage(Parent root) {
@@ -251,7 +257,7 @@ public class ProductoFarmaceuticoUIController {
     @FXML
     private void añadirFila() {
         try {
-            tableView.scrollTo(tableView.getItems().size()-1);
+            tableView.scrollTo(tableView.getItems().size() - 1);
             ProductoFarmaceutico producto = new ProductoFarmaceutico();
             ProductoInterfazFactoria.get().crearProducto_XML(producto);
             mostrarProductos();
@@ -531,19 +537,20 @@ public class ProductoFarmaceuticoUIController {
             stage.close();
         }
     }
+
     @FXML
     private void imprimirInforme() {
         try {
-            
-            JasperReport report=JasperCompileManager.compileReport("src/recursos/ProductoReport.jrxml");
 
-            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<ProductoFarmaceutico>)this.tableView.getItems());
-            
+            JasperReport report = JasperCompileManager.compileReport("src/recursos/ProductoReport.jrxml");
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<ProductoFarmaceutico>) this.tableView.getItems());
+
             Map<String, Object> parameters = new HashMap<>();
-            
+
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
             
-            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
             
             jasperViewer.setVisible(true);
 

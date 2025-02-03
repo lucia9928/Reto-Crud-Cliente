@@ -6,12 +6,13 @@
 package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author 2dam
  */
-
+@XmlRootElement
 public class GestionaId implements Serializable{
     
     private String dni;
