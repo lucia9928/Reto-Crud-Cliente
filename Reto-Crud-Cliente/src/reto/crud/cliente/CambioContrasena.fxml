@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Pane" prefHeight="768.0" prefWidth="1633.0" stylesheets="@../../../recursos/EstiloProducto.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RestablecerContrasenaController">
+<AnchorPane id="Pane" prefHeight="768.0" prefWidth="1633.0" stylesheets="@../../../recursos/EstiloProducto.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.CambioContrasenaController">
     <children>
         <!-- Contenedor principal -->
         <VBox alignment="CENTER" prefHeight="768.0" prefWidth="1633.0" spacing="20">
@@ -22,17 +22,18 @@
 
             <!-- Título -->
             <Label fx:id="lblTitulo" alignment="CENTER" prefHeight="40.0" prefWidth="300.0" styleClass="titulo" text="Cambio de contraseña">
-            <font>
-               <Font size="22.0" />
-            </font></Label>
+                <font>
+                    <Font size="22.0" />
+                </font>
+            </Label>
 
             <!-- Campo de entrada para el correo -->
             <TextField fx:id="textContraActual" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="629.0" promptText="Ingresa tu contraseña actual" />
-         <TextField fx:id="txtNuevaContra1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="629.0" promptText="Ingresa tu contraseña nueva" />
-         <TextField fx:id="textnuevaContra2" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="629.0" promptText="repite tu contraseña nueva" />
+            <TextField fx:id="txtNuevaContra1" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="629.0" promptText="Ingresa tu contraseña nueva" />
+            <TextField fx:id="textnuevaContra2" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="35.0" prefWidth="629.0" promptText="repite tu contraseña nueva" />
 
             <!-- Botón de envío -->
-            <Button fx:id="btnCambioContrasena" onAction="#enviarEnlace" prefHeight="40.0" prefWidth="273.0" styleClass="btn-primary" text="Cambiar de contraseña" />
+            <Button fx:id="btnCambioContrasena" onAction="#enviar" prefHeight="40.0" prefWidth="273.0" styleClass="btn-primary" text="Cambiar de contraseña" />
         </VBox>
     </children>
 </AnchorPane>

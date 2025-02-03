@@ -37,6 +37,8 @@ public class MenuClienteFXMLController {
     private Button btnRecetasMedicas;
     @FXML
     private Button btnProducto;
+    @FXML
+    private Button btnCambioContrasena;
 
     /**
      * Initializes the controller class.
@@ -61,6 +63,7 @@ public class MenuClienteFXMLController {
         btnCerrarSesion.setOnAction(this::cerrarSesion);
         btnRecetasMedicas.setOnAction(this::recetaMedica);
         btnProducto.setOnAction(this::visualizarProducto);
+        btnCambioContrasena.setOnAction(this::cambioContrasena);
     }
 
     private void cerrarSesion(ActionEvent event) {
@@ -101,5 +104,16 @@ public class MenuClienteFXMLController {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    private void cambioContrasena(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/CambioContrasena.fxml"));
+            Parent root = loader.load();
+            CambioContrasenaController cambioContra = loader.getController();
+            cambioContra.setStage(stage);
+            cambioContra.setCliente(cliente);
+            cambioContra.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

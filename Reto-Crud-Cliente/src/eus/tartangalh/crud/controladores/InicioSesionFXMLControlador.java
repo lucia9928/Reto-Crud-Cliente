@@ -180,6 +180,19 @@ public class InicioSesionFXMLControlador {
         Optional<ButtonType> resultado = alert.showAndWait();
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
+    
+    @FXML
+    private void restablecerContrasena() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/RestablecerContrasena.fxml"));
+            Parent root = loader.load();
+            RestablecerContrasenaController RestabelcerContra = loader.getController();
+            RestabelcerContra.setStage(stage);
+            RestabelcerContra.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(RestablecerContrasenaController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     private void handleClose() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

@@ -14,18 +14,44 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
 
 public class RestablecerContrasenaController {
-    
+
     private static final Logger LOGGER = Logger.getLogger(RestablecerContrasenaController.class.getName());
+
+    private Stage stage;
+    private Trabajador trabajador;
+    private Cliente cliente;
 
     @FXML
     private TextField textEmail;
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void setTrabajador(Trabajador trabajador) {
+        this.trabajador = trabajador;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void initStage(Parent root) {
+        Scene scene = new Scene(root);
+        stage.setTitle("Restablecer contraseña");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     @FXML
     private void enviarRestablecimiento() {
-        String emailIngresado = textEmail.getText().trim();
+        String emailIngresado = textEmail.getText();
 
         if (emailIngresado.isEmpty()) {
             mostrarAlerta("Error", "El campo de correo no puede estar vacío.", Alert.AlertType.ERROR);
@@ -33,9 +59,11 @@ public class RestablecerContrasenaController {
         }
 
         try {
-            Trabajador trabajador = TrabajadorFactoria.get().buscarTrabajador(new GenericType<Trabajador>() {}, emailIngresado);
-            Cliente cliente = ClienteFactoria.get().buscarCliente(new GenericType<Cliente>() {}, emailIngresado);
-            
+            Trabajador trabajador = TrabajadorFactoria.get().buscarTrabajador(new GenericType<Trabajador>() {
+            }, emailIngresado);
+            Cliente cliente = ClienteFactoria.get().buscarCliente(new GenericType<Cliente>() {
+            }, emailIngresado);
+
             if (trabajador != null) {
                 TrabajadorFactoria.get().resetarContrasena(trabajador);
                 mostrarAlerta("Éxito", "Se ha enviado un correo con instrucciones para restablecer la contraseña.", Alert.AlertType.INFORMATION);

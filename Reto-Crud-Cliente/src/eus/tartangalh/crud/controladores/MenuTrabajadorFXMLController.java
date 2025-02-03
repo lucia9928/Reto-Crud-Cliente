@@ -43,6 +43,8 @@ public class MenuTrabajadorFXMLController {
     private Button btnAlamcen;
     @FXML
     private Button btnCerrarSesion;
+    @FXML
+    private Button btnCambioContrasena;
 
     /**
      * Initializes the controller class.
@@ -69,6 +71,7 @@ public class MenuTrabajadorFXMLController {
         btnProveedor.setOnAction(this::tablaProveedor);
         btnAlamcen.setOnAction(this::tablaAlmacen);
         btnProducto.setOnAction(this::tablaProducto);
+        btnCambioContrasena.setOnAction(this::cambioContrasena);
         btnRegistrarTrabajador.setOnAction(this::registroTrabajador);
     }
 
@@ -84,7 +87,6 @@ public class MenuTrabajadorFXMLController {
         }
 
     }
-
 
     private void registroTrabajador(ActionEvent event) {
         try {
@@ -112,7 +114,6 @@ public class MenuTrabajadorFXMLController {
         }
     }
 
-
     private void tablaAlmacen(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/AlmacenFXML.fxml"));
@@ -134,6 +135,19 @@ public class MenuTrabajadorFXMLController {
             producto.setStage(stage);
             producto.setTrabajador(trabajador);
             producto.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void cambioContrasena(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/CambioContrasena.fxml"));
+            Parent root = loader.load();
+            CambioContrasenaController cambioContra = loader.getController();
+            cambioContra.setStage(stage);
+            cambioContra.setTrabajador(trabajador);
+            cambioContra.initStage(root);
         } catch (IOException ex) {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
