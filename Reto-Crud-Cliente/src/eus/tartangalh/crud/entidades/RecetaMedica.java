@@ -6,7 +6,6 @@
 package eus.tartangalh.crud.entidades;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,33 +23,33 @@ public class RecetaMedica implements Serializable {
     private Integer cantidad;
     private List<ProductoFarmaceutico>productos;
 
-    
     public RecetaMedica() {
         
     }
 
-    public RecetaMedica(Integer idReceta,Date fechaReceta, String descripcion, Integer cantidad) {
+    public RecetaMedica(Integer idReceta,Date fechaReceta, String descripcion, Integer cantidad, List<ProductoFarmaceutico>productos) {
         this.idReceta = idReceta;
         this.fechaReceta = fechaReceta;
         this.descripcion = descripcion;
         this.cantidad = cantidad;
+        this.productos=productos;
     }
 
 
-   private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
    
-  public Cliente getCliente() {
+    public Cliente getCliente() {
         return cliente;
     }
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-  public List<ProductoFarmaceutico> getProductos() {
+    public List<ProductoFarmaceutico> getProductos() {
         return productos;
     }
 
-    public void setListaProductos(List<ProductoFarmaceutico> productos) {
+    public void setProductos(List<ProductoFarmaceutico> productos) {
         this.productos = productos;
     }
     public Date getFechaReceta() {
@@ -81,13 +80,15 @@ public class RecetaMedica implements Serializable {
         return idReceta;
     }
 
-    public void setId(Integer idReceta) {
+    public void setIdReceta(Integer idReceta) {
         this.idReceta = idReceta;
     }
     public String getNombreCliente() {
     return cliente != null? cliente.getNombre() : "Sin cliente";
 }
-public String getListaProductos() {
+        // Getter para el valor booleano
+   
+    public String getListaProductos() {
     if (productos == null || productos.isEmpty()) {
         return "Sin productos";
     }
@@ -128,5 +129,7 @@ public String getListaProductos() {
     public String toString() {
         return "eus.tartangalh.crud.create.RecetaMedica[ id=" + idReceta + " ]";
     }
+
+ 
     
 }
