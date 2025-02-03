@@ -21,7 +21,7 @@ public class RecetaMedicaFactoria {
 
     public static RecetaMedicaInterfaz get() {
         if (receta == null) {
-            receta = new RecetaMedicaREST(); // Lazy initialization
+            receta = new RecetaMedicaREST(); 
         }
         return receta;
     }

@@ -5,6 +5,7 @@
  */
 package eus.tartangalh.crud.interfaces;
 
+import eus.tartangalh.crud.entidades.RecetaMedica;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.GenericType;
 
@@ -17,7 +18,6 @@ public interface RecetaMedicaInterfaz {
  
     public void eliminarRecetamedica(String id) throws WebApplicationException;
     public <T> T obtenerProductosPorReceta(GenericType<T> responseType, String id) throws WebApplicationException;
-
     public void modificarRecetaMedica_XML(Object requestEntity) throws WebApplicationException;
     public void modificarRecetaMedica_JSON(Object requestEntity) throws WebApplicationException;
     public <T> T encontrarRecetaPorId_XML(GenericType<T> responseType, String id) throws WebApplicationException;
@@ -29,6 +29,7 @@ public interface RecetaMedicaInterfaz {
     public <T> T encontrarRecetasPorFecha_XML(GenericType<T> responseType, String fechaInicio, String fechaFin) throws WebApplicationException;
     public <T> T encontrarRecetasPorFecha_JSON(GenericType<T> responseType, String fechaInicio, String fechaFin) throws WebApplicationException;
         public void close() ;
+
     
 
 }

@@ -108,18 +108,6 @@ public class RegistroClienteFXMLControlador {
         }
     }
 
-    private void irIniciarSesion(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/InicioSesionFXML.fxml"));
-            Parent root = loader.load();
-            InicioSesionFXMLControlador inicioSesion = loader.getController();
-            inicioSesion.setStage(stage);
-            inicioSesion.initStage(root);
-        } catch (IOException ex) {
-            Logger.getLogger(RegistroClienteFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     private void crearTrabajador(ActionEvent event) {
 
         if (validarCliente()) {

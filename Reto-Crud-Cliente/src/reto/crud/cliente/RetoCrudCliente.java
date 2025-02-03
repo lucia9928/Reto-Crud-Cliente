@@ -6,10 +6,6 @@
 package reto.crud.cliente;
 
 import eus.tartangalh.crud.controladores.InicioSesionFXMLControlador;
-import eus.tartangalh.crud.controladores.RecetaMedicaFXMLController;
-import eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador;
-import eus.tartangalh.crud.controladores.VisualizarProductoFXMLControlador;
-import eus.tartangalh.crud.logica.RecetaMedicaREST;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Stage;
