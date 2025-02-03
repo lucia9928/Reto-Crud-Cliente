@@ -126,14 +126,14 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         }
     }
 
-@Override
-public <T> T iniciarSesion(GenericType<T> responseType, String dniTra, String contrasenaTra) throws WebApplicationException {
+    @Override
+    public <T> T iniciarSesion(GenericType<T> responseType, String dniTra, String contrasenaTra) throws WebApplicationException {
         try {
             LOGGER.log(Level.INFO, "Intentando iniciar sesion");
             WebTarget resource = webTarget;
             LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
 
-            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{emailUsr, contraseniaUsr}));
+            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{dniTra, contrasenaTra}));
             int statusCode = resource.request().get().getStatus();
             LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
             String responseContent = resource.request().get(String.class);

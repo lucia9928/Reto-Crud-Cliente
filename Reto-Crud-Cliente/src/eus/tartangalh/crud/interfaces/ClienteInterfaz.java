@@ -27,7 +27,7 @@ public interface ClienteInterfaz {
 
     public <T> T encontrarTodosLosClientes_JSON(GenericType<T> responseType) throws WebApplicationException;
     
-    public <T> T iniciarSesion(Class<T> responseType, String dni, String passwd) throws WebApplicationException;
+    public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException;
     
      public <T> T buscarCliente(GenericType<T> respuesta, String userEmail) throws WebApplicationException;
 

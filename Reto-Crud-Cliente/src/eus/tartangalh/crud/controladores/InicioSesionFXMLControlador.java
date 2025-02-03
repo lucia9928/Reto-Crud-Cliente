@@ -125,10 +125,13 @@ public class InicioSesionFXMLControlador {
         if (!dni.isEmpty()) {
             // Consultar en la base de datos
             byte[] passwordBytes = new AsymmetricCliente().cipher(pswContrasena.getText());
-            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>{}();, dni, DatatypeConverter.printHexBinary(passwordBytes));
-            cliente = clienteInterfaz.iniciarSesion(Cliente.class, dni, DatatypeConverter.printHexBinary(passwordBytes));
 
-            // Verifica si es cliente
+        trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
+        
+        // Si no se encuentra trabajador, buscar cliente
+        if (trabajador == null) {
+            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
+        }
             if (cliente != null) {
                 abrirMenuCliente(cliente);
             } else if (trabajador != null) {

@@ -137,10 +137,23 @@ public class ClienteREST implements ClienteInterfaz {
     }
 
     @Override
-    public <T> T iniciarSesion(Class<T> responseType, String Clidni, String contrasenaCli) throws WebApplicationException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("/iniciarSesion/{0}/{1}", new Object[]{Clidni, contrasenaCli}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+    public <T> T iniciarSesion(GenericType<T> responseType, String Clidni, String contrasenaCli) throws WebApplicationException {
+        try {
+            LOGGER.log(Level.INFO, "Intentando iniciar sesion");
+            WebTarget resource = webTarget;
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+
+            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{Clidni, contrasenaCli}));
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
+            throw new WebApplicationException("User not found");
+        }
     }
 
 }
