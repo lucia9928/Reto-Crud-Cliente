@@ -26,6 +26,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.ws.rs.core.GenericType;
 
 /**
  *
@@ -106,8 +107,10 @@ public class InicioSesionFXMLControlador {
         Trabajador trabajador = null;
         Cliente cliente = null;
         if (!textDni.getText().equals("")) {
-            trabajador = trabajaInterfaz.encontrarPorId_XML(Trabajador.class, textDni.getText());
-            cliente = clienteInterfaz.encontrarPorId_XML(Cliente.class, textDni.getText());
+            trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {
+                    }, pswContrasena.getText(), textDni.getText());
+            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {
+                    }, pswContrasena.getText(), textDni.getText());
         }
 
         if (cliente == null && !(textDni.getText().equals("dincliente") && pswContrasena.getText().equals("abcd*1234"))) {

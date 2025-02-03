@@ -85,6 +85,7 @@ public class MenuTrabajadorFXMLController {
 
     }
 
+
     private void registroTrabajador(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/RegistroTrabajadorFXML.fxml"));
@@ -111,6 +112,7 @@ public class MenuTrabajadorFXMLController {
         }
     }
 
+
     private void tablaAlmacen(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/AlmacenFXML.fxml"));
@@ -136,5 +138,4 @@ public class MenuTrabajadorFXMLController {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 }

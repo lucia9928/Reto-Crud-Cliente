@@ -549,9 +549,9 @@ public class ProductoFarmaceuticoUIController {
             Map<String, Object> parameters = new HashMap<>();
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
-
-            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
-
+            
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            
             jasperViewer.setVisible(true);
 
         } catch (JRException e) {

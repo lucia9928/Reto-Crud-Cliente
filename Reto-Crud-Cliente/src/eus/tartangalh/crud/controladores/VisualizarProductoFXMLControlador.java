@@ -74,6 +74,7 @@ public class VisualizarProductoFXMLControlador {
 
     @FXML
     private TableColumn<ProductoFarmaceutico, CategoriaProducto> categoriaColumn;
+
     //@FXML
     // private TableColumn<ProductoFarmaceutico, Float> precioColumn;
     private Stage stage;
@@ -109,7 +110,6 @@ public class VisualizarProductoFXMLControlador {
     }
 
     public ObservableList<ProductoFarmaceutico> mostrarProductos() {
-
         todosProductos = proInterfaz.encontrarTodos_XML(new GenericType<List<ProductoFarmaceutico>>() {
         });
 
@@ -127,7 +127,6 @@ public class VisualizarProductoFXMLControlador {
             modal.initModality(Modality.WINDOW_MODAL);
             modal.initOwner(stage);
             modal.setTitle("Confirmar Compra");
-
             // Mensaje de producto
             Label lblMensaje = new Label("Producto: " + productoFarmaceutico.getNombreProducto());
 

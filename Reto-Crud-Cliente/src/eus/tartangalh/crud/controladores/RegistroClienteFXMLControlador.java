@@ -5,6 +5,7 @@
  */
 package eus.tartangalh.crud.controladores;
 
+import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.entidades.Usuario;
@@ -32,6 +33,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * FXML Controller class
@@ -106,6 +108,18 @@ public class RegistroClienteFXMLControlador {
         }
     }
 
+    private void irIniciarSesion(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/InicioSesionFXML.fxml"));
+            Parent root = loader.load();
+            InicioSesionFXMLControlador inicioSesion = loader.getController();
+            inicioSesion.setStage(stage);
+            inicioSesion.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(RegistroClienteFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void crearTrabajador(ActionEvent event) {
 
         if (validarCliente()) {
@@ -122,7 +136,8 @@ public class RegistroClienteFXMLControlador {
 
             Date date = Date.from(dateFechaNcimiento.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             cliente.setFechaNacimiento(date);
-
+            byte[] passwdBytes =  new AsymmetricCliente().cipher(tfxContrasena.getText());
+            cliente.setContrasena(DatatypeConverter.printHexBinary(passwdBytes));            
             clienteInterfaz.crearCliente_XML(cliente);
             if (clienteInterfaz.encontrarPorId_XML(Cliente.class, tfxDni.getText()) != null) {
                 mostrarAlerta("Confirmacion", "El Cliente se ha dado de alta");
