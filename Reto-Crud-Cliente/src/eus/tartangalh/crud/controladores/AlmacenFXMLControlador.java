@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.WindowEvent;
 import javafx.util.StringConverter;
@@ -48,6 +49,9 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Andoni
  */
 public class AlmacenFXMLControlador {
+    
+    @FXML
+    private VBox idVBox;
 
     @FXML
     private TableView<Almacen> almacenTableView;
@@ -86,6 +90,8 @@ public class AlmacenFXMLControlador {
     private DatePicker txtFechaHasta;
 
     private Stage stage;
+    
+    private ContextMenuManager contextMenuManager;
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
     private Trabajador trabajador;
@@ -151,6 +157,8 @@ public class AlmacenFXMLControlador {
         // Ocultar filtros al inicio y mostrar los filtros configurados.
         ocultarTodosLosFiltros();
         listarFiltros();
+        
+        contextMenuManager = new ContextMenuManager(idVBox);
     }
 
     /**
