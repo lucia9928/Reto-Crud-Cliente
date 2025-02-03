@@ -5,6 +5,7 @@
  */
 package eus.tartangalh.crud.logica;
 
+import eus.tartangalh.crud.entidades.RecetaMedica;
 import eus.tartangalh.crud.interfaces.RecetaMedicaInterfaz;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
@@ -99,5 +100,7 @@ public class RecetaMedicaRest implements RecetaMedicaInterfaz{
     public void close() {
         client.close();
     }
+
+  
     
 }

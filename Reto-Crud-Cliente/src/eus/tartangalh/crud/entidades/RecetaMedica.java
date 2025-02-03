@@ -23,7 +23,6 @@ public class RecetaMedica implements Serializable {
     private Integer cantidad;
     private List<ProductoFarmaceutico>productos;
 
-    
     public RecetaMedica() {
         
     }
@@ -50,7 +49,7 @@ public class RecetaMedica implements Serializable {
         return productos;
     }
 
-    public void setListaProductos(List<ProductoFarmaceutico> productos) {
+    public void setProductos(List<ProductoFarmaceutico> productos) {
         this.productos = productos;
     }
     public Date getFechaReceta() {
@@ -81,7 +80,7 @@ public class RecetaMedica implements Serializable {
         return idReceta;
     }
 
-    public void setId(Integer idReceta) {
+    public void setIdReceta(Integer idReceta) {
         this.idReceta = idReceta;
     }
     public String getNombreCliente() {
