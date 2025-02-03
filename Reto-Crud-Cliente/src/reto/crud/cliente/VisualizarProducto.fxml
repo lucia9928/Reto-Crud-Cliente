@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.VisualizarProductoFXMLControlador">
+   <children>
+      <TableView fx:id="tableView" layoutX="98.0" layoutY="184.0" prefHeight="488.0" prefWidth="1170.0">
+         <columns>
+            <TableColumn fx:id="nombreColumn" prefWidth="145.60002899169922" text="Nombre" />
+            <TableColumn fx:id="caducidadColumn" prefWidth="213.5999755859375" text="Caducidad" />
+            <TableColumn fx:id="descripcionColumn" prefWidth="326.0" text="Descripción" />
+            <TableColumn fx:id="categoriaColumn" prefWidth="257.0" text="Categoría" />
+            <TableColumn prefWidth="226.0" text="Precio" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnAtras" layoutX="119.0" layoutY="706.0" mnemonicParsing="false" text="Atras" />
+      <Button fx:id="btnComprar" layoutX="1195.0" layoutY="706.0" mnemonicParsing="false" text="Comprar" />
+   </children>
+</AnchorPane>

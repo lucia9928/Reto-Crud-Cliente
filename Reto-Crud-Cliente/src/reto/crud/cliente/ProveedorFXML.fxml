@@ -4,6 +4,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -42,5 +45,24 @@
       <Button fx:id="btnBorrar" layoutX="360.0" layoutY="644.0" mnemonicParsing="false" text="Borrar datos" />
       <Button fx:id="btnAtras" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" text="Atras" />
       <DatePicker fx:id="fechaFiltro" layoutX="287.0" layoutY="38.0" promptText="Introduzca Fecha" />
+      <MenuBar fx:id="menuBar">
+        <menus>
+          <Menu fx:id="menuTrabajador" mnemonicParsing="false" text="Menu Trabajador">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu fx:id="menuInforme" mnemonicParsing="false" text="Informe">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

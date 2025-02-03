@@ -14,7 +14,7 @@
 /* Estilo para los labels */
 Label {
     -fx-text-fill: #555555; /* Color de texto */
-    -fx-font-size: 14px;
+    -fx-font-size: 15px;
     -fx-font-weight: bold;
 }
 

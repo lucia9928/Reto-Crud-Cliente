@@ -8,7 +8,6 @@ package reto.crud.cliente;
 import eus.tartangalh.crud.controladores.InicioSesionFXMLControlador;
 import eus.tartangalh.crud.controladores.RecetaMedicaFXMLController;
 import eus.tartangalh.crud.controladores.RegistroClienteFXMLControlador;
-import eus.tartangalh.crud.controladores.RegistroTrabajadorFXMLControlador;
 import eus.tartangalh.crud.controladores.VisualizarProductoFXMLControlador;
 import eus.tartangalh.crud.logica.RecetaMedicaREST;
 import javafx.fxml.FXMLLoader;
@@ -34,11 +33,11 @@ public class RetoCrudCliente extends javafx.application.Application {
 
         recetaMedica.initStage(root);*/
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistroTrabajadorFXML.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("InicioSesionFXML.fxml"));
 
         Parent root = loader.load();
 
-        RegistroTrabajadorFXMLControlador inicioSesion = (RegistroTrabajadorFXMLControlador) loader.getController();
+        InicioSesionFXMLControlador inicioSesion = (InicioSesionFXMLControlador) loader.getController();
 
         inicioSesion.setStage(stage);
 

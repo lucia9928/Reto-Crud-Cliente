@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.MenuClienteFXMLController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="946.0" minWidth="10.0" prefWidth="455.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="607.3333129882812" minWidth="0.0" prefWidth="455.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="557.0" minWidth="10.0" prefWidth="455.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" style="-fx-background-color: #b8dcb4;" GridPane.columnIndex="1">
+            <children>
+                <VBox prefHeight="202.0" prefWidth="355.0">
+                    <VBox.margin>
+                        <Insets left="50.0" right="50.0" />
+                    </VBox.margin>
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                        <ImageView fitHeight="75.0" fitWidth="75.0">
+                           <image>
+                              <Image url="@../../../recursos/icons/receta.png" />
+                           </image>
+                        </ImageView>
+                                <Button fx:id="btnRecetasMedicas" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Recetas medicas">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="40.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="75.0" fitWidth="75.0">
+                                    <image>
+                                        <Image url="@../../../recursos/icons/producto.png" />
+                                    </image>
+                                </ImageView>
+                                <Button fx:id="btnProducto" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Visualizar producto">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="40.0" />
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="btnCerrarSesion" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="31.0" prefWidth="169.0" text="Cerrar sesion">
+                            <font>
+                                <Font size="15.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</GridPane>
