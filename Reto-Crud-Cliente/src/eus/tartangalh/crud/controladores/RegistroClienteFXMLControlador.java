@@ -108,6 +108,7 @@ public class RegistroClienteFXMLControlador {
         }
     }
 
+
     private void crearTrabajador(ActionEvent event) {
 
         if (validarCliente()) {

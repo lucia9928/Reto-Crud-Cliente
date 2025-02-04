@@ -4,15 +4,21 @@
  * and open the template in the editor.
  */
 package eus.tartangalh.crud.logica;
+
+import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
 
 /**
  * Jersey REST client generated for REST resource:TrabajadorFacadeREST
@@ -48,9 +54,25 @@ public class TrabajadorREST implements TrabajadorInterfaz {
     }
 
     public <T> T encontrarPorId_XML(Class<T> responseType, String id) throws WebApplicationException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        try {
+            WebTarget resource = webTarget.path("id").path(id);
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+
+            Response response = resource.request(MediaType.APPLICATION_XML).get();
+
+            int statusCode = response.getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+
+            if (statusCode == 404) {
+                throw new WebApplicationException("No se encontró el trabajador con ID: " + id, Response.Status.NOT_FOUND);
+            } else if (statusCode != 200) {
+                throw new WebApplicationException("Error en la solicitud: " + response.readEntity(String.class), statusCode);
+            }
+
+            return response.readEntity(responseType);
+        } catch (Exception ex) {
+            throw new WebApplicationException("Error al buscar trabajador por ID: " + ex.getMessage());
+        }
     }
 
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException {
@@ -80,21 +102,26 @@ public class TrabajadorREST implements TrabajadorInterfaz {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
-    
-    @Override
+
     public <T> T buscarTrabajador(GenericType<T> respuesta, String userEmail) throws WebApplicationException {
         try {
-            WebTarget resource = webTarget;
-            LOGGER.info("Intentnado buscar cliente");
+            WebTarget resource = webTarget.path("busqueda").path(userEmail); // Agrega la ruta correcta
             LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
-            int statusCode = resource.request().get().getStatus();
+
+            Response response = resource.request(MediaType.APPLICATION_XML).get();
+
+            int statusCode = response.getStatus();
             LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
-            String responseContent = resource.request().get(String.class);
-            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
-            resource = resource.path(java.text.MessageFormat.format("busqueda/{0}", new Object[]{userEmail}));
-            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+
+            if (statusCode == 404) {
+                throw new WebApplicationException("No se encontró ningún trabajador con el email: " + userEmail, Response.Status.NOT_FOUND);
+            } else if (statusCode != 200) {
+                throw new WebApplicationException("Error en la solicitud: " + response.readEntity(String.class), statusCode);
+            }
+
+            return response.readEntity(respuesta);
         } catch (Exception ex) {
-            throw new WebApplicationException("No se encontro ningun cliente.");
+            throw new WebApplicationException("Error al buscar trabajador: " + ex.getMessage());
         }
     }
 
@@ -105,30 +132,43 @@ public class TrabajadorREST implements TrabajadorInterfaz {
     @Override
     public void resetarContrasena(Trabajador trabajador) throws WebApplicationException {
         try {
-            webTarget.path("recoverPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(trabajador, javax.ws.rs.core.MediaType.APPLICATION_XML), Trabajador.class);
-        } catch (Exception ex) {
-            throw new WebApplicationException("An error occurred while trying to edit the clients password:" + ex.getMessage());
-        }
+            Response response = webTarget.path("recoverPassword")
+                    .request(MediaType.APPLICATION_XML)
+                    .put(Entity.entity(trabajador, MediaType.APPLICATION_XML));
 
+            if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+                String errorMessage = response.readEntity(String.class);
+                throw new WebApplicationException("Error en servidor: " + errorMessage, response.getStatus());
+            }
+        } catch (ProcessingException e) {
+            throw new WebApplicationException("Error de conexión con el servidor: " + e.getMessage());
+        }
     }
 
     @Override
     public void actualizarContrasena(Trabajador trabajador) throws WebApplicationException {
         try {
-            webTarget.path("editPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(trabajador, javax.ws.rs.core.MediaType.APPLICATION_XML), Trabajador.class);
-        } catch (Exception ex) {
-            throw new WebApplicationException("An error occurred while trying to edit the clients password:" + ex.getMessage());
+            Response response = webTarget.path("editPassword")
+                    .request(MediaType.APPLICATION_XML)
+                    .put(Entity.entity(trabajador, MediaType.APPLICATION_XML));
+
+            if (response.getStatus() != Response.Status.NO_CONTENT.getStatusCode()) {
+                String errorMessage = response.readEntity(String.class);
+                throw new WebApplicationException("Error en servidor: " + errorMessage, response.getStatus());
+            }
+        } catch (ProcessingException e) {
+            throw new WebApplicationException("Error de conexión con el servidor: " + e.getMessage());
         }
     }
 
     @Override
-    public <T> T iniciarSesion(GenericType<T> responseType, String dni, String passwd) throws WebApplicationException {
+    public <T> T iniciarSesion(GenericType<T> responseType, String dniTra, String contrasenaTra) throws WebApplicationException {
         try {
             LOGGER.log(Level.INFO, "Intentando iniciar sesion");
             WebTarget resource = webTarget;
             LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
 
-            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{dni, passwd}));
+            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{dniTra, contrasenaTra}));
             int statusCode = resource.request().get().getStatus();
             LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
             String responseContent = resource.request().get(String.class);

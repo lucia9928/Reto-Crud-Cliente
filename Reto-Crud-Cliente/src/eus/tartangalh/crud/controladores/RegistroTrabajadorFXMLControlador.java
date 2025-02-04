@@ -155,10 +155,6 @@ public class RegistroTrabajadorFXMLControlador {
             return false;
         }
 
-        if (trabajaInterfaz.encontrarPorId_XML(Trabajador.class, dni) != null) {
-            mostrarAlert("Error", "Este usuario ya existe");
-            return false;
-        }
         if (!matcherEmail.matches() && !matcherDni.matches()) {
             mostrarAlert("Error", "Hay campos con formato incorrecto");
             return false;

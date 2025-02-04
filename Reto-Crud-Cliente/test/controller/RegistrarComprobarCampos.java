@@ -22,6 +22,9 @@ public class RegistrarComprobarCampos extends ApplicationTest {
     @Override
     public void start(Stage stage) throws Exception {
         new RetoCrudCliente().start(stage);
+        clickOn("#btnRegistrate");
+        sleep(1000);
+        
     }
 
     /* @Test
@@ -64,7 +67,7 @@ public class RegistrarComprobarCampos extends ApplicationTest {
     */
     @Test
     public void CamposValidos() {
-         clickOn("#tfxDni");
+        clickOn("#tfxDni");
         write("39333943R");
         clickOn("#tfxNombre");
         write("Markel");

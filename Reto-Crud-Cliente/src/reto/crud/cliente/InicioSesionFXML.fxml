@@ -58,7 +58,7 @@
                 <Label fx:id="lblNoTienesCuenta" text="¿No tienes cuenta? Regístrate" />
                 <Button fx:id="btnRegistrate" prefHeight="35.0" prefWidth="250.0" styleClass="btn-secondary" text="Registrarse" />
                 <Label fx:id="lblOlvidasteLaContrasena" text="¿Olvidaste tu contraseña?" />
-                <Button fx:id="btnReestablecerContrasena" prefHeight="35.0" prefWidth="250.0" text="Restablecer contraseña" />
+                <Button fx:id="btnReestablecerContrasena" onAction="#restablecerContrasena" prefHeight="35.0" prefWidth="250.0" text="Restablecer contraseña" />
             </VBox>
         </VBox>
    </children>
