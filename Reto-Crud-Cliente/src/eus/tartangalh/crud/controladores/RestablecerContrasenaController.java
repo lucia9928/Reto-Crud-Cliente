@@ -58,24 +58,41 @@ public class RestablecerContrasenaController {
             return;
         }
 
-        try {
-            Trabajador trabajador = TrabajadorFactoria.get().buscarTrabajador(new GenericType<Trabajador>() {
-            }, emailIngresado);
-            Cliente cliente = ClienteFactoria.get().buscarCliente(new GenericType<Cliente>() {
-            }, emailIngresado);
+        Trabajador trabajador = null;
+        Cliente cliente = null;
 
-            if (trabajador != null) {
+        try {
+            trabajador = TrabajadorFactoria.get().buscarTrabajador(new GenericType<Trabajador>() {
+            }, emailIngresado);
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "No se encontró un trabajador con este correo.", e);
+        }
+
+        try {
+            cliente = ClienteFactoria.get().buscarCliente(new GenericType<Cliente>() {
+            }, emailIngresado);
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "No se encontró un cliente con este correo.", e);
+        }
+
+        if (trabajador != null) {
+            try {
                 TrabajadorFactoria.get().resetarContrasena(trabajador);
                 mostrarAlerta("Éxito", "Se ha enviado un correo con instrucciones para restablecer la contraseña.", Alert.AlertType.INFORMATION);
-            } else if (cliente != null) {
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Error al restablecer la contraseña del trabajador.", e);
+                mostrarAlerta("Error", "Hubo un problema al restablecer la contraseña del trabajador.", Alert.AlertType.ERROR);
+            }
+        } else if (cliente != null) {
+            try {
                 ClienteFactoria.get().resetarContrasena(cliente);
                 mostrarAlerta("Éxito", "Se ha enviado un correo con instrucciones para restablecer la contraseña.", Alert.AlertType.INFORMATION);
-            } else {
-                mostrarAlerta("Error", "No se encontró un usuario con este correo.", Alert.AlertType.ERROR);
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Error al restablecer la contraseña del cliente.", e);
+                mostrarAlerta("Error", "Hubo un problema al restablecer la contraseña del cliente.", Alert.AlertType.ERROR);
             }
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error al recuperar la contraseña", e);
-            mostrarAlerta("Error", "Hubo un problema al procesar la solicitud: " + e.getMessage(), Alert.AlertType.ERROR);
+        } else {
+            mostrarAlerta("Error", "No se encontró un usuario con este correo.", Alert.AlertType.ERROR);
         }
     }
 
