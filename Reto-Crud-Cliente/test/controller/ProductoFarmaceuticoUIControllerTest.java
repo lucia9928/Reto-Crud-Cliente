@@ -1,39 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package controller;
-
 import eus.tartangalh.crud.controladores.ProductoFarmaceuticoUIController;
 import eus.tartangalh.crud.entidades.CategoriaProducto;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Logger;
-import javafx.scene.Node;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import static mondrian.olap.Util.assertTrue;
+import org.junit.Test;
+import org.testfx.framework.junit.ApplicationTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
-import static org.testfx.api.FxAssert.verifyThat;
-import org.testfx.framework.junit.ApplicationTest;
-import static org.testfx.matcher.base.NodeMatchers.isVisible;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.testfx.api.FxRobot;
-import org.testfx.util.WaitForAsyncUtils;
 
 public class ProductoFarmaceuticoUIControllerTest extends ApplicationTest {
 
@@ -47,13 +32,24 @@ public class ProductoFarmaceuticoUIControllerTest extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        controller = new ProductoFarmaceuticoUIController();
+        // Load the FXML file and set up the scene
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/path/to/ProductoFarmaceuticoUI.fxml"));
+        Parent root = loader.load();
+
+        // Get the controller from the FXML loader
+        controller = loader.getController();
+
+        // Set the stage and show the scene
+        stage.setScene(new Scene(root));
+        stage.show();
+
+        // Initialize your controller if necessary
         controller.setStage(stage);
-        controller.initStage(new javafx.scene.layout.VBox());
     }
 
     @Test
     public void setUp() {
+        // Initialize the UI elements by looking them up
         tableView = lookup("#tableView").query();
         addButton = lookup("#addButton").query();
         deleteButton = lookup("#deleteButton").query();
@@ -66,69 +62,70 @@ public class ProductoFarmaceuticoUIControllerTest extends ApplicationTest {
     }
 
     @Test
-    public void testAgregarEliminarYBuscarProducto(FxRobot robot) {
+    public void testAgregarEliminarYBuscarProducto() {
         // Test 1: Agregar Producto
         int initialSize = tableView.getItems().size();
-        robot.clickOn(addButton);
+        clickOn(addButton);
         assertEquals(initialSize + 1, tableView.getItems().size());
 
         // Test 2: Eliminar Producto
         ProductoFarmaceutico producto = tableView.getItems().get(0);
-        robot.interact(() -> tableView.getSelectionModel().select(producto));
-        robot.clickOn(deleteButton);
+        interact(() -> tableView.getSelectionModel().select(producto));
+        clickOn(deleteButton);
         assertFalse(tableView.getItems().contains(producto));
 
         // Test 3: Buscar Producto por Nombre
-        robot.clickOn(addButton); // Re-adding a product for the search test
+        clickOn(addButton); // Re-adding a product for the search test
         ProductoFarmaceutico newProduct = tableView.getItems().get(0); // Let's assume the new product added has a name.
         txtFiltro.setText(newProduct.getNombreProducto());  // Using the newly added product name for search
         combo.getSelectionModel().select("Nombre");
-        robot.clickOn(searchButton);
-        assertTrue(tableView.getItems().stream().anyMatch(p -> p.getNombreProducto().contains(newProduct.getNombreProducto())),
-                "La búsqueda por nombre no devolvió el producto esperado");
+        clickOn(searchButton);
+        assertTrue("La búsqueda por nombre no devolvió el producto esperado",
+                tableView.getItems().stream().anyMatch(p -> p.getNombreProducto().contains(newProduct.getNombreProducto())));
     }
 
     @Test
-    public void testFiltrarPorFecha(FxRobot robot) {
+    public void testFiltrarPorFecha() {
         // Test 1: Filtrar productos por fecha
         LocalDate fechaDesde = LocalDate.of(2023, 1, 1);
         LocalDate fechaHasta = LocalDate.of(2023, 12, 31);
-        robot.clickOn(combo);
-        robot.clickOn("Fecha de caducidad");
-        robot.write(fechaDesde.toString());
-        robot.write(fechaHasta.toString());
-        robot.clickOn(searchButton);
+        clickOn(combo);
+        clickOn("Fecha de caducidad");
+        write(fechaDesde.toString());
+        write(fechaHasta.toString());
+        clickOn(searchButton);
 
         // Verifica que los productos en la tabla estén dentro del rango de fechas
-        assertTrue(tableView.getItems().stream().allMatch(p -> {
-            LocalDate fechaCaducidad = p.getFechaCaducidad().toInstant()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-            return !fechaCaducidad.isBefore(fechaDesde) && !fechaCaducidad.isAfter(fechaHasta);
-        }), "La búsqueda por fecha no devolvió los productos esperados");
+        assertTrue("La búsqueda por fecha no devolvió los productos esperados",
+                tableView.getItems().stream().allMatch(p -> {
+                    LocalDate fechaCaducidad = p.getFechaCaducidad().toInstant()
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate();
+                    return !fechaCaducidad.isBefore(fechaDesde) && !fechaCaducidad.isAfter(fechaHasta);
+                }));
     }
 
     @Test
-    public void testFiltrarPorCategoria(FxRobot robot) {
+    public void testFiltrarPorCategoria() {
         // Test 2: Filtrar productos por categoría
-        robot.clickOn(combo);
-        robot.clickOn("Categoría");
+        clickOn(combo);
+        clickOn("Categoría");
         CategoriaProducto categoria = CategoriaProducto.CAPSULAS;
-        robot.clickOn(catField);
-        robot.clickOn(categoria.toString());
-        robot.clickOn(searchButton);
+        clickOn(catField);
+        clickOn(categoria.toString());
+        clickOn(searchButton);
 
         // Verifica que los productos en la tabla tengan la categoría seleccionada
-        assertTrue(tableView.getItems().stream().allMatch(p -> p.getCategoria() == categoria),
-                "La búsqueda por categoría no devolvió los productos esperados");
+        assertTrue("La búsqueda por categoría no devolvió los productos esperados",
+                tableView.getItems().stream().allMatch(p -> p.getCategoria() == categoria));
     }
 
     @Test
-    public void testRecargarTabla(FxRobot robot) {
+    public void testRecargarTabla() {
         // Test 3: Recargar la tabla
         int initialSize = tableView.getItems().size();
-        robot.clickOn(addButton); // Agregar un nuevo producto
-        robot.clickOn(searchButton); // Recargar la tabla
-        assertTrue(tableView.getItems().size() > initialSize, "La tabla no se recargó correctamente");
+        clickOn(addButton); // Agregar un nuevo producto
+        clickOn(searchButton); // Recargar la tabla
+        assertTrue("La tabla no se recargó correctamente", tableView.getItems().size() > initialSize);
     }
 }
