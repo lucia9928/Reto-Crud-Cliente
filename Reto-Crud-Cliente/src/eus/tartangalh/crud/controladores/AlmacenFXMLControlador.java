@@ -49,7 +49,7 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Andoni
  */
 public class AlmacenFXMLControlador {
-    
+
     @FXML
     private VBox idVBox;
 
@@ -90,7 +90,7 @@ public class AlmacenFXMLControlador {
     private DatePicker txtFechaHasta;
 
     private Stage stage;
-    
+
     private ContextMenuManager contextMenuManager;
 
     private static final Logger LOGGER = Logger.getLogger("ProveedorControlador.view");
@@ -157,7 +157,7 @@ public class AlmacenFXMLControlador {
         // Ocultar filtros al inicio y mostrar los filtros configurados.
         ocultarTodosLosFiltros();
         listarFiltros();
-        
+
         contextMenuManager = new ContextMenuManager(idVBox);
     }
 
@@ -463,52 +463,95 @@ public class AlmacenFXMLControlador {
     @FXML
     private void buscarFiltro() {
         String filtroSeleccionado = combo.getValue();
-
-        // Dependiendo del filtro seleccionado, recoger el valor adecuado
-        if (filtroSeleccionado != null) {
-            try {
-                switch (filtroSeleccionado) {
-                    case "ID":
-                        // Validación del ID
-                        String idFiltro = txtFiltro.getText();
-                        if (!idFiltro.isEmpty()) {
-                            if (idFiltro.length() <= 50) {
-                                try {
-                                    int id = Integer.parseInt(idFiltro); // Validar que sea un número
-                                    buscarPorId(String.valueOf(id)); // Llamada al método de búsqueda por ID
-                                } catch (NumberFormatException e) {
-                                    mostrarMensajeError("El ID debe ser un número válido.");
-                                }
-                            } else {
-                                mostrarMensajeError("El ID no debe exceder los 50 caracteres.");
+        try {
+            switch (filtroSeleccionado) {
+                case "ID":
+                    String idFiltro = txtFiltro.getText();
+                    if (!idFiltro.isEmpty()) {
+                        if (idFiltro.length() <= 50) {
+                            try {
+                                int id = Integer.parseInt(idFiltro); // Validar que sea un número
+                                buscarPorId(String.valueOf(id));    // Convertimos a String para buscar si es necesario
+                            } catch (NumberFormatException e) {
+                                mostrarMensajeError("El ID debe ser un número válido.");
                             }
-                        } else {
-                            mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
                         }
-                        break;
+                    }
+                    break;
 
-                    case "Fecha":
-                        // Validación de las fechas
-                        LocalDate fechaDesde = txtFechaDesde.getValue();
-                        LocalDate fechaHasta = txtFechaHasta.getValue();
-                        LocalDate fechaHoy = LocalDate.now();
-                        if (fechaDesde != null && fechaHasta != null) {
-                            if (!fechaDesde.isAfter(fechaHasta) && !fechaDesde.isAfter(fechaHoy) && !fechaHasta.isAfter(fechaHoy)) {
+                case "Fecha":
+                    LocalDate fechaDesde = txtFechaDesde.getValue();
+                    LocalDate fechaHasta = txtFechaHasta.getValue();
+                    LocalDate fechaHoy = LocalDate.now(); // Obtener la fecha actual
+                    if (fechaDesde != null && fechaHasta != null) {
+                        if (!fechaDesde.isAfter(fechaHasta)) { // Verificar que 'Desde' no sea posterior a 'Hasta'
+                            if (!fechaDesde.isAfter(fechaHoy) && !fechaHasta.isAfter(fechaHoy)) { // Verificar que ninguna fecha sea posterior a hoy
                                 buscarPorFecha(fechaDesde, fechaHasta);
                             } else {
-                                mostrarMensajeError("Fechas no válidas.");
+                                mostrarMensajeError("Las fechas no pueden ser posteriores a la fecha actual.");
                             }
                         } else {
-                            mostrarAlmacenes(); // Si no hay fechas, mostrar todos
+                            mostrarMensajeError("La fecha 'Desde' no puede ser posterior a la fecha 'Hasta'.");
                         }
-                        break;
+                    } else {
+                        mostrarAlmacenes(); // Si no hay fechas, mostrar todos
+                    }
+                    break;
 
-                    // Validación para los demás filtros: País, Ciudad, y Metros...
-                    // ...
-                }
-            } catch (Exception e) {
-                LOGGER.severe("Error al buscar almacén: " + e.getMessage());
+                case "País":
+                    String paisFiltro = txtFiltro.getText();
+                    if (!paisFiltro.isEmpty()) {
+                        if (paisFiltro.length() <= 50) {
+                            if (paisFiltro.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) { // Validar que contenga solo letras y espacios
+                                buscarPorPais(paisFiltro);
+                            } else {
+                                mostrarMensajeError("El nombre del país solo puede contener letras.");
+                            }
+                        } else {
+                            mostrarMensajeError("El nombre del país no debe exceder los 50 caracteres.");
+                        }
+                    } else {
+                        mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                    }
+                    break;
+
+                case "Ciudad":
+                    String ciudadFiltro = txtFiltro.getText();
+                    if (!ciudadFiltro.isEmpty()) {
+                        if (ciudadFiltro.length() <= 50) {
+                            if (ciudadFiltro.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ\\s]+")) { // Validar que contenga solo letras y espacios
+                                buscarPorCiudad(ciudadFiltro);
+                            } else {
+                                mostrarMensajeError("El nombre de la ciudad solo puede contener letras.");
+                            }
+                        } else {
+                            mostrarMensajeError("El nombre de la ciudad no debe exceder los 50 caracteres.");
+                        }
+                    } else {
+                        mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                    }
+                    break;
+
+                case "Metros":
+                    String metrosFiltro = txtFiltro.getText();
+                    if (!metrosFiltro.isEmpty()) {
+                        try {
+                            int metros = Integer.parseInt(metrosFiltro); // Validar que sea un número
+                            if (metros >= 0 && metros <= 10000) { // Rango permitido
+                                buscarPorMetros(metros);
+                            } else {
+                                mostrarMensajeError("Por favor, ingresa un valor entre 0 y 10,000 para los metros.");
+                            }
+                        } catch (NumberFormatException e) {
+                            mostrarMensajeError("Por favor, ingresa un valor numérico válido para los metros.");
+                        }
+                    } else {
+                        mostrarAlmacenes(); // Si no hay texto en el filtro, mostrar todos
+                    }
+                    break;
             }
+        } catch (Exception e) {
+            LOGGER.severe("Error al buscar almacén: " + e.getMessage());
         }
     }
 
