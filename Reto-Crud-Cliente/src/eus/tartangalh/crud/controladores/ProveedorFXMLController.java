@@ -64,14 +64,6 @@ public class ProveedorFXMLController {
     private Button btnBorrar;
     @FXML
     private Button btnAtras;
-    @FXML
-    private MenuBar menuBar;
-    @FXML
-    private Menu menuTrabajador;
-    @FXML
-    private Menu menuInforme;
-    @FXML
-    private Menu menuAyuda;
 
     @FXML
     private TableView<Proveedor> tableView;
@@ -130,8 +122,8 @@ public class ProveedorFXMLController {
         btnBuscar.setOnAction(this::buscarProveedor);
         btnBorrar.setOnAction(this::borrarProveedor);
         btnBorrar.setDisable(true);
-        //btnAtras.setOnAction(this::menuTrabajador);
-        menuTrabajador.setOnAction(this::menuTrabajador);
+        btnAtras.setOnAction(this::menuTrabajador);
+        
 
         idProveedorColumna.setCellValueFactory(new PropertyValueFactory<>("idProveedor"));
         calleColumna.setCellValueFactory(new PropertyValueFactory<>("calle"));

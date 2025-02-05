@@ -151,10 +151,10 @@ public class RegistroClienteFXMLControlador {
             return false;
         }
 
-        if (clienteInterfaz.encontrarPorId_XML(Cliente.class, dni) != null) {
+        /*if (clienteInterfaz.encontrarPorId_XML(Cliente.class, dni) != null) {
             mostrarAlerta("Error", "Este cliente ya existe");
             return false;
-        }
+        }*/
         if (!matcherEmail.matches() && !matcherDni.matches()) {
             mostrarAlerta("Error", "Hay campos con formato incorrecto");
             return false;

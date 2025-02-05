@@ -9,7 +9,9 @@ import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
+import static org.testfx.matcher.base.NodeMatchers.isVisible;
 import reto.crud.cliente.RetoCrudCliente;
 
 /**
@@ -24,21 +26,18 @@ public class RegistrarComprobarCampos extends ApplicationTest {
         new RetoCrudCliente().start(stage);
         clickOn("#btnRegistrate");
         sleep(1000);
-        
     }
 
-    /* @Test
-    public void SinCampos() {
+    @Test
+    public void test1_SinCampos() {
         clickOn("#btbRegistrarse");
-
         sleep(2000);
         verifyThat("Faltan campos por rellenar", isVisible());
         clickOn("Aceptar");
+    }
 
-    }*/
-   /* @Test
-    public void EmailDniInvalido() {
-
+    @Test
+    public void test2_EmailDniInvalido() {
         clickOn("#tfxDni");
         write("111111");
         clickOn("#tfxNombre");
@@ -62,11 +61,10 @@ public class RegistrarComprobarCampos extends ApplicationTest {
         sleep(1000);
         verifyThat("Faltan campos por rellenar", isVisible());
         clickOn("Aceptar");
-
     }
-    */
+
     @Test
-    public void CamposValidos() {
+    public void test3_CamposValidos() {
         clickOn("#tfxDni");
         write("39333943R");
         clickOn("#tfxNombre");
@@ -76,9 +74,9 @@ public class RegistrarComprobarCampos extends ApplicationTest {
         clickOn("#tfxEmail");
         write("markel@gmail.com");
         clickOn("#tfxContrasena");
-        write("Abcd*1234");
+        write("Abcd1234");
         clickOn("#tfxConfirmarContrasena");
-        write("Abcd*1234");
+        write("Abcd1234");
         clickOn("#tfxCalle");
         write("Orixe");
         clickOn("#tfxCodigoPostal");
@@ -89,7 +87,5 @@ public class RegistrarComprobarCampos extends ApplicationTest {
         write("22/01/2001");
 
         clickOn("#btbRegistrarse");
-       
     }
-     
 }
