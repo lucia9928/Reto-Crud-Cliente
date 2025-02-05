@@ -75,9 +75,25 @@ public class ClienteREST implements ClienteInterfaz {
     }
 
     public <T> T encontrarPorId_XML(Class<T> responseType, String id) throws WebApplicationException {
-        WebTarget resource = webTarget;
-        resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
-        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        try {
+            WebTarget resource = webTarget.path("id").path(id);
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+
+            Response response = resource.request(MediaType.APPLICATION_XML).get();
+
+            int statusCode = response.getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+
+            if (statusCode == 404) {
+                throw new WebApplicationException("No se encontró el trabajador con ID: " + id, Response.Status.NOT_FOUND);
+            } else if (statusCode != 200) {
+                throw new WebApplicationException("Error en la solicitud: " + response.readEntity(String.class), statusCode);
+            }
+
+            return response.readEntity(responseType);
+        } catch (Exception ex) {
+            throw new WebApplicationException("Error al buscar trabajador por ID: " + ex.getMessage());
+        }
     }
 
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException {
@@ -101,19 +117,26 @@ public class ClienteREST implements ClienteInterfaz {
     @Override
     public <T> T buscarCliente(GenericType<T> respuesta, String userEmail) throws WebApplicationException {
         try {
-            WebTarget resource = webTarget;
-            LOGGER.info("Intentnado buscar cliente");
+            WebTarget resource = webTarget.path("busqueda").path(userEmail); // Agrega la ruta correcta
             LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
-            int statusCode = resource.request().get().getStatus();
+
+            Response response = resource.request(MediaType.APPLICATION_XML).get();
+
+            int statusCode = response.getStatus();
             LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
-            String responseContent = resource.request().get(String.class);
-            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
-            resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{userEmail}));
-            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+
+            if (statusCode == 404) {
+                throw new WebApplicationException("No se encontró ningún trabajador con el email: " + userEmail, Response.Status.NOT_FOUND);
+            } else if (statusCode != 200) {
+                throw new WebApplicationException("Error en la solicitud: " + response.readEntity(String.class), statusCode);
+            }
+
+            return response.readEntity(respuesta);
         } catch (Exception ex) {
-            throw new WebApplicationException("No se encontro ningun cliente.");
+            throw new WebApplicationException("Error al buscar trabajador: " + ex.getMessage());
         }
     }
+
 
     public void close() {
         client.close();
