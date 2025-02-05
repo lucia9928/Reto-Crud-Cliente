@@ -126,12 +126,12 @@ public class InicioSesionFXMLControlador {
             // Consultar en la base de datos
             byte[] passwordBytes = new AsymmetricCliente().cipher(pswContrasena.getText());
 
-        trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
-        
-        // Si no se encuentra trabajador, buscar cliente
-        if (trabajador == null) {
-            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
-        }
+            //      trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
+            trabajador = trabajaInterfaz.iniciarSesion(Trabajador.class, dni, DatatypeConverter.printHexBinary(passwordBytes));
+
+            // Si no se encuentra trabajador, buscar cliente
+//            cliente = clienteInterfaz.iniciarSesion(Cliente.class, dni, DatatypeConverter.printHexBinary(passwordBytes));
+
             if (cliente != null) {
                 abrirMenuCliente(cliente);
             } else if (trabajador != null) {
@@ -180,7 +180,7 @@ public class InicioSesionFXMLControlador {
         Optional<ButtonType> resultado = alert.showAndWait();
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
-    
+
     @FXML
     private void restablecerContrasena() {
         try {

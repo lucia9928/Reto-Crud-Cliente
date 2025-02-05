@@ -56,6 +56,7 @@ public class AsymmetricCliente {
             PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
             PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
             Cipher c = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            
             c.init(Cipher.DECRYPT_MODE, privateKey);
             decodedMessage = c.doFinal(mensaje);
         } catch (Exception e) {

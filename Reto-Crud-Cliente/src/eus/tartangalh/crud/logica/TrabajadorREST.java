@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package eus.tartangalh.crud.logica;
-
-import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.TrabajadorInterfaz;
 import java.util.logging.Level;
@@ -18,7 +16,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.DatatypeConverter;
 
 /**
  * Jersey REST client generated for REST resource:TrabajadorFacadeREST
@@ -162,19 +159,44 @@ public class TrabajadorREST implements TrabajadorInterfaz {
     }
 
     @Override
-    public <T> T iniciarSesion(GenericType<T> responseType, String dniTra, String contrasenaTra) throws WebApplicationException {
+ /*   public <T> T iniciarSesion(GenericType<T> responseType, String dniTra, String contrasenaTra) throws WebApplicationException {
         try {
             LOGGER.log(Level.INFO, "Intentando iniciar sesion");
             WebTarget resource = webTarget;
             LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
 
             resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{dniTra, contrasenaTra}));
-            int statusCode = resource.request().get().getStatus();
-            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
-            String responseContent = resource.request().get(String.class);
-            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            Response response=resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get();
+          //  int statusCode = resource.request().get().getStatus();
+         //   LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", response.getStatus());
+           // String responseContent = resource.request().get(String.class);
+       //     LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
 
-            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+          //  return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+          return response.readEntity(responseType);
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
+            throw new WebApplicationException("User not found");
+        }
+    }
+*/
+       public <T> T iniciarSesion(Class<T> responseType, String dniTra, String contrasenaTra) throws WebApplicationException {
+        try {
+            LOGGER.log(Level.INFO, "Intentando iniciar sesion");
+            WebTarget resource = webTarget;
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+
+            resource = resource.path(java.text.MessageFormat.format("{0}/{1}", new Object[]{dniTra, contrasenaTra}));
+            Response response=resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get();
+          //  int statusCode = resource.request().get().getStatus();
+         //   LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", response.getStatus());
+           // String responseContent = resource.request().get(String.class);
+       //     LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+
+          //  return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+          return response.readEntity(responseType);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
             throw new WebApplicationException("User not found");

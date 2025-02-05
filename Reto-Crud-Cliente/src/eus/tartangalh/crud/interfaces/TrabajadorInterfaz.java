@@ -35,7 +35,8 @@ public interface TrabajadorInterfaz {
     
     public <T> T buscarTrabajador(GenericType<T> respuesta, String userEmail) throws WebApplicationException;
     
-    public <T> T iniciarSesion(GenericType<T> responseType, String Tradni, String contrasenaTra) throws WebApplicationException;
+   // public <T> T iniciarSesion(GenericType<T> responseType, String Tradni, String contrasenaTra) throws WebApplicationException;
+     public <T> T iniciarSesion(Class<T> responseType, String Tradni, String contrasenaTra) throws WebApplicationException;
 
     public <T> T encontrarTodosLosTrabajdores_XML(GenericType<T> responseType) throws WebApplicationException;
 
