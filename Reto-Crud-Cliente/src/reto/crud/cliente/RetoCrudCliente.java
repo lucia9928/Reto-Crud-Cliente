@@ -38,6 +38,8 @@ public class RetoCrudCliente extends javafx.application.Application {
         inicioSesion.setStage(stage);
 
         inicioSesion.initStage(root);
+        
+  
     }
 
     /**

@@ -13,7 +13,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="620.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RegistroTrabajadorFXMLControlador">
     <children>
-        <GridPane layoutX="-10.0" prefHeight="632.0" prefWidth="684.0" stylesheets="@../../../recursos/EstiloLogin.css">
+        <GridPane layoutX="-10.0" prefHeight="768.0" prefWidth="1366.0" stylesheets="@../../../recursos/EstiloLogin.css">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="20.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="147.0" minWidth="10.0" prefWidth="79.0" />

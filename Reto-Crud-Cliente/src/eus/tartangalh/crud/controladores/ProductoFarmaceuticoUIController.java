@@ -9,6 +9,7 @@ import eus.tartangalh.crud.entidades.CategoriaProducto;
 import eus.tartangalh.crud.entidades.ProductoFarmaceutico;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ProductoInterfazFactoria;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Collection;
@@ -17,12 +18,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -99,6 +103,8 @@ public class ProductoFarmaceuticoUIController {
 
     @FXML
     private Button deleteButton;
+    @FXML
+    private Button btnAtras;
 
     @FXML
     private ComboBox<String> combo;
@@ -122,8 +128,11 @@ public class ProductoFarmaceuticoUIController {
         Scene scene = new Scene(root);
         stage.getIcons().add(new Image("recursos/iconoFarmacia.png"));
         stage.setTitle("GESTION PRODUCTOS FARMACEUTICOS");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
+        btnAtras.setOnAction(this::abrirMenuTrabajador);
 
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
@@ -168,72 +177,87 @@ public class ProductoFarmaceuticoUIController {
         nombreColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         nombreColumn.setOnEditCommit(event -> {
             ProductoFarmaceutico producto = event.getRowValue();
-            producto.setNombreProducto(event.getNewValue());
-            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            String nuevoNombre = event.getNewValue();
+
+            // Validación: Solo letras y máximo 100 caracteres
+            if (nuevoNombre != null && nuevoNombre.matches("[a-zA-Z\\s]+") && nuevoNombre.length() <= 50) {
+                producto.setNombreProducto(nuevoNombre);
+                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            } else {
+                mostrarMensajeError("El nombre debe contener solo letras y no exceder 100 caracteres.");
+                tableView.refresh();
+            }
         });
 
         // Configurar columna para Descripción
         descripcionColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         descripcionColumn.setOnEditCommit(event -> {
             ProductoFarmaceutico producto = event.getRowValue();
-            producto.setDescripcion(event.getNewValue());
-            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            String nuevaDescripcion = event.getNewValue();
+
+            // Validación: Máximo 255 caracteres
+            if (nuevaDescripcion != null && nuevaDescripcion.length() <= 255) {
+                producto.setDescripcion(nuevaDescripcion);
+                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            } else {
+                mostrarMensajeError("La descripción no debe exceder 255 caracteres.");
+                tableView.refresh();
+            }
         });
 
         // Configurar columna para Lote
         loteColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         loteColumn.setOnEditCommit(event -> {
             ProductoFarmaceutico producto = event.getRowValue();
-            producto.setLoteProducto(event.getNewValue());
-            ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            String nuevoLote = event.getNewValue();
+
+            // Validación: Solo números y letras, máximo 20 caracteres
+            if (nuevoLote != null && nuevoLote.matches("[a-zA-Z0-9]+") && nuevoLote.length() <= 20) {
+                producto.setLoteProducto(nuevoLote);
+                ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
+            } else {
+                mostrarMensajeError("El lote debe contener solo números y letras y no exceder 20 caracteres.");
+                tableView.refresh();
+            }
         });
 
-        // Configurar columna para Fecha de Caducidad con auto-guardado al perder el foco
+        // Configurar columna para Fecha de Caducidad
         caducidadColumn.setCellFactory(col -> new TableCell<ProductoFarmaceutico, Date>() {
             private final DatePicker datePicker = new DatePicker();
 
             @Override
             protected void updateItem(Date item, boolean empty) {
                 super.updateItem(item, empty);
-
                 if (empty) {
-                    setGraphic(null); // No mostrar nada si la celda está vacía
+                    setGraphic(null);
                 } else {
                     if (item != null) {
-                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(); // Convertir java.util.Date a LocalDate
-                        datePicker.setValue(localDate); // Establecer el valor actual en el DatePicker
+                        LocalDate localDate = item.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                        datePicker.setValue(localDate);
                     }
-                    setGraphic(datePicker); // Mostrar el DatePicker en la celda
+                    setGraphic(datePicker);
                 }
             }
 
             @Override
             public void commitEdit(Date newValue) {
                 super.commitEdit(newValue);
-                ProductoFarmaceutico producto = getTableView().getItems().get(getIndex()); // Obtener el producto correspondiente
+                ProductoFarmaceutico producto = getTableView().getItems().get(getIndex());
 
-                if (newValue != null) {
-                    producto.setFechaCaducidad(newValue); // Actualizar el valor de fecha en el objeto
-                }
-
-                // Llamar al servicio para actualizar la base de datos
-                try {
+                if (newValue != null && newValue.after(new Date())) {
+                    producto.setFechaCaducidad(newValue);
                     ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
-                    LOGGER.info("Producto actualizado correctamente: " + producto.toString());
-                } catch (Exception e) {
-                    LOGGER.severe("Error al actualizar producto: " + e.getMessage());
+                } else {
+                    mostrarMensajeError("La fecha de caducidad debe ser posterior a la fecha actual.");
+                    tableView.refresh();
                 }
             }
 
-            // Forzar el commit cuando el DatePicker pierde el foco
             {
                 datePicker.focusedProperty().addListener((obs, oldFocus, newFocus) -> {
-                    if (!newFocus) {
-                        if (datePicker.getValue() != null) {
-                            // Convertir LocalDate a java.util.Date
-                            Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                            commitEdit(newDate); // Guardar los cambios al perder el foco
-                        }
+                    if (!newFocus && datePicker.getValue() != null) {
+                        Date newDate = Date.from(datePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                        commitEdit(newDate);
                     }
                 });
             }
@@ -249,22 +273,27 @@ public class ProductoFarmaceuticoUIController {
                 producto.setCategoria(event.getNewValue());
                 ProductoInterfazFactoria.get().actualizarProducto_XML(producto);
             } catch (Exception e) {
-                LOGGER.warning("Error al actualizar categoría: " + e.getMessage());
+                mostrarMensajeError("Error al actualizar categoría: " + e.getMessage());
             }
         });
     }
-
-    @FXML
+    
+        @FXML
     private void añadirFila() {
         try {
             tableView.scrollTo(tableView.getItems().size() - 1);
             ProductoFarmaceutico producto = new ProductoFarmaceutico();
+            producto.setDescripcion("Vacio");
+            producto.setLoteProducto("Vacio");
+            producto.setNombreProducto("Vacio");
             ProductoInterfazFactoria.get().crearProducto_XML(producto);
             mostrarProductos();
         } catch (Exception e) {
             LOGGER.severe("Error al crear producto farmacéutico: " + e.getMessage());
         }
     }
+
+
 
     @FXML
     private void borrarFila() {
@@ -457,6 +486,16 @@ public class ProductoFarmaceuticoUIController {
             LOGGER.severe("Error al buscar producto por ID: " + e.getMessage());
         }
     }
+    
+        private void mostrarMensajeError(String mensaje) {
+        // Crear un cuadro de alerta de tipo ERROR
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Datos inválidos");
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
 
     private void buscarPorFecha(LocalDate desde, LocalDate hasta) {
         try {
@@ -537,21 +576,35 @@ public class ProductoFarmaceuticoUIController {
             stage.close();
         }
     }
+// Método para abrir el menú de trabajador
+
+    private void abrirMenuTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+            menuTrabajador.setStage(stage);
+            menuTrabajador.setTrabajador(trabajador);
+            menuTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     @FXML
     private void imprimirInforme() {
         try {
 
-            JasperReport report = JasperCompileManager.compileReport("src/recursos/ProductoReport.jrxml");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/recursos/ProductoReport.jrxml"));
 
             JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<ProductoFarmaceutico>) this.tableView.getItems());
 
             Map<String, Object> parameters = new HashMap<>();
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
-            
+
             JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
-            
+
             jasperViewer.setVisible(true);
 
         } catch (JRException e) {

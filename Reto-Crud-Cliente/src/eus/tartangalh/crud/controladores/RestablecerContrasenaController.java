@@ -9,14 +9,22 @@ import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
+import java.io.IOException;
+import java.util.Optional;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 
 public class RestablecerContrasenaController {
@@ -29,6 +37,9 @@ public class RestablecerContrasenaController {
 
     @FXML
     private TextField textEmail;
+
+    @FXML
+    private Button btnAtras;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -47,6 +58,39 @@ public class RestablecerContrasenaController {
         stage.setTitle("Restablecer contraseña");
         stage.setScene(scene);
         stage.show();
+
+        btnAtras.setOnAction(this::irIniciarSesion);
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();  // Consumir el evento para evitar el cierre predeterminado
+                manejarCierre();
+            }
+
+            /**
+             * Muestra un cuadro de confirmación cuando se intenta cerrar la
+             * ventana. Permite confirmar si se desea salir y perder los cambios
+             * no guardados.
+             */
+            private void manejarCierre() {
+
+                // Se crea un cuadro de confirmación
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmación");
+                alert.setHeaderText("¿Está seguro de que desea cerrar la aplicación?");
+                alert.setContentText("Todos los cambios no guardados se perderán.");
+
+                // Se espera la respuesta del usuario
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    // Si el usuario confirma, se cierra la ventana
+                    Stage stage = (Stage) btnAtras.getScene().getWindow();
+                    stage.close();
+                }
+
+            }
+        });
     }
 
     @FXML
@@ -93,6 +137,18 @@ public class RestablecerContrasenaController {
             }
         } else {
             mostrarAlerta("Error", "No se encontró un usuario con este correo.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void irIniciarSesion(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/InicioSesionFXML.fxml"));
+            Parent root = loader.load();
+            InicioSesionFXMLControlador inicioSesion = loader.getController();
+            inicioSesion.setStage(stage);
+            inicioSesion.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(RegistroClienteFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

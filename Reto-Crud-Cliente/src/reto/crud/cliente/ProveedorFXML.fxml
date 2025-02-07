@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.ProveedorFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="768.0" prefWidth="1366.0" stylesheets="@../../../recursos/Estilo.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.ProveedorFXMLController">
    <children>
       <!-- TableView con fx:id -->
       <TableView fx:id="tableView" layoutX="91.0" layoutY="145.0" prefHeight="447.0" prefWidth="1107.0">
@@ -29,40 +25,18 @@
       </TableView>
 
       <!-- TextField con fx:id -->
-      <TextField fx:id="FieldIdProveedor" layoutX="609.0" layoutY="86.0" promptText="Introduzca ID" />
+      <TextField fx:id="FieldIdProveedor" layoutX="612.0" layoutY="84.0" promptText="Introduzca ID" />
       
       <!-- Botón con fx:id -->
       <Button fx:id="btnBuscar" layoutX="907.0" layoutY="86.0" mnemonicParsing="false" text="Buscar" />
       
-      <!-- ComboBox con fx:id -->
-      <ComboBox fx:id="filterComboBox" layoutX="299.0" layoutY="86.0" prefWidth="150.0" />
-      
       <!-- Botón para crear fila con fx:id -->
       <Button fx:id="btnCrearFila" layoutX="161.0" layoutY="644.0" mnemonicParsing="false" text="Crear fila" />
-      <Label layoutX="639.0" layoutY="42.0" text="Id del proveedor" />
-      <Label layoutX="134.0" layoutY="42.0" text="Fecha de contratacion" />
-      <Label layoutX="175.0" layoutY="90.0" text="Orden" />
+      <Label layoutX="625.0" layoutY="51.0" text="Id del proveedor" />
+      <Label layoutX="254.0" layoutY="51.0" text="Fecha de contratacion" />
       <Button fx:id="btnBorrar" layoutX="360.0" layoutY="644.0" mnemonicParsing="false" text="Borrar datos" />
       <Button fx:id="btnAtras" layoutX="578.0" layoutY="644.0" mnemonicParsing="false" text="Atras" />
-      <DatePicker fx:id="fechaFiltro" layoutX="287.0" layoutY="38.0" promptText="Introduzca Fecha" />
-      <MenuBar fx:id="menuBar">
-        <menus>
-          <Menu fx:id="menuTrabajador" mnemonicParsing="false" text="Menu Trabajador">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu fx:id="menuInforme" mnemonicParsing="false" text="Informe">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu fx:id="menuAyuda" mnemonicParsing="false" text="Ayuda">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <DatePicker fx:id="fechaFiltro" layoutX="225.0" layoutY="86.0" promptText="Introduzca Fecha" />
+      <Button fx:id="btnImprimir" layoutX="834.0" layoutY="646.0" mnemonicParsing="false" text="Imprimir" />
    </children>
 </AnchorPane>

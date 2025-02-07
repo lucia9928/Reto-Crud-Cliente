@@ -5,10 +5,9 @@
  */
 package eus.tartangalh.crud.logica;
 
-import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.Cliente;
-import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.ClienteInterfaz;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.ProcessingException;
@@ -19,16 +18,20 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.xml.bind.DatatypeConverter;
 
 /**
- * Jersey REST client generated for REST resource:ClienteFacadeREST
- * [eus.tartangalh.crud.create.cliente]<br>
- * USAGE:
+ * Cliente REST generado para interactuar con el recurso REST de
+ * ClienteFacadeREST.
+ *
+ * Este cliente proporciona métodos para crear, modificar, eliminar y buscar
+ * clientes. Los métodos permiten trabajar con datos en formato XML o JSON,
+ * según sea necesario.
+ *
+ * USO:
  * <pre>
  *        ClienteREST client = new ClienteREST();
  *        Object response = client.XXX(...);
- *        // do whatever with response
+ *        // hacer lo que sea necesario con la respuesta
  *        client.close();
  * </pre>
  *
@@ -38,42 +41,114 @@ public class ClienteREST implements ClienteInterfaz {
 
     private WebTarget webTarget;
     private Client client;
-    private static final String BASE_URI = "http://localhost:8080/Reto-crud-server/webresources";
+    private final ResourceBundle bundle = ResourceBundle.getBundle("archivo.URL");
+    private final String BASE_URI = bundle.getString("BASE_URI");
     private static final Logger LOGGER = Logger.getLogger("ClienteREST.class");
 
+    /**
+     * Constructor que inicializa el cliente y configura la URL base del
+     * servicio.
+     */
     public ClienteREST() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("Cliente");
     }
 
+    /**
+     * Modifica un cliente en formato XML.
+     *
+     * @param requestEntity objeto con los datos del cliente a modificar.
+     * @param id identificador del cliente a modificar.
+     * @throws WebApplicationException si ocurre un error durante la
+     * modificación del cliente.
+     */
     public void modificarCliente_XML(Object requestEntity, String id) throws WebApplicationException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
+        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id}))
+                .request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
+    /**
+     * Modifica un cliente en formato JSON.
+     *
+     * @param requestEntity objeto con los datos del cliente a modificar.
+     * @param id identificador del cliente a modificar.
+     * @throws WebApplicationException si ocurre un error durante la
+     * modificación del cliente.
+     */
     public void modificarCliente_JSON(Object requestEntity, String id) throws WebApplicationException {
-        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request(javax.ws.rs.core.MediaType.APPLICATION_JSON).put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+        webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id}))
+                .request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .put(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
 
+    /**
+     * Encuentra todos los clientes en formato XML.
+     *
+     * @param responseType tipo de respuesta esperada.
+     * @param <T> tipo de respuesta esperada.
+     * @return lista de clientes.
+     * @throws WebApplicationException si ocurre un error al obtener los
+     * clientes.
+     */
     public <T> T encontrarTodosLosClientes_XML(Class<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
+    /**
+     * Encuentra todos los clientes en formato JSON.
+     *
+     * @param responseType tipo de respuesta esperada.
+     * @param <T> tipo de respuesta esperada.
+     * @return lista de clientes.
+     * @throws WebApplicationException si ocurre un error al obtener los
+     * clientes.
+     */
     public <T> T encontrarTodosLosClientes_JSON(Class<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    /**
+     * Encuentra todos los clientes en formato XML, utilizando un tipo genérico
+     * de respuesta.
+     *
+     * @param responseType tipo genérico de respuesta esperada.
+     * @param <T> tipo de respuesta esperada.
+     * @return lista de clientes.
+     * @throws WebApplicationException si ocurre un error al obtener los
+     * clientes.
+     */
     public <T> T encontrarTodosLosClientes_XML(GenericType<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
     }
 
+    /**
+     * Encuentra todos los clientes en formato JSON, utilizando un tipo genérico
+     * de respuesta.
+     *
+     * @param responseType tipo genérico de respuesta esperada.
+     * @param <T> tipo de respuesta esperada.
+     * @return lista de clientes.
+     * @throws WebApplicationException si ocurre un error al obtener los
+     * clientes.
+     */
     public <T> T encontrarTodosLosClientes_JSON(GenericType<T> responseType) throws WebApplicationException {
         WebTarget resource = webTarget;
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    /**
+     * Encuentra un cliente por su ID en formato XML.
+     *
+     * @param responseType tipo de respuesta esperada.
+     * @param id identificador del cliente.
+     * @param <T> tipo de respuesta esperada.
+     * @return cliente encontrado.
+     * @throws WebApplicationException si ocurre un error al buscar el cliente.
+     */
     public <T> T encontrarPorId_XML(Class<T> responseType, String id) throws WebApplicationException {
         try {
             WebTarget resource = webTarget.path("id").path(id);
@@ -85,35 +160,77 @@ public class ClienteREST implements ClienteInterfaz {
             LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
 
             if (statusCode == 404) {
-                throw new WebApplicationException("No se encontró el trabajador con ID: " + id, Response.Status.NOT_FOUND);
+                throw new WebApplicationException("No se encontró el cliente con ID: " + id, Response.Status.NOT_FOUND);
             } else if (statusCode != 200) {
                 throw new WebApplicationException("Error en la solicitud: " + response.readEntity(String.class), statusCode);
             }
 
             return response.readEntity(responseType);
         } catch (Exception ex) {
-            throw new WebApplicationException("Error al buscar trabajador por ID: " + ex.getMessage());
+            throw new WebApplicationException("Error al buscar cliente por ID: " + ex.getMessage());
         }
     }
 
+    /**
+     * Encuentra un cliente por su ID en formato JSON.
+     *
+     * @param responseType tipo de respuesta esperada.
+     * @param id identificador del cliente.
+     * @param <T> tipo de respuesta esperada.
+     * @return cliente encontrado.
+     * @throws WebApplicationException si ocurre un error al buscar el cliente.
+     */
     public <T> T encontrarPorId_JSON(Class<T> responseType, String id) throws WebApplicationException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    /**
+     * Elimina un cliente por su ID.
+     *
+     * @param id identificador del cliente a eliminar.
+     * @throws WebApplicationException si ocurre un error al eliminar el
+     * cliente.
+     */
     public void eliminarCliente(String id) throws WebApplicationException {
         webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete();
     }
 
+    /**
+     * Crea un nuevo cliente en formato XML.
+     *
+     * @param requestEntity objeto con los datos del cliente a crear.
+     * @throws WebApplicationException si ocurre un error durante la creación
+     * del cliente.
+     */
     public void crearCliente_XML(Object requestEntity) throws WebApplicationException {
-        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
+        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML)
+                .post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_XML));
     }
 
+    /**
+     * Crea un nuevo cliente en formato JSON.
+     *
+     * @param requestEntity objeto con los datos del cliente a crear.
+     * @throws WebApplicationException si ocurre un error durante la creación
+     * del cliente.
+     */
     public void crearCliente_JSON(Object requestEntity) throws WebApplicationException {
-        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
+        webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON)
+                .post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
     }
 
+    /**
+     * Realiza una búsqueda de cliente por su email.
+     *
+     * @param respuesta tipo de respuesta esperada.
+     * @param userEmail email del cliente a buscar.
+     * @param <T> tipo de respuesta esperada.
+     * @return cliente encontrado.
+     * @throws WebApplicationException si ocurre un error durante la búsqueda
+     * del cliente.
+     */
     @Override
     public <T> T buscarCliente(GenericType<T> respuesta, String userEmail) throws WebApplicationException {
         try {
@@ -126,22 +243,31 @@ public class ClienteREST implements ClienteInterfaz {
             LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
 
             if (statusCode == 404) {
-                throw new WebApplicationException("No se encontró ningún trabajador con el email: " + userEmail, Response.Status.NOT_FOUND);
+                throw new WebApplicationException("No se encontró ningún cliente con el email: " + userEmail, Response.Status.NOT_FOUND);
             } else if (statusCode != 200) {
                 throw new WebApplicationException("Error en la solicitud: " + response.readEntity(String.class), statusCode);
             }
 
             return response.readEntity(respuesta);
         } catch (Exception ex) {
-            throw new WebApplicationException("Error al buscar trabajador: " + ex.getMessage());
+            throw new WebApplicationException("Error al buscar cliente: " + ex.getMessage());
         }
     }
 
-
+    /**
+     * Cierra la conexión del cliente REST.
+     */
     public void close() {
         client.close();
     }
 
+    /**
+     * Restablece la contraseña de un cliente.
+     *
+     * @param cliente objeto con los datos del cliente.
+     * @throws WebApplicationException si ocurre un error al restablecer la
+     * contraseña.
+     */
     @Override
     public void resetarContrasena(Cliente cliente) throws WebApplicationException {
         try {
@@ -158,6 +284,13 @@ public class ClienteREST implements ClienteInterfaz {
         }
     }
 
+    /**
+     * Actualiza la contraseña de un cliente.
+     *
+     * @param cliente objeto con los datos del cliente.
+     * @throws WebApplicationException si ocurre un error al actualizar la
+     * contraseña.
+     */
     @Override
     public void actualizarContrasena(Cliente cliente) throws WebApplicationException {
         try {
@@ -174,10 +307,21 @@ public class ClienteREST implements ClienteInterfaz {
         }
     }
 
+    /**
+     * Inicia sesión para un cliente con su DNI y contraseña.
+     *
+     * @param responseType tipo de respuesta esperada.
+     * @param Clidni DNI del cliente.
+     * @param contrasenaCli contraseña del cliente.
+     * @param <T> tipo de respuesta esperada.
+     * @return datos de la sesión iniciada.
+     * @throws WebApplicationException si ocurre un error durante el inicio de
+     * sesión.
+     */
     @Override
     public <T> T iniciarSesion(GenericType<T> responseType, String Clidni, String contrasenaCli) throws WebApplicationException {
         try {
-            LOGGER.log(Level.INFO, "Intentando iniciar sesion");
+            LOGGER.log(Level.INFO, "Intentando iniciar sesión");
             WebTarget resource = webTarget;
             LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
 
@@ -190,7 +334,7 @@ public class ClienteREST implements ClienteInterfaz {
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
-            throw new WebApplicationException("User not found");
+            throw new WebApplicationException("Usuario no encontrado");
         }
     }
 

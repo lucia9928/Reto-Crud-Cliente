@@ -3,6 +3,7 @@ package eus.tartangalh.crud.controladores;
 import eus.tartangalh.crud.entidades.Almacen;
 import eus.tartangalh.crud.entidades.Trabajador;
 import eus.tartangalh.crud.interfaces.AlmacenFactoria;
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -23,8 +24,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -76,6 +80,8 @@ public class AlmacenFXMLControlador {
 
     @FXML
     private Button borrarBtn;
+    @FXML
+    private Button btnAtras;
 
     @FXML
     private ComboBox<String> combo;
@@ -135,6 +141,7 @@ public class AlmacenFXMLControlador {
         // Asignar la escena a la ventana y mostrarla.
         stage.setScene(scene);
         stage.show();
+        btnAtras.setOnAction(this::abrirMenuTrabajador);
 
         // Establecer un evento para el cierre de la ventana, con manejo personalizado.
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -321,6 +328,9 @@ public class AlmacenFXMLControlador {
         try {
             almacenTableView.scrollTo(almacenTableView.getItems().size() - 1);
             Almacen almacen = new Almacen();
+            almacen.setCiudad("vacio");
+            almacen.setPais("vacio");
+            almacen.setMetrosCuadrados(000);
             AlmacenFactoria.get().crearAlmacen_XML(almacen);
             mostrarAlmacenes();
         } catch (Exception e) {
@@ -712,7 +722,7 @@ public class AlmacenFXMLControlador {
     private void imprimirInforme() {
         try {
             // Compilar el reporte desde el archivo JRXML
-            JasperReport report = JasperCompileManager.compileReport("src/recursos/informeAlmacen.jrxml");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/recursos/informeAlmacen.jrxml"));
 
             // Obtener los datos de la tabla como fuente de datos
             JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource(
@@ -770,6 +780,20 @@ public class AlmacenFXMLControlador {
             return true; // Es válido si no lanza una excepción
         } catch (NumberFormatException e) {
             return false; // No es un número válido
+        }
+    }
+    // Método para abrir el menú de trabajador
+
+    private void abrirMenuTrabajador(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+            menuTrabajador.setStage(stage);
+            menuTrabajador.setTrabajador(trabajador);
+            menuTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(InicioSesionFXMLControlador.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }

@@ -86,6 +86,7 @@ public class RegistroTrabajadorFXMLControlador {
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         stage.setTitle("Registro");
+        stage.setResizable(false);
         stage.setScene(scene);
 
         comboBoxCargo.getItems().addAll(TipoCargo.values());

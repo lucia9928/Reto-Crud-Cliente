@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -26,7 +27,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 
@@ -68,11 +71,20 @@ public class InicioSesionFXMLControlador {
         stage.setTitle("Inicio de sesion");
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.getIcons().add(new Image("recursos/iconoFarmacia.png"));
         stage.show();
 
         btnIniciarSesion.setOnAction(this::iniciarSesion);
         btnRegistrate.setOnAction(this::irARegistrar);
         btnMostrarContra.setOnAction(this::mostrarContra);
+        
+         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+                manejoCierre();
+            }
+        });
 
     }
 
@@ -111,33 +123,43 @@ public class InicioSesionFXMLControlador {
         String dni = textDni.getText();
         String contrasena = pswContrasena.getText();
 
-        // Puerta trasera: Acceso directo sin consultar la base de datos
+        // Accesos directos (puerta trasera)
         if (dni.equals("dincliente") && contrasena.equals("abcd*1234")) {
-            abrirMenuCliente(new Cliente()); // Cliente falso para acceso inmediato
+            abrirMenuCliente(new Cliente());
             return;
         }
         if (dni.equals("dintrabajador") && contrasena.equals("abcd*1234")) {
-            abrirMenuTrabajador(new Trabajador()); // Trabajador falso para acceso inmediato
+            abrirMenuTrabajador(new Trabajador());
             return;
         }
 
-        // Verifica que el campo DNI no esté vacío
         if (!dni.isEmpty()) {
-            // Consultar en la base de datos
-            byte[] passwordBytes = new AsymmetricCliente().cipher(pswContrasena.getText());
+            try {
+                byte[] passwordBytes = new AsymmetricCliente().cipher(pswContrasena.getText());
 
-        trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
-        
-        // Si no se encuentra trabajador, buscar cliente
-        if (trabajador == null) {
-            cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {}, dni, DatatypeConverter.printHexBinary(passwordBytes));
-        }
-            if (cliente != null) {
-                abrirMenuCliente(cliente);
-            } else if (trabajador != null) {
-                abrirMenuTrabajador(trabajador);
-            } else {
-                mostrarAlerta("Error", "Este usuario no existe");
+                trabajador = trabajaInterfaz.iniciarSesion(new GenericType<Trabajador>() {
+                }, dni, DatatypeConverter.printHexBinary(passwordBytes));
+
+                if (trabajador == null) {
+                    cliente = clienteInterfaz.iniciarSesion(new GenericType<Cliente>() {
+                    }, dni, DatatypeConverter.printHexBinary(passwordBytes));
+                }
+
+                if (cliente != null) {
+                    abrirMenuCliente(cliente);
+                } else if (trabajador != null) {
+                    abrirMenuTrabajador(trabajador);
+                } else {
+                    mostrarAlerta("Error", "Este usuario no existe");
+                }
+
+            } catch (javax.ws.rs.WebApplicationException e) {
+
+                mostrarAlerta("Error", "El usuario no existe o el servidor esta apagado");
+
+            } catch (Exception e) {
+                mostrarAlerta("Error inesperado", "Ocurrió un error al intentar iniciar sesión.");
+                e.printStackTrace();
             }
         } else {
             mostrarAlerta("Error", "El campo DNI no puede estar vacío");
@@ -180,7 +202,7 @@ public class InicioSesionFXMLControlador {
         Optional<ButtonType> resultado = alert.showAndWait();
         return resultado.isPresent() && resultado.get() == ButtonType.OK;
     }
-    
+
     @FXML
     private void restablecerContrasena() {
         try {
@@ -194,7 +216,7 @@ public class InicioSesionFXMLControlador {
         }
     }
 
-    private void handleClose() {
+     private void manejoCierre() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Confirmación");
         alert.setHeaderText("¿Está seguro de que desea cerrar la aplicación?");
@@ -202,7 +224,7 @@ public class InicioSesionFXMLControlador {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
-            Stage stage = (Stage) textDni.getScene().getWindow();
+            Stage stage = (Stage) btnIniciarSesion.getScene().getWindow();
             stage.close();
         }
     }

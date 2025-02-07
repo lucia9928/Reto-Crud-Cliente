@@ -26,7 +26,7 @@
         <!-- Contenedor principal para centrar el contenido -->
         <VBox alignment="CENTER" prefHeight="768.0" prefWidth="943.0" spacing="20" GridPane.columnIndex="1">
             <!-- Imagen del logotipo -->
-            <ImageView fx:id="imgLogo" fitHeight="100.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imgLogo" fitHeight="159.0" fitWidth="229.0" pickOnBounds="true" preserveRatio="true">
                 <image>
                     <Image url="@../../../recursos/logo.png" />
                 </image>

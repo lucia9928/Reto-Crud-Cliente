@@ -68,7 +68,8 @@
     <HBox minHeight="-Infinity" prefHeight="33.0" prefWidth="1366.0" spacing="10" VBox.vgrow="NEVER">
         <Button fx:id="addButton" onAction="#añadirFila" prefHeight="32.0" prefWidth="142.0" text="Añadir línea" />
         <Button fx:id="deleteButton" onAction="#borrarFila" prefHeight="32.0" prefWidth="132.0" text="Eliminar" />
-        <Button fx:id="btnImprimir" onAction="#imprimirInforme" mnemonicParsing="false" prefHeight="32.0" prefWidth="138.0" text="🖨" />
+        <Button fx:id="btnImprimir" mnemonicParsing="false" onAction="#imprimirInforme" prefHeight="32.0" prefWidth="138.0" text="🖨" />
+      <Button fx:id="btnAtras" mnemonicParsing="false" text="Atras" />
       <VBox.margin>
          <Insets bottom="30.0" left="30.0" right="30.0" top="10.0" />
       </VBox.margin>

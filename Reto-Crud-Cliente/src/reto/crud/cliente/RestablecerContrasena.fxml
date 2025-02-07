@@ -9,10 +9,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="Pane" prefHeight="768.0" prefWidth="1633.0" stylesheets="@../../../recursos/EstiloProducto.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RestablecerContrasenaController">
+<AnchorPane id="Pane" prefHeight="768.0" prefWidth="1366.0" stylesheets="@../../../recursos/EstiloProducto.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.RestablecerContrasenaController">
     <children>
         <!-- Contenedor principal centrado -->
-        <VBox alignment="CENTER" layoutX="516.0" layoutY="134.0" spacing="30" prefWidth="600.0">
+        <VBox alignment="CENTER" layoutX="516.0" layoutY="134.0" prefWidth="600.0" spacing="30">
             <!-- Imagen del logotipo -->
             <ImageView fx:id="imgLogo" fitHeight="212.0" fitWidth="333.0" pickOnBounds="true" preserveRatio="true">
                 <image>
@@ -32,6 +32,7 @@
 
             <!-- Botón de restablecer contraseña -->
             <Button fx:id="btnRestablecer" onAction="#enviarRestablecimiento" prefHeight="40.0" prefWidth="273.0" styleClass="btn-primary" text="Restablecer Contraseña" />
+         <Button fx:id="btnAtras" mnemonicParsing="false" text="Atras" />
         </VBox>
     </children>
 </AnchorPane>

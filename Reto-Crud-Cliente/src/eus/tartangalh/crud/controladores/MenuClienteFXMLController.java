@@ -8,17 +8,22 @@ package eus.tartangalh.crud.controladores;
 import eus.tartangalh.crud.entidades.Cliente;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * FXML Controller class
@@ -57,6 +62,7 @@ public class MenuClienteFXMLController {
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
         stage.setTitle("Menu Cliente");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
 
@@ -64,6 +70,14 @@ public class MenuClienteFXMLController {
         btnRecetasMedicas.setOnAction(this::recetaMedica);
         btnProducto.setOnAction(this::visualizarProducto);
         btnCambioContrasena.setOnAction(this::cambioContrasena);
+
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                event.consume();
+                manejoCierre();
+            }
+        });
     }
 
     private void cerrarSesion(ActionEvent event) {
@@ -91,7 +105,7 @@ public class MenuClienteFXMLController {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void visualizarProducto(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/VisualizarProducto.fxml"));
@@ -104,6 +118,7 @@ public class MenuClienteFXMLController {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     private void cambioContrasena(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/CambioContrasena.fxml"));
@@ -114,6 +129,19 @@ public class MenuClienteFXMLController {
             cambioContra.initStage(root);
         } catch (IOException ex) {
             Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void manejoCierre() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmación");
+        alert.setHeaderText("¿Está seguro de que desea cerrar la aplicación?");
+        alert.setContentText("Todos los cambios no guardados se perderán.");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            Stage stage = (Stage) btnCerrarSesion.getScene().getWindow();
+            stage.close();
         }
     }
 }

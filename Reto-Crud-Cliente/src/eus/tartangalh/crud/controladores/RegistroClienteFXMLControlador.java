@@ -91,7 +91,7 @@ public class RegistroClienteFXMLControlador {
 
         btbRegistrarse.setVisible(true);
         btbRegistrarse.setDisable(false);
-        btbRegistrarse.setOnAction(this::crearTrabajador);
+        btbRegistrarse.setOnAction(this::crearCliente);
         btnIniciaSesion.setOnAction(this::irIniciarSesion);
 
     }
@@ -109,7 +109,7 @@ public class RegistroClienteFXMLControlador {
     }
 
 
-    private void crearTrabajador(ActionEvent event) {
+    private void crearCliente(ActionEvent event) {
 
         if (validarCliente()) {
             Cliente cliente = new Cliente();

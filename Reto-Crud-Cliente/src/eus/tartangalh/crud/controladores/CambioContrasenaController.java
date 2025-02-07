@@ -8,14 +8,19 @@ package eus.tartangalh.crud.controladores;
 import archivo.AsymmetricCliente;
 import eus.tartangalh.crud.entidades.Cliente;
 import eus.tartangalh.crud.entidades.Trabajador;
+import eus.tartangalh.crud.entidades.Usuario;
 import eus.tartangalh.crud.interfaces.ClienteFactoria;
 import eus.tartangalh.crud.interfaces.TrabajadorFactoria;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.ws.rs.WebApplicationException;
@@ -40,6 +45,9 @@ public class CambioContrasenaController {
     @FXML
     private TextField textnuevaContra2;
 
+    @FXML
+    private Button btnAtras;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -57,6 +65,8 @@ public class CambioContrasenaController {
         stage.setTitle("Cambio de contraseña");
         stage.setScene(scene);
         stage.show();
+
+        btnAtras.setOnAction(this::menu);
     }
 
     @FXML
@@ -111,7 +121,29 @@ public class CambioContrasenaController {
 
             // Cierra la ventana después del éxito
             if (stage != null) {
-                stage.close();
+                if (cliente != null) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuClienteFXML.fxml"));
+                        Parent root = loader.load();
+                        MenuClienteFXMLController menuCliente = loader.getController();
+                        menuCliente.setStage(stage);
+                        menuCliente.setCliente(cliente);
+                        menuCliente.initStage(root);
+                    } catch (IOException ex) {
+                        Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+                        Parent root = loader.load();
+                        MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+                        menuTrabajador.setStage(stage);
+                        menuTrabajador.setTrabajador(trabajador);
+                        menuTrabajador.initStage(root);
+                    } catch (IOException ex) {
+                        Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             } else {
                 LOGGER.log(Level.WARNING, "Stage es null, no se pudo cerrar la ventana.");
             }
@@ -120,6 +152,34 @@ public class CambioContrasenaController {
             mostrarAlerta("Error", ex.getMessage(), Alert.AlertType.ERROR);
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
+    }
+
+    private void menu(ActionEvent event) {
+
+        if (cliente != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuClienteFXML.fxml"));
+                Parent root = loader.load();
+                MenuClienteFXMLController menuCliente = loader.getController();
+                menuCliente.setStage(stage);
+                menuCliente.setCliente(cliente);
+                menuCliente.initStage(root);
+            } catch (IOException ex) {
+                Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/MenuTrabajadorFXML.fxml"));
+                Parent root = loader.load();
+                MenuTrabajadorFXMLController menuTrabajador = loader.getController();
+                menuTrabajador.setStage(stage);
+                menuTrabajador.setTrabajador(trabajador);
+                menuTrabajador.initStage(root);
+            } catch (IOException ex) {
+                Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
     }
 
     private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {

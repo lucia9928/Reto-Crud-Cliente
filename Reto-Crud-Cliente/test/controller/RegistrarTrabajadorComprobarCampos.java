@@ -5,6 +5,14 @@ package controller;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import eus.tartangalh.crud.controladores.MenuTrabajadorFXMLController;
+import eus.tartangalh.crud.controladores.RegistroTrabajadorFXMLControlador;
+import eus.tartangalh.crud.entidades.Trabajador;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.stage.Stage;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -19,17 +27,29 @@ import reto.crud.cliente.RetoCrudCliente;
  * @author Markel
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class RegistrarComprobarCampos extends ApplicationTest {
+public class RegistrarTrabajadorComprobarCampos extends ApplicationTest {
 
     @Override
     public void start(Stage stage) throws Exception {
-        new RetoCrudCliente().start(stage);
-        clickOn("#btnRegistrate");
+        try {
+            Trabajador trabajador=null;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/reto/crud/cliente/RegistroTrabajadorFXML.fxml"));
+            Parent root = loader.load();
+            RegistroTrabajadorFXMLControlador registroTrabajador = loader.getController();
+            registroTrabajador.setStage(stage);
+            registroTrabajador.setTrabajador(trabajador);
+            registroTrabajador.initStage(root);
+        } catch (IOException ex) {
+            Logger.getLogger(MenuTrabajadorFXMLController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
         sleep(1000);
     }
 
     @Test
     public void test1_SinCampos() {
+        
+
         clickOn("#btbRegistrarse");
         sleep(2000);
         verifyThat("Faltan campos por rellenar", isVisible());
@@ -66,13 +86,13 @@ public class RegistrarComprobarCampos extends ApplicationTest {
     @Test
     public void test3_CamposValidos() {
         clickOn("#tfxDni");
-        write("39333943R");
+        write("79003943R");
         clickOn("#tfxNombre");
         write("Markel");
         clickOn("#tfxApellido");
         write("arabio");
         clickOn("#tfxEmail");
-        write("markel@gmail.com");
+        write("markelarabiourrutia@gmail.com");
         clickOn("#tfxContrasena");
         write("Abcd1234");
         clickOn("#tfxConfirmarContrasena");

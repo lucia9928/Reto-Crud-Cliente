@@ -12,7 +12,7 @@
 <AnchorPane id="Pane" prefHeight="768.0" prefWidth="1633.0" stylesheets="@../../../recursos/EstiloProducto.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.tartangalh.crud.controladores.CambioContrasenaController">
     <children>
         <!-- Contenedor principal -->
-        <VBox alignment="CENTER" prefHeight="768.0" prefWidth="1633.0" spacing="20">
+        <VBox alignment="CENTER" prefHeight="768.0" prefWidth="1366.0" spacing="20">
             <!-- Imagen del logotipo -->
             <ImageView fx:id="imgLogo" fitHeight="212.0" fitWidth="333.0" pickOnBounds="true" preserveRatio="true">
                 <image>
@@ -34,6 +34,7 @@
 
             <!-- Botón de envío -->
             <Button fx:id="btnCambioContrasena" onAction="#enviar" prefHeight="40.0" prefWidth="273.0" styleClass="btn-primary" text="Cambiar de contraseña" />
+         <Button fx:id="btnAtras" mnemonicParsing="false" text="Atras" />
         </VBox>
     </children>
 </AnchorPane>

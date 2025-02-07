@@ -1,0 +1,49 @@
+/* Estilo general para AnchorPane */
+#AnchorPane {
+    -fx-background-color: #f7f9fc; /* Fondo suave */
+    -fx-padding: 20;
+    -fx-font-family: "Arial";
+}
+
+/* Estilo para los labels */
+Label {
+    -fx-text-fill: #555555; /* Color de texto */
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+/* Estilo para los TextFields */
+TextField {
+    -fx-background-color: #ffffff; /* Fondo blanco */
+    -fx-border-color: #cccccc; /* Bordes grises */
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5 10;
+    -fx-font-size: 14px;
+    -fx-text-fill: #333333;
+}
+
+TextField:focused {
+    -fx-border-color: #0078d7; /* Color de foco */
+}
+
+/* Estilo para botones */
+Button {
+    -fx-background-color: #0078d7; /* Fondo azul */
+    -fx-text-fill: #ffffff; /* Texto blanco */
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 5 15;
+    -fx-border-color: transparent;
+}
+
+Button:hover {
+    -fx-background-color: #005fa3; /* Azul más oscuro al pasar el ratón */
+}
+
+Button:focused {
+    -fx-border-color: #005fa3;
+}
