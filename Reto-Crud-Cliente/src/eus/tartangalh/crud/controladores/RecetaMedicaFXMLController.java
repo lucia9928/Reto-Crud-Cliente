@@ -368,7 +368,7 @@ public class RecetaMedicaFXMLController {
     private void imprimirInforme() {
         try {
             // Compilar el reporte desde el archivo JRXML
-            JasperReport report = JasperCompileManager.compileReport("src/recursos/RecetaReport.jrxml");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/recursos/RecetaReport.jrxml"));
 
             // Obtener los datos de la tabla como fuente de datos
             JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource(

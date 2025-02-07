@@ -188,7 +188,7 @@ public class Usuario implements Serializable {
     /**
      * Establece el código postal de la dirección del usuario.
      * 
-     * @param codigoPostal Nuevo código postal.
+     * 
      */
     public void setCodigoPosta(Integer codigoPosta) {
         this.codigoPosta = codigoPosta;

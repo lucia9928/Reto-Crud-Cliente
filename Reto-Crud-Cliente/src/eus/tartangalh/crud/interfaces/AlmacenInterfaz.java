@@ -82,7 +82,7 @@ public interface AlmacenInterfaz {
     /**
      * Encuentra todos los almacenes y los devuelve en formato XML utilizando un tipo genérico.
      * 
-     * @param responseType el tipo genérico de respuesta.
+     * 
      * @param <T> el tipo de respuesta.
      * @return una lista de todos los almacenes en formato XML.
      * @throws WebApplicationException si ocurre un error durante la operación.

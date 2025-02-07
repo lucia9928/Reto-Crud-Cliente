@@ -98,7 +98,7 @@ public interface RecetaMedicaInterfaz {
      * Crea una nueva receta médica en formato XML.
      * 
      * @param requestEntity los datos de la receta médica a crear.
-     * @param id el identificador del cliente asociado.
+     * 
      * @throws WebApplicationException si ocurre un error durante la creación de la receta.
      */
     public void crearRecetaMedica_XML(Object requestEntity) throws WebApplicationException;
@@ -107,7 +107,7 @@ public interface RecetaMedicaInterfaz {
      * Crea una nueva receta médica en formato JSON.
      * 
      * @param requestEntity los datos de la receta médica a crear.
-     * @param id el identificador del cliente asociado.
+     * 
      * @throws WebApplicationException si ocurre un error durante la creación de la receta.
      */
     public void crearRecetaMedica_JSON(Object requestEntity) throws WebApplicationException;

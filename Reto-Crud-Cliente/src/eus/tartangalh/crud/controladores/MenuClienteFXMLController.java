@@ -49,7 +49,7 @@ public class MenuClienteFXMLController {
      * Initializes the controller class.
      *
      * @author markel
-     * @param stage
+     * 
      */
     public void setStage(Stage stage) {
         this.stage = stage;

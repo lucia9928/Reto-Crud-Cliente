@@ -56,7 +56,7 @@ public class MenuTrabajadorFXMLController {
      *
      * @author markel
      *
-     * @param root
+     * 
      */
     public void setStage(Stage stage) {
         this.stage = stage;

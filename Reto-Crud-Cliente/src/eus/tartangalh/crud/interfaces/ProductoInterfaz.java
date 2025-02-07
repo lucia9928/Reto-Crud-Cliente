@@ -103,7 +103,7 @@ public interface ProductoInterfaz {
     /**
      * Encuentra todos los productos en formato XML.
      * 
-     * @param responseType el tipo de la respuesta esperada.
+     * 
      * @param <T> el tipo de la respuesta.
      * @return la lista de productos.
      * @throws WebApplicationException si ocurre un error durante la búsqueda.
